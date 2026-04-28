@@ -154,3 +154,4 @@ The live site appears to use **Cormorant Garamond** for display and **Cardo** fo
 | Outlined line-art icons in gold | Filled icons, emoji, unicode glyphs |
 | Triadic short sentences with periods | Run-on marketing copy |
 | Generous whitespace, 0 shadows | Drop-shadows, "elevated" cards |
+
