@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Chief Negotiators — Restricted Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#efe7d4;
+    --bone-2:#e6dcc4;
+    --paper:#f7f1e1;
+    --ink:#0e0c0a;
+    --ink-2:#1a1612;
+    --ash:#7a7264;
+    --line:#2a241b;
+    --accent:#b76e79;
+    --accent-2:#d4a373;
+    --gold:#b08a3e;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--ink);color:var(--bone);overflow:hidden;font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--accent);color:var(--bone)}
+
+  /* Background grid + glow */
+  .bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .bg::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(239,231,212,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(239,231,212,0.045) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 75%);
+    -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 75%);
+  }
+  .bg::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(183,110,121,0.22), transparent 50%),
+      radial-gradient(circle at 15% 85%, rgba(176,138,62,0.10), transparent 55%);
+  }
+  .scan{position:fixed;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent 10%,var(--accent-2) 50%,transparent 90%);opacity:.6;animation:scan 8s linear infinite;z-index:1;pointer-events:none}
+  @keyframes scan{0%{top:-2px}100%{top:100vh}}
+
+  /* Top tag */
+  .top{position:fixed;top:0;left:0;right:0;padding:22px 40px;display:flex;justify-content:space-between;align-items:center;z-index:5;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash)}
+  .top .brand{display:flex;align-items:center;gap:12px;color:var(--bone)}
+  .brand-mark{width:34px;height:34px;border-radius:50%;background:#000;object-fit:cover;object-position:center;display:block}
+  .brand-name{font-family:"Fraunces",serif;font-size:16px;letter-spacing:0;text-transform:none}
+  .top .right{display:flex;gap:18px;align-items:center}
+  .top .right .live{display:inline-flex;align-items:center;gap:8px;color:var(--accent-2)}
+  .top .right .live::before{content:"";width:7px;height:7px;background:var(--accent-2);border-radius:50%;box-shadow:0 0 10px var(--accent-2);animation:pulse 1.4s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+
+  /* Bottom strip */
+  .bot{position:fixed;bottom:0;left:0;right:0;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;z-index:5;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);border-top:1px solid rgba(239,231,212,0.08);background:rgba(14,12,10,0.6);backdrop-filter:blur(8px)}
+
+  /* Center stage */
+  .stage{position:relative;height:100%;display:grid;place-items:center;z-index:2;padding:80px 24px}
+  .card{width:min(620px,100%);text-align:center;position:relative}
+
+  /* Badge */
+  .badge{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid rgba(239,231,212,0.2);border-radius:999px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--bone-2);margin-bottom:36px}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(176,138,62,0.6)}
+
+  h1{font-family:"Fraunces",serif;font-weight:300;font-size:clamp(48px,7vw,96px);line-height:0.95;letter-spacing:-0.035em;margin:0 0 22px;font-variation-settings:"opsz" 144}
+  h1 em{font-style:italic;color:var(--accent-2);font-weight:400}
+  .sub{font-family:"Fraunces",serif;font-size:18px;line-height:1.55;color:var(--bone-2);max-width:480px;margin:0 auto 50px;font-style:italic;font-weight:300}
+
+  /* Code input */
+  .gate{display:flex;flex-direction:column;align-items:center;gap:0}
+  .gate-label{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.24em;text-transform:uppercase;color:var(--ash);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  .gate-label .pill{display:inline-block;width:14px;height:1px;background:var(--ash)}
+  .input-wrap{position:relative;width:380px;max-width:100%}
+  input[type="text"]{
+    width:100%;padding:22px 60px 22px 24px;
+    background:rgba(255,255,255,0.03);border:1px solid rgba(239,231,212,0.18);
+    border-radius:6px;color:var(--bone);
+    font-family:"JetBrains Mono",monospace;font-size:18px;letter-spacing:0.4em;text-transform:uppercase;text-align:center;
+    outline:none;transition:border-color .25s, background .25s;
+  }
+  input[type="text"]::placeholder{color:rgba(239,231,212,0.25);letter-spacing:0.4em}
+  input[type="text"]:focus{border-color:var(--accent-2);background:rgba(255,255,255,0.06)}
+  .submit{
+    position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    width:46px;height:46px;border-radius:4px;background:var(--accent);color:var(--bone);
+    display:grid;place-items:center;cursor:pointer;border:none;transition:background .2s, transform .15s;
+  }
+  .submit:hover{background:var(--accent-2)}
+  .submit:active{transform:translateY(-50%) scale(0.96)}
+  .submit svg{width:18px;height:14px}
+
+  .err{margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent-2);min-height:14px;opacity:0;transition:opacity .2s}
+  .err.show{opacity:1}
+  .ok{color:var(--gold)}
+
+  .help{margin-top:32px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.1em;color:var(--ash);max-width:380px}
+  .help a{color:var(--bone-2);text-decoration:none;border-bottom:1px solid rgba(239,231,212,0.25);padding-bottom:1px;transition:color .2s,border-color .2s}
+  .help a:hover{color:var(--accent-2);border-bottom-color:var(--accent-2)}
+
+  /* Side ticker (decorative) */
+  .side-stat{position:absolute;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:10px}
+  .side-stat::before{content:"";width:14px;height:1px;background:var(--accent)}
+  .side-stat.s1{top:28%;left:5%}
+  .side-stat.s2{top:60%;left:7%}
+  .side-stat.s3{top:32%;right:6%;flex-direction:row-reverse}
+  .side-stat.s3::before{content:""}
+  .side-stat.s3::after{content:"";width:14px;height:1px;background:var(--accent)}
+  .side-stat.s4{top:65%;right:5%;flex-direction:row-reverse}
+  .side-stat.s4::after{content:"";width:14px;height:1px;background:var(--accent)}
+  .side-stat b{color:var(--bone);font-weight:500}
+
+  @media (max-width:780px){
+    .side-stat{display:none}
+    h1{font-size:54px}
+  }
+
+  /* Door open transition */
+  body.opening{transition:background .4s ease}
+  body.opening .stage{transition:opacity .5s ease, transform .5s ease;opacity:0;transform:translateY(-12px)}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="scan"></div>
+
+<header class="top">
+  <a class="brand" href="#" style="text-decoration:none">
+    <img src="logo.jpg" alt="" class="brand-mark" />
+    <span class="brand-name">The Chief Negotiators</span>
+  </a>
+  <div class="right">
+    <span>Restricted · By Invitation</span>
+    <span class="live">Secure Channel</span>
+  </div>
+</header>
+
+<main class="stage">
+  <div class="side-stat s1"><span>Active mandates · <b>Q2</b></span></div>
+  <div class="side-stat s2"><span>Buy-side · <b>Always</b></span></div>
+  <div class="side-stat s3"><span>Status · <b>By Invitation</b></span></div>
+  <div class="side-stat s4"><span>Roster · <b>Limited</b></span></div>
+
+  <div class="card">
+    <div class="badge"><span class="dot"></span> Authorized Access Required</div>
+    <h1>Your contracts.<br/><em>Sharper terms.</em><br/>Better outcomes.</h1>
+    <p class="sub">Negotiation, advocacy, and growth strategy for owners and operators.</p>
+
+    <form class="gate" id="gate" autocomplete="off" novalidate>
+      <div class="gate-label"><span class="pill"></span>Enter access code<span class="pill"></span></div>
+      <div class="input-wrap">
+        <input type="text" id="code" placeholder="• • • • • •" maxlength="20" spellcheck="false" aria-label="Access code"/>
+        <button type="submit" class="submit" aria-label="Enter">
+          <svg viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg>
+        </button>
+      </div>
+      <div class="err" id="err">Code unrecognized · check your invitation</div>
+      <div class="help">No code? Access is by referral or invitation.<br/><a href="mailto:Amanda@thechiefnegotiators.com?subject=Access%20Request">Request an introduction →</a></div>
+    </form>
+  </div>
+</main>
+
+<footer class="bot">
+  <span>© MMXXVI · The Chief Negotiators</span>
+  <span>Confidential · Privileged</span>
+</footer>
+
+<script>
+  const VALID = new Set(['VIP','PARTNER']);
+  const form = document.getElementById('gate');
+  const input = document.getElementById('code');
+  const err = document.getElementById('err');
+
+  // Auto-bypass: links from email signature carry ?key=... — unlock instantly.
+  // Accepted keys (any of these will work). Add or rotate as you like.
+  const BYPASS = new Set(['signature','amanda','direct','intro']);
+  const params = new URLSearchParams(window.location.search);
+  const k = (params.get('key') || params.get('access') || '').toLowerCase().trim();
+  if (BYPASS.has(k)) {
+    sessionStorage.setItem('tcn_access', 'SIGNATURE');
+    window.location.replace('app.html');
+  }
+
+  input.addEventListener('input', () => {
+    err.classList.remove('show');
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const code = (input.value || '').trim().toUpperCase();
+    if (VALID.has(code)) {
+      sessionStorage.setItem('tcn_access', code);
+      err.textContent = 'Authenticated · opening secure channel…';
+      err.classList.add('show', 'ok');
+      document.body.classList.add('opening');
+      setTimeout(() => {
+        window.location.href = 'app.html';
+      }, 700);
+    } else {
+      err.textContent = 'Code unrecognized · check your invitation';
+      err.classList.add('show');
+      err.classList.remove('ok');
+      input.value = '';
+      input.focus();
+      // shake
+      input.style.animation = 'none';
+      void input.offsetWidth;
+      input.style.animation = 'shake .35s ease';
+    }
+  });
+
+  // Auto-uppercase
+  input.addEventListener('keyup', () => {
+    input.value = input.value.toUpperCase();
+  });
+
+  // Focus on load
+  setTimeout(() => input.focus(), 300);
+</script>
+<style>
+  @keyframes shake{
+    10%,90%{transform:translateX(-2px)}
+    20%,80%{transform:translateX(3px)}
+    30%,50%,70%{transform:translateX(-5px)}
+    40%,60%{transform:translateX(5px)}
+  }
+</style>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Borders & Radii</title>
+<style>
+  body{margin:0;background:#000;color:#fff;padding:18px 24px;font-family:'Cardo',serif;}
+  .label{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#C49F8C;margin:0 0 14px;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .swatch{height:84px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px;}
+  .a{background:#464342;border:0;}
+  .b{background:transparent;border:1px solid #6F6C6C;}
+  .c{background:transparent;border:1px solid #C49F8C;}
+  .d{background:transparent;border:1px solid rgba(196,159,140,.24);}
+  .name{font-family:'Cormorant Garamond',serif;font-size:12px;color:#fff;letter-spacing:.04em;}
+  .meta{font-family:'Courier New',monospace;font-size:9px;color:#B8B2B0;letter-spacing:.05em;}
+</style></head>
+<body>
+<p class="label">Borders · Radii · Elevation</p>
+<div class="grid">
+  <div class="swatch a"><div class="name">Card</div><div class="meta">surface · 0 radius · no shadow</div></div>
+  <div class="swatch b"><div class="name">Hairline</div><div class="meta">1px #6F6C6C</div></div>
+  <div class="swatch c"><div class="name">Gold Pill</div><div class="meta">1px #C49F8C</div></div>
+  <div class="swatch d"><div class="name">Gold Faint</div><div class="meta">1px gold/24%</div></div>
+</div>
+<p style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#B8B2B0;margin:14px 0 0;font-style:italic;">No drop shadows. Sharp corners. Surfaces communicated by tone, not elevation.</p>
+</body></html>

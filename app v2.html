@@ -1,0 +1,1293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Chief Negotiators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#efe7d4;
+    --bone-2:#e6dcc4;
+    --paper:#f7f1e1;
+    --ink:#0e0c0a;
+    --ink-2:#1a1612;
+    --ash:#7a7264;
+    --line-soft:#d8cdb3;
+    --line-mid:#c8bca0;
+    --accent:#b76e79;
+    --accent-2:#d4a373;
+    --gold:#b08a3e;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bone);color:var(--ink);overflow-x:hidden}
+  body{font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::selection{background:var(--accent);color:var(--paper)}
+  img{max-width:100%}
+
+  .serif{font-family:"Fraunces",Georgia,serif;font-variation-settings:"opsz" 144;letter-spacing:-0.02em}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ash);display:inline-flex;align-items:center;gap:10px}
+  .eyebrow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* ---------- Topbar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(239,231,212,0.86);backdrop-filter:blur(10px) saturate(140%);-webkit-backdrop-filter:blur(10px) saturate(140%);border-bottom:1px solid var(--line-soft)}
+  .topbar-inner{max-width:1320px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;gap:32px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{width:34px;height:34px;border-radius:50%;background:#000;object-fit:cover;object-position:center;display:block}
+  .brand-name{font-family:"Fraunces",serif;font-size:17px;letter-spacing:-0.005em;font-weight:500}
+  nav.main{display:flex;gap:30px;margin-left:auto;font-size:13.5px}
+  nav.main a{color:var(--ink-2);transition:color .2s}
+  nav.main a:hover{color:var(--accent)}
+  .cta-sm{padding:10px 18px;background:var(--ink);color:var(--bone);font-size:12.5px;font-weight:500;border-radius:999px;letter-spacing:0.01em;transition:background .2s}
+  .cta-sm:hover{background:var(--accent)}
+  .session-tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:8px}
+  .session-tag .pill{padding:3px 10px;border:1px solid var(--line-mid);border-radius:3px;color:var(--ink)}
+
+  /* ---------- Ticker ---------- */
+  .ticker{background:var(--ink);color:var(--bone-2);overflow:hidden;white-space:nowrap;border-bottom:1px solid #2a241b}
+  .ticker-track{display:inline-flex;gap:56px;padding:9px 0;animation:tick 80s linear infinite;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.06em}
+  .ticker-track span{display:inline-flex;gap:10px;align-items:center}
+  .ticker-track i{font-style:normal;color:var(--accent-2)}
+  .ticker-track em{font-style:normal;color:var(--ash)}
+  @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  .shell{max-width:1320px;margin:0 auto;padding:0 40px}
+  section{padding:120px 0;border-bottom:1px solid var(--line-soft);position:relative}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:80px 0 100px}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:80px;align-items:end;max-width:900px}
+  .hero h1{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(56px,8vw,124px);line-height:0.92;letter-spacing:-0.035em;margin:32px 0 0}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero-sub{margin-top:38px;max-width:560px;font-size:18.5px;line-height:1.55;color:var(--ink-2)}
+  .hero-actions{display:flex;gap:16px;align-items:center;margin-top:42px;flex-wrap:wrap}
+  .btn-primary{background:var(--ink);color:var(--bone);padding:18px 28px;border-radius:4px;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:14px;transition:background .2s,transform .15s}
+  .btn-primary:hover{background:var(--accent);transform:translateY(-1px)}
+  .btn-primary svg{transition:transform .2s}
+  .btn-primary:hover svg{transform:translateX(4px)}
+  .btn-ghost{padding:18px 22px;border:1px solid var(--ink);border-radius:4px;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;transition:all .2s}
+  .btn-ghost:hover{background:var(--ink);color:var(--bone)}
+
+  .hero-card{background:var(--ink);color:var(--bone);padding:30px;border-radius:6px;position:relative;overflow:hidden;font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.7}
+  .hero-card-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dashed #3a342a;padding-bottom:14px;margin-bottom:16px;color:var(--bone-2);letter-spacing:0.2em;font-size:10.5px;text-transform:uppercase}
+  .hero-card-head .live{color:var(--accent-2);display:inline-flex;align-items:center;gap:8px}
+  .hero-card-head .live::before{content:"";width:7px;height:7px;background:var(--accent-2);border-radius:50%;box-shadow:0 0 10px var(--accent-2);animation:pulse 1.4s infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .deal-row{display:grid;grid-template-columns:64px 1fr auto;gap:14px;padding:7px 0}
+  .deal-row .id{color:var(--ash)}
+  .deal-row .name{color:var(--bone)}
+  .deal-row .val{color:var(--gold)}
+  .deal-row .val.win{color:#9bbf6b}
+  .hero-card-foot{margin-top:18px;padding-top:14px;border-top:1px dashed #3a342a;color:var(--ash);font-size:10.5px}
+
+  /* ---------- Numbers ---------- */
+  .numbers{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-mid);border-bottom:1px solid var(--line-mid);margin-top:96px}
+  .numbers .n{padding:36px 28px;border-right:1px solid var(--line-soft)}
+  .numbers .n:last-child{border-right:none}
+  .numbers .big{font-family:"Fraunces",serif;font-weight:400;font-size:64px;line-height:0.95;letter-spacing:-0.025em}
+  .numbers .big sup{font-size:18px;vertical-align:super;color:var(--accent);margin-left:2px}
+  .numbers .lbl{margin-top:14px;font-size:11.5px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase;font-family:"JetBrains Mono",monospace}
+
+  /* ---------- Section heading ---------- */
+  .s-head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:64px;align-items:start;border-top:1px solid var(--line-mid);padding-top:32px}
+  .s-head .num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.22em;text-transform:uppercase}
+  .s-head .num b{display:block;color:var(--ink);font-weight:500;margin-top:6px}
+  .s-head h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(40px,5.2vw,76px);line-height:0.96;letter-spacing:-0.028em;margin:0;max-width:18ch}
+  .s-head h2 em{font-style:italic;color:var(--accent)}
+  .s-head .lede{font-family:"Fraunces",serif;font-size:19px;line-height:1.5;color:var(--ink-2);margin-top:24px;max-width:62ch;font-style:italic;font-weight:300}
+
+  /* ---------- Services ---------- */
+  .services{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line-mid)}
+  .svc{padding:44px 36px 48px;border-right:1px solid var(--line-soft);border-bottom:1px solid var(--line-mid);background:var(--bone);min-height:380px;display:flex;flex-direction:column;gap:20px;transition:background .25s,color .25s;position:relative;overflow:hidden}
+  .svc:nth-child(2n){border-right:none}
+  .svc:hover{background:var(--ink);color:var(--bone)}
+  .svc:hover .svc-num,.svc:hover .svc-tag{color:var(--bone-2);border-color:#3a342a}
+  .svc:hover h3 em{color:var(--accent-2)}
+  .svc:hover .svc-list li{color:var(--bone-2);border-bottom-color:#3a342a}
+  .svc:hover .svc-list li::before{background:var(--accent-2)}
+  .svc-head{display:flex;justify-content:space-between;align-items:baseline}
+  .svc-num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.2em}
+  .svc-tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);padding:4px 10px;border:1px solid var(--line-mid);border-radius:3px}
+  .svc h3{font-family:"Fraunces",serif;font-weight:400;font-size:36px;line-height:1.05;letter-spacing:-0.022em;margin:0}
+  .svc h3 em{font-style:italic;color:var(--accent)}
+  .svc p{margin:0;font-size:15.5px;line-height:1.6;opacity:.88}
+  .svc-list{list-style:none;padding:0;margin:8px 0 0}
+  .svc-list li{padding:9px 0 9px 22px;font-size:13px;font-family:"JetBrains Mono",monospace;letter-spacing:0.04em;position:relative;border-bottom:1px dashed var(--line-soft)}
+  .svc-list li::before{content:"";position:absolute;left:0;top:16px;width:10px;height:1px;background:var(--accent)}
+
+  .svc.feat{grid-column:1/-1;background:var(--ink);color:var(--bone);border-right:none;display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:start;padding:48px 40px 52px}
+  .svc.feat:hover{background:var(--ink)}
+  .svc.feat .svc-num,.svc.feat .svc-tag{color:var(--bone-2);border-color:#3a342a}
+  .svc.feat .svc-tag.gold{color:var(--gold);border-color:rgba(176,138,62,0.45);background:rgba(176,138,62,0.06)}
+  .svc.feat h3{font-size:46px;line-height:1.02}
+  .svc.feat h3 em{color:var(--gold)}
+  .svc.feat p{color:var(--bone-2);max-width:46ch}
+  .svc.feat .svc-list li{color:var(--bone-2);border-bottom-color:#3a342a}
+  .svc.feat .svc-list li::before{background:var(--gold)}
+  .svc.feat .feat-cta{margin-top:10px;display:inline-flex;align-items:center;gap:12px;font-family:"Inter",sans-serif;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);transition:gap .2s}
+  .svc.feat .feat-cta:hover{gap:18px}
+  .svc.feat .feat-right{display:flex;flex-direction:column;gap:18px}
+  .svc.feat .feat-quote{font-family:"Fraunces",serif;font-style:italic;font-size:22px;line-height:1.35;color:var(--bone);border-left:1px solid var(--gold);padding-left:18px;max-width:38ch}
+  @media (max-width:960px){.svc.feat{grid-template-columns:1fr;padding:36px 28px}.svc.feat h3{font-size:36px}}
+
+  /* ---------- GPU Sourcing Desk ---------- */
+  .gpu-section{background:var(--ink);color:var(--bone);border-bottom:1px solid #2a241b;position:relative;overflow:hidden}
+  .gpu-section::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(176,138,62,0.18),transparent 55%),radial-gradient(circle at 15% 85%,rgba(183,110,121,0.10),transparent 55%);pointer-events:none}
+  .gpu-section .s-head{border-top:1px solid #2a241b}
+  .gpu-section .s-head .num{color:var(--bone-2)}
+  .gpu-section .s-head .num b{color:var(--bone)}
+  .gpu-section .s-head h2 em{color:var(--gold)}
+  .gpu-section .s-head .lede{color:var(--bone-2)}
+  .gpu-section .eyebrow{color:var(--bone-2)}
+  .gpu-section .eyebrow .dot{background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  .gpu-tag-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;position:relative}
+  .gpu-tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--bone-2);padding:6px 12px;border:1px solid #2a241b;border-radius:3px}
+  .gpu-tag.gold{color:var(--gold);border-color:rgba(176,138,62,0.4)}
+
+  .desk{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2a241b;border:1px solid #2a241b;border-radius:6px;overflow:hidden;position:relative}
+  .desk-col{background:#15110d;padding:28px 30px;min-height:520px;display:flex;flex-direction:column}
+  .desk-col h4{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ash);margin:0 0 6px;font-weight:500;display:flex;align-items:center;gap:10px}
+  .desk-col h4 b{color:var(--bone);font-weight:500}
+  .desk-col .count{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--gold);letter-spacing:0.08em}
+  .desk-col .col-sub{font-family:"Fraunces",serif;font-style:italic;font-size:18px;color:var(--bone-2);margin:0 0 22px;line-height:1.4;max-width:34ch}
+  .listing{padding:16px 0;border-top:1px dashed #2a241b;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline}
+  .listing:last-child{border-bottom:1px dashed #2a241b}
+  .listing .l-id{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.14em;color:var(--ash);grid-column:1/3}
+  .listing .l-main{font-family:"Fraunces",serif;font-size:22px;letter-spacing:-0.018em;color:var(--bone);line-height:1.1}
+  .listing .l-qty{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--gold);letter-spacing:0.06em;text-align:right}
+  .listing .l-meta{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--bone-2);letter-spacing:0.04em;grid-column:1/3;display:flex;gap:14px;flex-wrap:wrap}
+  .listing .l-meta span{display:inline-flex;align-items:center;gap:6px}
+  .listing .l-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--ash)}
+  .listing .l-meta .ok .dot{background:#9bbf6b}
+  .listing .l-meta .pend .dot{background:var(--accent-2)}
+  .listing .l-meta .ver .dot{background:var(--gold)}
+
+  .desk-link{margin-top:auto;padding-top:22px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash)}
+  .desk-link b{color:var(--gold);font-weight:500}
+
+  .desk-bridge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);display:grid;place-items:center;z-index:2;box-shadow:0 0 30px rgba(176,138,62,0.35)}
+  .desk-bridge svg{width:24px;height:24px;color:var(--gold)}
+  .desk-bridge::after{content:"DESK";position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.22em;color:var(--gold)}
+
+  .gpu-flow{display:grid;grid-template-columns:repeat(3,1fr);margin-top:80px;border-top:1px solid #2a241b;border-bottom:1px solid #2a241b}
+  .gpu-step{padding:38px 32px 36px;border-right:1px solid #2a241b;position:relative}
+  .gpu-step:last-child{border-right:none}
+  .gpu-step .s-num{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.22em;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .gpu-step .s-num::after{content:"";flex:1;height:1px;background:#2a241b}
+  .gpu-step h5{font-family:"Fraunces",serif;font-size:32px;letter-spacing:-0.02em;line-height:1.05;margin:0 0 12px;font-weight:400;color:var(--bone)}
+  .gpu-step h5 em{font-style:italic;color:var(--gold)}
+  .gpu-step p{font-size:14.5px;line-height:1.6;color:var(--bone-2);margin:0}
+
+  .gpu-promise{display:grid;grid-template-columns:repeat(4,1fr);margin-top:56px;gap:0;border-top:1px solid #2a241b}
+  .gpu-promise div{padding:24px 24px 0 0;border-right:1px solid #2a241b}
+  .gpu-promise div:last-child{border-right:none}
+  .gpu-promise .v{font-family:"Fraunces",serif;font-size:42px;letter-spacing:-0.025em;line-height:1;color:var(--bone)}
+  .gpu-promise .v em{font-style:italic;color:var(--gold)}
+  .gpu-promise .l{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase;margin-top:10px}
+
+  @media (max-width:960px){
+    .desk{grid-template-columns:1fr}
+    .desk-bridge{top:auto;left:50%;transform:translate(-50%,-50%);position:relative;margin:-12px auto}
+    .gpu-flow,.gpu-promise{grid-template-columns:1fr}
+    .gpu-step,.gpu-promise div{border-right:none;border-bottom:1px solid #2a241b}
+  }
+
+  /* ---------- Two Desks intro ---------- */
+  .desk-intro{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-mid);border-radius:6px;overflow:hidden;background:var(--paper);position:relative}
+  .desk-intro::after{content:"DESK";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.22em;color:var(--gold);background:var(--paper);border:1px solid var(--line-mid);width:64px;height:64px;border-radius:50%;display:grid;place-items:center;z-index:2}
+  .desk-half{padding:40px 36px 36px;position:relative}
+  .desk-half + .desk-half{border-left:1px solid var(--line-mid)}
+  .desk-half .d-tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:inline-flex;align-items:center;gap:10px}
+  .desk-half .d-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .desk-half.right .d-tag{color:var(--gold)}
+  .desk-half.right .d-tag::before{background:var(--gold)}
+  .desk-half h3{font-family:"Fraunces",serif;font-size:36px;line-height:1.05;letter-spacing:-0.022em;font-weight:400;margin:0 0 12px}
+  .desk-half h3 em{font-style:italic;color:var(--accent)}
+  .desk-half.right h3 em{color:var(--gold)}
+  .desk-half .d-for{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px}
+  .desk-half .d-list{list-style:none;padding:0;margin:0}
+  .desk-half .d-list li{padding:11px 0;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px}
+  .desk-half .d-list li:last-child{border-bottom:none}
+  .desk-half .d-list li b{font-family:"Fraunces",serif;font-size:18px;letter-spacing:-0.015em;font-weight:400}
+  .desk-half .d-list li small{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.06em}
+  .desk-bar{grid-column:1/3;background:var(--ink);color:var(--bone);padding:22px 36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;border-top:1px solid var(--ink)}
+  .desk-bar .b-l{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bone-2)}
+  .desk-bar .b-r{font-family:"Fraunces",serif;font-size:22px;letter-spacing:-0.018em;color:var(--bone)}
+  .desk-bar .b-r em{font-style:italic;color:var(--gold)}
+
+  /* ---------- NVIDIA / authorized channel ---------- */
+  .channel-section{background:var(--paper);position:relative;overflow:hidden}
+  .channel-section::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(176,138,62,0.08),transparent 50%);pointer-events:none}
+  .channel-wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center;position:relative}
+  .channel-left h3{font-family:"Fraunces",serif;font-size:48px;line-height:1.02;letter-spacing:-0.026em;font-weight:400;margin:0 0 22px;max-width:14ch}
+  .channel-left h3 em{font-style:italic;color:var(--gold)}
+  .channel-left p{font-size:16.5px;line-height:1.6;color:var(--ink-2);max-width:54ch;margin:0 0 26px}
+  .channel-creds{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line-mid);margin-top:30px}
+  .channel-creds div{padding:22px 22px 0 0;border-right:1px solid var(--line-soft)}
+  .channel-creds div:nth-child(2n){border-right:none;padding-right:0}
+  .channel-creds .v{font-family:"Fraunces",serif;font-size:36px;letter-spacing:-0.02em;line-height:1}
+  .channel-creds .v em{font-style:italic;color:var(--gold)}
+  .channel-creds .l{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase;margin-top:8px;line-height:1.4}
+
+  .globe-card{background:var(--ink);color:var(--bone);border-radius:8px;padding:32px;position:relative;overflow:hidden;box-shadow:0 30px 80px -30px rgba(14,12,10,0.4)}
+  .globe-card .g-head{display:flex;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:18px}
+  .globe-card .g-head b{color:var(--gold);font-weight:500;display:inline-flex;align-items:center;gap:8px}
+  .globe-card .g-head b::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 1.6s infinite}
+  .globe-svg{width:100%;aspect-ratio:1.5/1;display:block}
+  .globe-svg .grid-line{stroke:#2a241b;stroke-width:0.4;fill:none}
+  .globe-svg .land{fill:#1f1a14;stroke:#2a241b;stroke-width:0.4}
+  .globe-svg .node{fill:var(--gold)}
+  .globe-svg .node-ring{fill:none;stroke:var(--gold);stroke-width:0.5;opacity:0.35}
+  .globe-svg .arc{fill:none;stroke:var(--gold);stroke-width:0.6;stroke-dasharray:2 3;opacity:0.55}
+  .globe-svg .node-label{font-family:"JetBrains Mono",monospace;font-size:6.5px;letter-spacing:0.12em;fill:var(--bone-2);text-transform:uppercase}
+  .globe-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2a241b;border:1px solid #2a241b;border-radius:4px;overflow:hidden;margin-top:22px}
+  .globe-legend div{background:#15110d;padding:14px 16px}
+  .globe-legend .lv{font-family:"Fraunces",serif;font-size:24px;letter-spacing:-0.02em;color:var(--bone);line-height:1}
+  .globe-legend .lv em{font-style:italic;color:var(--gold)}
+  .globe-legend .ll{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--ash);letter-spacing:0.14em;text-transform:uppercase;margin-top:8px}
+
+  .partner-strip{margin-top:48px;padding:26px 32px;background:var(--ink);color:var(--bone-2);border-radius:6px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+  .partner-strip .p-l{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);max-width:14ch;line-height:1.5}
+  .partner-strip .p-l b{color:var(--bone);font-weight:500;display:block;margin-bottom:4px;letter-spacing:0.14em}
+  .partner-strip .p-r{display:flex;gap:36px;flex-wrap:wrap;align-items:center;font-family:"Fraunces",serif;font-size:19px;font-style:italic;color:var(--bone)}
+  .partner-strip .p-r span{display:inline-flex;align-items:center;gap:10px;opacity:.92}
+  .partner-strip .p-r span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.7}
+
+  /* ---------- Data Center Solutions ---------- */
+  .dc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line-mid);border-radius:6px;overflow:hidden}
+  .dc-card{background:var(--bone);padding:42px 36px 44px;border-right:1px solid var(--line-mid);display:flex;flex-direction:column;gap:18px;min-height:380px;position:relative;transition:background .25s}
+  .dc-card:last-child{border-right:none}
+  .dc-card:hover{background:var(--paper)}
+  .dc-card .dc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .dc-card .dc-num{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;color:var(--ash)}
+  .dc-card .dc-tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);padding:4px 10px;border:1px solid rgba(176,138,62,0.4);border-radius:3px;background:rgba(176,138,62,0.04)}
+  .dc-card h4{font-family:"Fraunces",serif;font-size:36px;line-height:1.05;letter-spacing:-0.022em;font-weight:400;margin:0}
+  .dc-card h4 em{font-style:italic;color:var(--gold)}
+  .dc-card p{font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0}
+  .dc-stat-row{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:auto;padding-top:24px;border-top:1px solid var(--line-soft)}
+  .dc-stat-row div{padding-right:18px;border-right:1px solid var(--line-soft)}
+  .dc-stat-row div:last-child{border-right:none;padding-right:0;padding-left:18px}
+  .dc-stat-row .v{font-family:"Fraunces",serif;font-size:30px;letter-spacing:-0.02em;line-height:1}
+  .dc-stat-row .v em{font-style:italic;color:var(--gold)}
+  .dc-stat-row .l{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ash);letter-spacing:0.14em;text-transform:uppercase;margin-top:8px}
+
+  /* ---------- Capacity Commercialization ---------- */
+  .commerc-wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:start}
+  .commerc-left h3{font-family:"Fraunces",serif;font-size:46px;line-height:1.04;letter-spacing:-0.025em;font-weight:400;margin:0 0 22px;max-width:15ch}
+  .commerc-left h3 em{font-style:italic;color:var(--accent)}
+  .commerc-left p{font-size:16.5px;line-height:1.6;color:var(--ink-2);max-width:52ch;margin:0 0 24px}
+  .commerc-left .c-list{list-style:none;padding:0;margin:30px 0 0;border-top:1px solid var(--line-mid)}
+  .commerc-left .c-list li{padding:16px 0 16px 0;border-bottom:1px solid var(--line-soft);display:grid;grid-template-columns:36px 1fr;gap:18px;align-items:start}
+  .commerc-left .c-list li .ci{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;padding-top:3px}
+  .commerc-left .c-list li b{font-family:"Fraunces",serif;font-size:19px;letter-spacing:-0.015em;font-weight:400;display:block;margin-bottom:2px}
+  .commerc-left .c-list li p{font-size:13.5px;color:var(--ash);margin:0;line-height:1.5}
+
+  .commerc-right{background:var(--ink);color:var(--bone);border-radius:8px;padding:34px;box-shadow:0 30px 80px -30px rgba(14,12,10,0.4);position:sticky;top:96px}
+  .commerc-right .c-head{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);margin-bottom:8px}
+  .commerc-right h4{font-family:"Fraunces",serif;font-size:28px;line-height:1.15;letter-spacing:-0.018em;font-weight:400;margin:0 0 28px}
+  .commerc-right h4 em{font-style:italic;color:var(--accent-2)}
+  .commerc-funnel{display:flex;flex-direction:column;gap:8px}
+  .funnel-step{padding:14px 16px;border:1px solid #2a241b;border-radius:4px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:#15110d}
+  .funnel-step .f-n{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ash);letter-spacing:0.16em;width:32px;flex-shrink:0}
+  .funnel-step .f-l{font-family:"Fraunces",serif;font-size:18px;letter-spacing:-0.015em;color:var(--bone);flex:1}
+  .funnel-step .f-v{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent-2);letter-spacing:0.06em}
+  .funnel-step.deep{margin-left:14px;background:rgba(212,163,115,0.06);border-color:rgba(212,163,115,0.25)}
+  .funnel-step.deep .f-l{color:var(--accent-2)}
+  .funnel-step.deep .f-v{color:var(--gold)}
+  .commerc-right .c-foot{margin-top:24px;padding-top:18px;border-top:1px dashed #3a342a;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.06em;line-height:1.6}
+  .commerc-right .c-foot b{color:var(--gold);font-weight:500}
+
+  @media (max-width:960px){
+    .desk-intro{grid-template-columns:1fr}
+    .desk-intro::after{display:none}
+    .desk-half + .desk-half{border-left:none;border-top:1px solid var(--line-mid)}
+    .channel-wrap,.commerc-wrap{grid-template-columns:1fr;gap:40px}
+    .channel-creds{grid-template-columns:1fr}
+    .channel-creds div{border-right:none;border-bottom:1px solid var(--line-soft);padding:18px 0}
+    .dc-grid{grid-template-columns:1fr}
+    .dc-card{border-right:none;border-bottom:1px solid var(--line-mid)}
+    .commerc-right{position:relative;top:0}
+    .partner-strip{grid-template-columns:1fr}
+  }
+
+  /* ---------- Hub (Sales/Marketing OS) ---------- */
+  .hub-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:start}
+  .hub-side h3{font-family:"Fraunces",serif;font-size:40px;line-height:1.05;letter-spacing:-0.025em;font-weight:400;margin:0 0 20px}
+  .hub-side h3 em{font-style:italic;color:var(--accent)}
+  .hub-side p{font-size:16px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:42ch}
+  .hub-window{background:var(--ink);color:var(--bone);border-radius:8px;overflow:hidden;box-shadow:0 30px 80px -30px rgba(14,12,10,0.5)}
+  .hub-titlebar{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #2a241b;background:#15110d}
+  .hub-titlebar .dots{display:flex;gap:7px}
+  .hub-titlebar .dots span{width:10px;height:10px;border-radius:50%}
+  .hub-titlebar .dots span:nth-child(1){background:#5a3a3a}
+  .hub-titlebar .dots span:nth-child(2){background:#5a4a2a}
+  .hub-titlebar .dots span:nth-child(3){background:#3a5a3a}
+  .hub-titlebar .url{flex:1;text-align:center;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.08em}
+  .hub-titlebar .url span{color:var(--bone-2)}
+  .hub-body{display:grid;grid-template-columns:200px 1fr;min-height:420px}
+  .hub-side-nav{border-right:1px solid #2a241b;padding:18px 14px;font-family:"JetBrains Mono",monospace;font-size:11.5px}
+  .hub-side-nav h6{margin:14px 0 8px 8px;font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);font-weight:500}
+  .hub-side-nav h6:first-child{margin-top:0}
+  .hub-side-nav a{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:4px;color:var(--bone-2);transition:background .15s,color .15s}
+  .hub-side-nav a:hover{background:rgba(255,255,255,0.04);color:var(--bone)}
+  .hub-side-nav a.active{background:rgba(183,110,121,0.25);color:var(--bone)}
+  .hub-side-nav a .ic{width:14px;height:14px;display:grid;place-items:center;font-size:10px;color:var(--ash)}
+  .hub-side-nav a.active .ic{color:var(--accent-2)}
+  .hub-content{padding:24px 28px}
+  .hub-content h5{margin:0 0 6px;font-family:"Fraunces",serif;font-size:24px;letter-spacing:-0.015em;font-weight:400}
+  .hub-content .meta{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash);margin-bottom:20px}
+  .files{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .file{padding:14px 14px;border:1px solid #2a241b;border-radius:5px;display:flex;justify-content:space-between;align-items:center;transition:background .2s, border-color .2s;cursor:default}
+  .file:hover{background:rgba(255,255,255,0.03);border-color:var(--accent)}
+  .file .name{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--bone)}
+  .file .size{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ash);letter-spacing:0.08em}
+  .file .ext{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.16em;color:var(--accent-2);background:rgba(212,163,115,0.12);padding:2px 6px;border-radius:2px;margin-right:8px}
+
+  /* ---------- Process ---------- */
+  .method-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
+  .method-list{border-top:1px solid var(--ink)}
+  .method-row{display:grid;grid-template-columns:60px 1fr auto;gap:24px;padding:30px 0;border-bottom:1px solid var(--line-soft);align-items:baseline;transition:padding .25s,color .2s;cursor:default}
+  .method-row:hover{padding-left:14px;color:var(--accent)}
+  .method-row .step{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:0.12em}
+  .method-row .name{font-family:"Fraunces",serif;font-size:34px;letter-spacing:-0.02em}
+  .method-row .dur{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.12em}
+  .method-aside{background:var(--ink);color:var(--bone);padding:44px;border-radius:6px;position:sticky;top:120px}
+  .method-aside h4{font-family:"Fraunces",serif;font-size:30px;line-height:1.1;margin:0 0 22px;font-weight:400}
+  .method-aside p{font-size:14.5px;line-height:1.65;color:var(--bone-2);margin:0}
+  .method-aside .quote{margin-top:30px;padding-top:24px;border-top:1px dashed #3a342a;font-family:"Fraunces",serif;font-style:italic;font-size:20px;line-height:1.4}
+  .method-aside .attr{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase}
+
+  /* ---------- Outcomes (ledger) ---------- */
+  .cases-table{border:1px solid var(--line-mid)}
+  .cases-head,.cases-row{display:grid;grid-template-columns:80px 200px 1fr 200px;padding:22px 28px;align-items:baseline}
+  .cases-head{border-bottom:1px solid var(--line-mid);font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);padding:16px 28px}
+  .cases-row{border-bottom:1px solid var(--line-soft);transition:background .2s}
+  .cases-row:last-child{border-bottom:none}
+  .cases-row:hover{background:var(--paper)}
+  .cases-row .yr{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ash)}
+  .cases-row .sect{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase}
+  .cases-row .sect small{display:block;color:var(--ash);text-transform:none;letter-spacing:0;font-size:11px;margin-top:4px}
+  .cases-row .hdr{font-family:"Fraunces",serif;font-size:22px;line-height:1.25;letter-spacing:-0.015em;padding-right:32px}
+  .cases-row .out{font-family:"Fraunces",serif;font-size:24px;color:var(--accent);letter-spacing:-0.02em}
+
+  /* ---------- Testimonial ---------- */
+  .quote-block{text-align:center;padding:30px 0}
+  .quote-mark{font-family:"Fraunces",serif;font-size:96px;line-height:0.5;color:var(--accent);margin-bottom:8px}
+  .quote-block blockquote{font-family:"Fraunces",serif;font-size:clamp(28px,3.4vw,42px);line-height:1.28;letter-spacing:-0.018em;font-style:italic;font-weight:400;margin:0 auto;max-width:1000px;text-wrap:balance}
+  .quote-block blockquote em{font-style:italic;color:var(--accent)}
+  .quote-attr{margin-top:36px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash)}
+  .quote-attr b{color:var(--ink);font-weight:500;margin-right:14px}
+  .quote-dots{display:flex;justify-content:center;gap:8px;margin-top:44px}
+  .quote-dots button{width:28px;height:2px;background:rgba(28,24,21,0.2);transition:background .2s;padding:0}
+  .quote-dots button.active{background:var(--ink)}
+
+  /* ---------- Engagement tiers ---------- */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-mid);border-radius:4px;overflow:hidden}
+  .tier{padding:38px 32px;border-right:1px solid var(--line-mid);position:relative;background:var(--paper);display:flex;flex-direction:column}
+  .tier:last-child{border-right:none}
+  .tier.feat{background:var(--ink);color:var(--bone)}
+  .tier .t-tag{position:absolute;top:22px;right:22px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.18em;background:var(--bone-2);padding:4px 10px;border-radius:2px;color:var(--ink)}
+  .tier.feat .t-tag{background:var(--accent);color:var(--bone)}
+  .t-tier{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px}
+  .t-name{font-family:"Fraunces",serif;font-size:32px;letter-spacing:-0.02em}
+  .t-fee{font-family:"Fraunces",serif;font-size:46px;margin:24px 0 6px;letter-spacing:-0.025em;line-height:1}
+  .t-fee small{font-size:13px;color:var(--ash);font-family:"JetBrains Mono",monospace;letter-spacing:0;margin-left:6px}
+  .tier.feat .t-fee small{color:var(--bone-2)}
+  .t-sub{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ash);letter-spacing:0.08em;margin-bottom:24px}
+  .tier.feat .t-sub{color:var(--bone-2)}
+  .t-list{list-style:none;padding:0;margin:0 0 24px}
+  .t-list li{padding:10px 0 10px 22px;font-size:13.5px;position:relative;border-bottom:1px dashed var(--line-soft)}
+  .tier.feat .t-list li{border-bottom-color:#3a342a;color:var(--bone-2)}
+  .t-list li::before{content:"";position:absolute;left:0;top:18px;width:10px;height:1px;background:var(--ink)}
+  .tier.feat .t-list li::before{background:var(--accent-2)}
+  .t-cta{display:block;text-align:center;padding:14px 18px;border:1px solid currentColor;border-radius:4px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;transition:background .2s,color .2s;margin-top:auto}
+  .t-cta:hover{background:var(--ink);color:var(--bone)}
+  .tier.feat .t-cta{background:var(--accent);border-color:var(--accent);color:var(--bone)}
+  .tier.feat .t-cta:hover{background:var(--accent-2);border-color:var(--accent-2)}
+
+  /* ---------- Founder card ---------- */
+  .founder{display:grid;grid-template-columns:.8fr 1.4fr;gap:64px;align-items:center}
+  .founder .portrait{aspect-ratio:4/5;background:var(--ink);border-radius:6px;position:relative;overflow:hidden;display:grid;place-items:center}
+  .founder .portrait .scan{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-2),transparent);animation:scan 4s linear infinite}
+  @keyframes scan{0%{top:0}100%{top:100%}}
+  .founder .portrait .initials{font-family:"Fraunces",serif;font-size:160px;color:var(--bone);font-style:italic;opacity:.85;line-height:1}
+  .founder .portrait .badge{position:absolute;bottom:18px;left:18px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bone-2);background:rgba(255,255,255,0.06);padding:6px 10px;border-radius:3px;border:1px solid rgba(239,231,212,0.1)}
+  .founder h3{font-family:"Fraunces",serif;font-size:48px;line-height:1.05;letter-spacing:-0.025em;font-weight:400;margin:0 0 8px}
+  .founder .role{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+  .founder p{font-size:16px;line-height:1.65;color:var(--ink-2);margin:0 0 16px;max-width:60ch}
+  .founder-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;border-top:1px solid var(--line-mid)}
+  .founder-stats div{padding:24px 24px 0 0;border-right:1px solid var(--line-soft)}
+  .founder-stats div:last-child{border-right:none;padding-right:0}
+  .founder-stats .v{font-family:"Fraunces",serif;font-size:36px;letter-spacing:-0.02em}
+  .founder-stats .l{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash);margin-top:6px}
+
+  /* ---------- Contact ---------- */
+  .contact{background:var(--ink);color:var(--bone);padding:140px 0 120px;border-bottom:none;position:relative;overflow:hidden}
+  .contact::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(183,110,121,0.22),transparent 50%),radial-gradient(circle at 10% 90%,rgba(176,138,62,0.10),transparent 55%);pointer-events:none}
+  .contact h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(48px,7vw,108px);line-height:0.94;letter-spacing:-0.035em;margin:0;max-width:14ch;position:relative}
+  .contact h2 em{font-style:italic;color:var(--accent-2)}
+  .contact-row{display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:start;position:relative;margin-top:64px}
+  .contact-info p{color:var(--bone-2);max-width:480px;margin:24px 0 0;font-size:17px;line-height:1.6}
+  .info-list{margin-top:48px;border-top:1px solid #2a241b}
+  .info-list dt{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-top:24px}
+  .info-list dd{margin:6px 0 0;font-family:"Fraunces",serif;font-size:24px;letter-spacing:-0.015em}
+  .info-list dd a{color:var(--bone);border-bottom:1px solid rgba(239,231,212,0.25);padding-bottom:1px;transition:color .2s,border-color .2s}
+  .info-list dd a:hover{color:var(--accent-2);border-bottom-color:var(--accent-2)}
+
+  .form{background:rgba(255,255,255,0.04);border:1px solid #2a241b;border-radius:6px;padding:32px}
+  .form label{display:block;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.18em;text-transform:uppercase;margin:18px 0 8px}
+  .form label:first-of-type{margin-top:0}
+  .form input,.form select,.form textarea{width:100%;background:transparent;color:var(--bone);border:none;border-bottom:1px solid #3a342a;padding:10px 0;font-family:"Fraunces",serif;font-size:18px;outline:none;resize:vertical}
+  .form input:focus,.form select:focus,.form textarea:focus{border-bottom-color:var(--accent-2)}
+  .form select{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23efe7d4' stroke-width='1.2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center}
+  .form textarea{font-family:"Inter",sans-serif;font-size:15px;line-height:1.5;min-height:80px}
+  .submit{width:100%;margin-top:32px;padding:18px;background:var(--accent);color:var(--bone);border-radius:4px;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;transition:background .2s}
+  .submit:hover{background:var(--accent-2)}
+  .fineprint{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.06em}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink);color:var(--bone-2);padding:60px 0 36px;border-top:1px solid #2a241b}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .footer-grid h5{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);margin:0 0 18px;font-weight:500}
+  .footer-grid a{display:block;padding:5px 0;font-size:13.5px;color:var(--bone-2);transition:color .2s}
+  .footer-grid a:hover{color:var(--accent-2)}
+  .footer-brand p{max-width:340px;font-size:13.5px;color:var(--ash);margin-top:16px}
+  .footer-bot{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid #2a241b;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ash);letter-spacing:0.1em}
+
+  @media (max-width:960px){
+    section{padding:80px 0}
+    .hero-grid,.method-wrap,.contact-row,.footer-grid,.hub-wrap,.founder{grid-template-columns:1fr;gap:48px}
+    .services,.tiers,.numbers{grid-template-columns:1fr}
+    .svc,.tier{border-right:none}
+    .svc:nth-child(2n){border-right:none}
+    .numbers .n{border-right:none;border-bottom:1px solid var(--line-soft)}
+    .s-head{grid-template-columns:1fr;gap:16px}
+    nav.main,.session-tag{display:none}
+    .cases-head,.cases-row{grid-template-columns:60px 1fr 140px;padding:18px 16px;gap:12px}
+    .cases-head .col-sect,.cases-row .sect{display:none}
+    .hub-body{grid-template-columns:1fr}
+    .hub-side-nav{display:none}
+    .files{grid-template-columns:1fr}
+    .founder .portrait{aspect-ratio:4/3}
+    .founder .portrait .initials{font-size:120px}
+    .founder-stats{grid-template-columns:1fr}
+    .founder-stats div{border-right:none;border-bottom:1px solid var(--line-soft);padding:20px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- Ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span><em>SOURCED</em><i>●</i> H100 ALLOCATION · AUTHORIZED CHANNEL</span>
+    <span><em>BROKERED</em> B200 CLUSTER · SOVEREIGN BUYER</span>
+    <span><em>COMMERCIALIZED</em><i>●</i> 18MW DATA CENTER · ANCHOR TENANT</span>
+    <span><em>NEGOTIATED</em> MULTI-YEAR GPU-AS-A-SERVICE CONTRACT</span>
+    <span><em>STOOD UP</em> NEOCLOUD CHANNEL PROGRAM</span>
+    <span><em>LOCKED</em> GLOBAL ALLOCATION · Q3 · H200 NVL</span>
+    <span><em>SOURCED</em><i>●</i> H100 ALLOCATION · AUTHORIZED CHANNEL</span>
+    <span><em>BROKERED</em> B200 CLUSTER · SOVEREIGN BUYER</span>
+    <span><em>COMMERCIALIZED</em><i>●</i> 18MW DATA CENTER · ANCHOR TENANT</span>
+    <span><em>NEGOTIATED</em> MULTI-YEAR GPU-AS-A-SERVICE CONTRACT</span>
+    <span><em>STOOD UP</em> NEOCLOUD CHANNEL PROGRAM</span>
+    <span><em>LOCKED</em> GLOBAL ALLOCATION · Q3 · H200 NVL</span>
+  </div>
+</div>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#top" class="brand">
+      <img src="logo.jpg" alt="" class="brand-mark" />
+      <span class="brand-name">The Chief Negotiators</span>
+    </a>
+    <nav class="main">
+      <a href="#practice">Practice</a>
+      <a href="#acquisition">Acquisition</a>
+      <a href="#gpu">GPU Desk</a>
+      <a href="#commercialization">Commercialization</a>
+      <a href="#engagement">Engagement</a>
+    </nav>
+    <span class="session-tag"><span class="pill" id="sessionTag">VIP</span></span>
+    <a href="#contact" class="cta-sm">Inquire →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="hero shell">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>Welcome back · <span id="welcomeCode">Authenticated</span></div>
+      <h1>The desk<br/>between <em>supply</em><br/>and the <em>build.</em></h1>
+      <p class="hero-sub">A private advisory firm sitting between authorized NVIDIA supply and the operators building the AI economy. Strategic negotiation, GPU advisory and live stock, data center solutions, and capacity commercialization — brokered, papered, and executed by one principal.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">
+          Open a Mandate
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+        <a href="#gpu" class="btn-ghost">View Live GPU Stock</a>
+      </div>
+      <div style="margin-top:44px;display:flex;gap:28px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ash)">
+        <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)"></span>Authorized NVIDIA channels</span>
+        <span>Global allocation access</span>
+        <span>By referral only</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- N°01 — THE PRACTICE -->
+<section id="practice" class="shell">
+  <div class="s-head">
+    <div class="num">N°01<b>The Practice</b></div>
+    <div>
+      <h2>One firm.<br/>Two <em>desks.</em><br/>One <em>trade.</em></h2>
+      <p class="lede">Supply is gated. Capacity is unmonetized. We sit between the two — running an acquisition desk for the buyers building AI, and a commercialization desk for the operators building the capacity they run on.</p>
+    </div>
+  </div>
+
+  <div class="desk-intro">
+    <div class="desk-half">
+      <div class="d-tag">Acquisition Desk · For buyers</div>
+      <h3>Get the <em>compute.</em><br/>Beat the spot price.</h3>
+      <div class="d-for">For AI labs · neoclouds · sovereigns · enterprises</div>
+      <ul class="d-list">
+        <li><b>Strategic Negotiation</b><small>Buy-side advocacy</small></li>
+        <li><b>GPU Advisory &amp; Live Stock</b><small>Vetted inventory · live desk</small></li>
+        <li><b>Authorized NVIDIA Channel</b><small>Direct partner pricing · global allocation</small></li>
+      </ul>
+    </div>
+    <div class="desk-half right">
+      <div class="d-tag">Commercialization Desk · For builders</div>
+      <h3>Monetize the <em>build.</em><br/>Fill the watts.</h3>
+      <div class="d-for">For data center developers · neoclouds · GPUaaS operators</div>
+      <ul class="d-list">
+        <li><b>Data Center Solutions</b><small>GPUaaS · capacity offtake</small></li>
+        <li><b>Capacity Commercialization</b><small>Anchor tenants for new builds</small></li>
+        <li><b>Channel Strategy</b><small>Partner programs · GTM architecture</small></li>
+      </ul>
+    </div>
+    <div class="desk-bar">
+      <div class="b-l">◇ Across both desks</div>
+      <div class="b-r"><em>AI Infrastructure Advisory</em> — strategy, deal structuring, and execution from spec to commissioning.</div>
+    </div>
+  </div>
+</section>
+
+<!-- N°02 — ACQUISITION DESK -->
+<section id="acquisition" class="shell">
+  <div class="s-head">
+    <div class="num">N°02<b>Acquisition Desk</b></div>
+    <div>
+      <h2>For the buyers<br/>building <em>AI.</em></h2>
+      <p class="lede">Allocations are scarce, the secondary market is loud, and most listings are fiction. We get serious buyers in front of authorized supply — and walk every deal through paper and delivery.</p>
+    </div>
+  </div>
+
+  <div class="services">
+    <article class="svc">
+      <div class="svc-head"><span class="svc-num">01</span><span class="svc-tag">Strategic Negotiation</span></div>
+      <h3>Your <em>advocate</em> at the table.</h3>
+      <p>Senior negotiation counsel on the deals that move your P&amp;L — GPU purchase agreements, GPUaaS contracts, capacity offtake, vendor renewals. We sit beside you, or take it entirely, and make sure the other side doesn't walk out with the better number.</p>
+      <ul class="svc-list">
+        <li>Term sheet &amp; LOI strategy</li>
+        <li>Pricing, delivery &amp; warranty leverage</li>
+        <li>Contract redlines with your counsel</li>
+        <li>Renewal &amp; auto-renew defense</li>
+      </ul>
+    </article>
+
+    <article class="svc">
+      <div class="svc-head"><span class="svc-num">02</span><span class="svc-tag">GPU Advisory · Live Stock</span></div>
+      <h3>Real <em>inventory.</em> Verified before introductions.</h3>
+      <p>A private GPU desk with a parallel live-stock site. Every listing is qualified — serials, OEM paperwork, bonded-warehouse confirmation — before any buyer sees it. We broker the introduction, run the negotiation, and paper the deal.</p>
+      <ul class="svc-list">
+        <li>H100 · H200 · B200 · GB200 · MI300X</li>
+        <li>Live stock site for qualified buyers</li>
+        <li>KYC, NDA, escrow as standard</li>
+        <li>2% success fee · either side</li>
+      </ul>
+    </article>
+
+    <article class="svc feat">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="svc-head"><span class="svc-num">03 · Moat</span><span class="svc-tag gold">Authorized NVIDIA Channel</span></div>
+        <h3>Direct lines into <em>authorized</em> supply.</h3>
+        <p>We partner directly with the largest authorized NVIDIA channel partners — meaning competitive pricing, real lead times, and access to additional allocations across North America, EMEA, and APAC. Not grey market. Not phantom paper. The actual channel.</p>
+        <ul class="svc-list">
+          <li>Authorized NPN partner relationships</li>
+          <li>Competitive pricing on new allocation</li>
+          <li>Global allocation access · multi-region</li>
+          <li>Reference architecture &amp; OEM build</li>
+        </ul>
+        <a href="#channel" class="feat-cta">How the channel works
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+        </a>
+      </div>
+      <div class="feat-right">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)"></span>Channel · live posture</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#3a342a;border:1px solid #3a342a;border-radius:5px;overflow:hidden">
+          <div style="background:#15110d;padding:18px 20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ash);letter-spacing:0.18em;text-transform:uppercase">Authorized partners</div>
+            <div style="font-family:'Fraunces',serif;font-size:32px;color:var(--bone);margin-top:8px;letter-spacing:-0.02em">Tier-1 <span style="font-size:13px;color:var(--ash);letter-spacing:0">NPN access</span></div>
+          </div>
+          <div style="background:#15110d;padding:18px 20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ash);letter-spacing:0.18em;text-transform:uppercase">Regions covered</div>
+            <div style="font-family:'Fraunces',serif;font-size:32px;color:var(--bone);margin-top:8px;letter-spacing:-0.02em">NA · EMEA · APAC</div>
+          </div>
+          <div style="background:#15110d;padding:18px 20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ash);letter-spacing:0.18em;text-transform:uppercase">SKUs in scope</div>
+            <div style="font-family:'Fraunces',serif;font-size:32px;color:var(--gold);margin-top:8px;letter-spacing:-0.02em">H100 → GB200</div>
+          </div>
+          <div style="background:#15110d;padding:18px 20px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ash);letter-spacing:0.18em;text-transform:uppercase">Allocation posture</div>
+            <div style="font-family:'Fraunces',serif;font-size:32px;color:var(--bone);margin-top:8px;letter-spacing:-0.02em">Open <span style="font-size:13px;color:var(--ash);letter-spacing:0">Q3 / Q4</span></div>
+          </div>
+        </div>
+        <div class="feat-quote">If it isn't authorized, it doesn't enter the desk. If it's authorized, we have a line to it.</div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- N°03 — GPU SOURCING DESK -->
+<section id="gpu" class="gpu-section">
+  <div class="shell">
+    <div class="s-head">
+      <div class="num">N°03<b>The Live GPU Desk</b></div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span>Live stock · By referral</div>
+        <h2>The trading floor for<br/><em>real</em> GPU inventory.</h2>
+        <p class="lede">Two-sided book — vetted sellers with verified stock, qualified buyers with proof of funds. Anonymized listings, NDA at first contact, and a dedicated live-stock site for active mandates. The full counterparty disclosure happens after MNDA and PoF.</p>
+        <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#contact" class="btn-primary" style="background:var(--gold);color:var(--ink)">
+            Request Live Stock Access
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+          <a href="#" id="liveStockLink" target="_blank" rel="noopener" style="padding:18px 22px;border:1px solid var(--bone);color:var(--bone);border-radius:4px;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;transition:background .2s,color .2s">
+            Visit gpu.thechiefnegotiators.com
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.16em">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="gpu-tag-row">
+      <span class="gpu-tag gold">● H100 · H200 · B200 · GB200 · MI300X</span>
+      <span class="gpu-tag">Verified inventory only</span>
+      <span class="gpu-tag">KYC on both sides</span>
+      <span class="gpu-tag">Escrow-ready</span>
+      <span class="gpu-tag">NDA at first contact</span>
+      <span class="gpu-tag">Live-stock site for qualified buyers</span>
+    </div>
+
+    <div class="desk">
+      <div class="desk-col">
+        <h4><span style="color:var(--accent-2)">◐</span> <b>Sell side</b> · vetted inventory <span class="count">04 / 18 ACTIVE</span></h4>
+        <p class="col-sub">Stock confirmed in writing, with serials and bonded warehouse paperwork — before any buyer sees the listing.</p>
+
+        <div class="listing">
+          <div class="l-id">LST-0419 · NORTH AMERICA</div>
+          <div class="l-main">H100 SXM · 80GB</div>
+          <div class="l-qty">512 units</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>In bonded warehouse</span>
+            <span class="ver"><span class="dot"></span>OEM-verified</span>
+            <span><span class="dot"></span>Q3 release</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">LST-0431 · EU / FRANKFURT</div>
+          <div class="l-main">H200 NVL · 141GB</div>
+          <div class="l-qty">64 units</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>Stock confirmed</span>
+            <span class="ver"><span class="dot"></span>Invoice-traceable</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">LST-0438 · ASIA-PAC</div>
+          <div class="l-main">B200 · pre-allocation</div>
+          <div class="l-qty">256 units</div>
+          <div class="l-meta">
+            <span class="pend"><span class="dot"></span>Allocation letter on file</span>
+            <span><span class="dot"></span>Q4 delivery</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">LST-0441 · NORTH AMERICA</div>
+          <div class="l-main">MI300X · 192GB</div>
+          <div class="l-qty">128 units</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>In hand</span>
+            <span class="ver"><span class="dot"></span>OEM-verified</span>
+          </div>
+        </div>
+
+        <div class="desk-link">Listings are anonymized. Full counterparty disclosure happens after <b>MNDA + proof of funds</b>.</div>
+      </div>
+
+      <div class="desk-col">
+        <h4><span style="color:var(--gold)">◑</span> <b>Buy side</b> · qualified mandates <span class="count">06 / 11 ACTIVE</span></h4>
+        <p class="col-sub">Buyers are proof-of-funds verified and scoped against their build plan — so we only surface inventory that actually fits.</p>
+
+        <div class="listing">
+          <div class="l-id">MND-217 · AI LAB · SERIES C</div>
+          <div class="l-main">H100 / H200 cluster</div>
+          <div class="l-qty">~$48M</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>PoF confirmed</span>
+            <span class="ver"><span class="dot"></span>NDA executed</span>
+            <span><span class="dot"></span>Close: 30 days</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">MND-221 · SOVEREIGN COMPUTE</div>
+          <div class="l-main">B200 forward allocation</div>
+          <div class="l-qty">~$120M</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>PoF confirmed</span>
+            <span class="pend"><span class="dot"></span>Spec review</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">MND-224 · NEOCLOUD · GROWTH</div>
+          <div class="l-main">H200 NVL · phased</div>
+          <div class="l-qty">~$22M</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>PoF confirmed</span>
+            <span class="ver"><span class="dot"></span>Site ready</span>
+          </div>
+        </div>
+
+        <div class="listing">
+          <div class="l-id">MND-229 · ENTERPRISE / FINANCE</div>
+          <div class="l-main">MI300X · on-prem build</div>
+          <div class="l-qty">~$14M</div>
+          <div class="l-meta">
+            <span class="ok"><span class="dot"></span>Board-approved</span>
+            <span><span class="dot"></span>Close: this quarter</span>
+          </div>
+        </div>
+
+        <div class="desk-link">Mandates are anonymized. Sellers are introduced only after a <b>fit score</b> ≥ 0.8.</div>
+      </div>
+
+      <div class="desk-bridge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square">
+          <path d="M3 8h14M14 5l3 3-3 3M21 16H7M10 13l-3 3 3 3"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="gpu-flow">
+      <div class="gpu-step">
+        <div class="s-num">STEP 01</div>
+        <h5>Source &amp; <em>vet.</em></h5>
+        <p>Every seller is qualified before a listing goes live — serials, OEM invoices, bonded-warehouse paperwork, allocation letters. If the stock isn't real, it doesn't enter the desk.</p>
+      </div>
+      <div class="gpu-step">
+        <div class="s-num">STEP 02</div>
+        <h5>Match &amp; <em>negotiate.</em></h5>
+        <p>I introduce only after both sides clear KYC, NDA, and a written fit score. Then I run the negotiation — price, delivery, warranty, payment terms — sitting on every call.</p>
+      </div>
+      <div class="gpu-step">
+        <div class="s-num">STEP 03</div>
+        <h5>Paper &amp; <em>execute.</em></h5>
+        <p>Escrow, contract redlines with your counsel, freight and customs coordination, acceptance testing. The deal closes cleanly or it doesn't close — no half-finished handoffs.</p>
+      </div>
+    </div>
+
+    <div class="gpu-promise">
+      <div>
+        <div class="v">$<em>2.4</em>B+</div>
+        <div class="l">Inventory under desk · YTD</div>
+      </div>
+      <div>
+        <div class="v"><em>0</em></div>
+        <div class="l">Phantom listings · ever</div>
+      </div>
+      <div>
+        <div class="v"><em>48</em>h</div>
+        <div class="l">From mandate to first match</div>
+      </div>
+      <div>
+        <div class="v"><em>2</em>%</div>
+        <div class="l">Success fee · either side</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- N°04 — AUTHORIZED NVIDIA CHANNEL -->
+<section id="channel" class="channel-section">
+  <div class="shell">
+    <div class="s-head">
+      <div class="num">N°04<b>The Channel</b></div>
+      <div>
+        <h2>Authorized <em>supply.</em><br/>Global <em>reach.</em></h2>
+        <p class="lede">Why we win: direct relationships with the largest authorized NVIDIA Partner Network channels — for new-build allocations, competitive pricing, and multi-region delivery. When the spot market lies, the channel doesn't.</p>
+      </div>
+    </div>
+
+    <div class="channel-wrap">
+      <div class="channel-left">
+        <h3>The <em>only</em> path that doesn't lie.</h3>
+        <p>Grey-market listings come and go. Authorized channel allocation comes with serials, OEM warranties, lead times that hold, and regions you can actually ship to. We hold the relationships — and we use them to get our buyers in line for new allocations across NA, EMEA, and APAC.</p>
+        <p>For commercialization clients, the same channel works in reverse: authorized supply flowing into your build, on terms that protect your offtake.</p>
+        <div class="channel-creds">
+          <div>
+            <div class="v"><em>3</em> regions</div>
+            <div class="l">NA · EMEA · APAC</div>
+          </div>
+          <div>
+            <div class="v"><em>Tier-1</em></div>
+            <div class="l">Authorized NPN access</div>
+          </div>
+          <div>
+            <div class="v">H100 → <em>GB200</em></div>
+            <div class="l">All current generations</div>
+          </div>
+          <div>
+            <div class="v">Forward<em>+</em>spot</div>
+            <div class="l">Allocation &amp; in-hand stock</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="globe-card">
+        <div class="g-head"><span>Channel · global posture</span><b>LIVE</b></div>
+        <svg class="globe-svg" viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#b08a3e" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#b08a3e" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g class="grid-line">
+            <ellipse cx="180" cy="120" rx="170" ry="100"/>
+            <ellipse cx="180" cy="120" rx="130" ry="100"/>
+            <ellipse cx="180" cy="120" rx="80" ry="100"/>
+            <ellipse cx="180" cy="120" rx="30" ry="100"/>
+            <ellipse cx="180" cy="120" rx="170" ry="40"/>
+            <ellipse cx="180" cy="120" rx="170" ry="70"/>
+            <line x1="10" y1="120" x2="350" y2="120"/>
+            <line x1="180" y1="20" x2="180" y2="220"/>
+          </g>
+          <!-- stylized continents (very abstract blobs) -->
+          <g class="land">
+            <path d="M50,90 C60,70 90,72 110,82 C130,90 130,110 120,120 C115,130 100,135 80,130 C60,128 45,115 50,90 Z"/>
+            <path d="M95,138 C108,135 118,150 112,165 C106,180 92,180 86,170 C80,160 85,142 95,138 Z"/>
+            <path d="M160,75 C190,68 210,80 215,95 C218,110 205,118 188,118 C170,118 158,110 158,95 C158,85 158,78 160,75 Z"/>
+            <path d="M165,125 C195,123 220,140 215,160 C210,175 188,180 175,170 C162,160 158,140 165,125 Z"/>
+            <path d="M245,80 C275,72 305,82 312,98 C318,114 300,128 280,128 C258,128 240,115 245,80 Z"/>
+            <path d="M275,148 C295,148 308,162 302,178 C295,192 275,192 265,180 C258,170 263,150 275,148 Z"/>
+          </g>
+          <!-- arc connection lines -->
+          <g class="arc">
+            <path d="M90,105 Q180,40 270,100"/>
+            <path d="M90,105 Q170,180 275,160"/>
+            <path d="M180,95 Q230,50 275,100"/>
+            <path d="M180,150 Q230,200 275,165"/>
+          </g>
+          <!-- nodes with labels -->
+          <g>
+            <circle cx="90" cy="105" r="9" fill="url(#glow)"/>
+            <circle cx="90" cy="105" r="3" class="node"/>
+            <circle cx="90" cy="105" r="6" class="node-ring"/>
+            <text x="90" y="92" text-anchor="middle" class="node-label">NA</text>
+          </g>
+          <g>
+            <circle cx="180" cy="95" r="9" fill="url(#glow)"/>
+            <circle cx="180" cy="95" r="3" class="node"/>
+            <circle cx="180" cy="95" r="6" class="node-ring"/>
+            <text x="180" y="82" text-anchor="middle" class="node-label">EMEA</text>
+          </g>
+          <g>
+            <circle cx="275" cy="100" r="9" fill="url(#glow)"/>
+            <circle cx="275" cy="100" r="3" class="node"/>
+            <circle cx="275" cy="100" r="6" class="node-ring"/>
+            <text x="275" y="87" text-anchor="middle" class="node-label">APAC</text>
+          </g>
+          <g>
+            <circle cx="180" cy="150" r="3" class="node"/>
+            <circle cx="180" cy="150" r="6" class="node-ring"/>
+            <text x="180" y="167" text-anchor="middle" class="node-label">MEA</text>
+          </g>
+        </svg>
+        <div class="globe-legend">
+          <div>
+            <div class="lv"><em>12</em>+</div>
+            <div class="ll">Authorized channels</div>
+          </div>
+          <div>
+            <div class="lv">$<em>2.4</em>B+</div>
+            <div class="ll">Inventory under desk</div>
+          </div>
+          <div>
+            <div class="lv"><em>48</em>h</div>
+            <div class="ll">Quote to qualified buyers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="partner-strip">
+      <div class="p-l"><b>Partner posture</b>Authorized channel · OEM · system integration</div>
+      <div class="p-r">
+        <span>NVIDIA Partner Network</span>
+        <span>Supermicro</span>
+        <span>Dell</span>
+        <span>HPE</span>
+        <span>Lenovo</span>
+        <span>Tier-3 / 4 colos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- N°05 — COMMERCIALIZATION DESK -->
+<section id="commercialization" class="shell">
+  <div class="s-head">
+    <div class="num">N°05<b>Commercialization Desk</b></div>
+    <div>
+      <h2>For the operators<br/><em>building</em> capacity.</h2>
+      <p class="lede">Building MW or buying GPUs to rent? Empty capacity is the most expensive thing in the AI economy. We help data center developers, neoclouds, and GPUaaS operators commercialize what they've built — and structure the channel that keeps it full.</p>
+    </div>
+  </div>
+
+  <!-- 05a — Data Center Solutions -->
+  <div style="margin-bottom:24px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:18px">
+    <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:32px;letter-spacing:-0.02em;margin:0">05<span style="color:var(--ash);font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:0.16em;margin:0 14px">/</span><span style="font-style:italic;color:var(--accent)">a</span> &nbsp; Data Center Solutions</h3>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase">GPUaaS · capacity · offtake</span>
+  </div>
+
+  <div class="dc-grid">
+    <div class="dc-card">
+      <div class="dc-head"><span class="dc-num">SOLUTION 01</span><span class="dc-tag">GPU-as-a-Service</span></div>
+      <h4>Rentable <em>compute,</em> structured to sell.</h4>
+      <p>From cluster spec through pricing model, SLAs, and contract paper. We help operators design GPUaaS offerings that hyperscale customers will actually sign — and we bring the buyers to the table.</p>
+      <div class="dc-stat-row">
+        <div>
+          <div class="v">H100 / <em>B200</em></div>
+          <div class="l">Cluster reference designs</div>
+        </div>
+        <div>
+          <div class="v"><em>1</em>–36 mo</div>
+          <div class="l">Term structures supported</div>
+        </div>
+      </div>
+    </div>
+    <div class="dc-card">
+      <div class="dc-head"><span class="dc-num">SOLUTION 02</span><span class="dc-tag">DC Capacity</span></div>
+      <h4>Power, <em>papered.</em> Capacity, sold.</h4>
+      <p>Capacity offtake structuring for new and existing data centers — colocation deals, wholesale leases, hybrid GPUaaS conversions. We translate MW and racks into contracted revenue, with the right tenants on the right terms.</p>
+      <div class="dc-stat-row">
+        <div>
+          <div class="v"><em>5</em>–100 MW</div>
+          <div class="l">Sweet spot per mandate</div>
+        </div>
+        <div>
+          <div class="v">Wholesale<em>+</em></div>
+          <div class="l">Colo · retail · hybrid</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05b — Capacity Commercialization -->
+  <div style="margin:80px 0 24px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:18px">
+    <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:32px;letter-spacing:-0.02em;margin:0">05<span style="color:var(--ash);font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:0.16em;margin:0 14px">/</span><span style="font-style:italic;color:var(--accent)">b</span> &nbsp; Capacity Commercialization</h3>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase">Anchor tenants · strategic customer acquisition</span>
+  </div>
+
+  <div class="commerc-wrap">
+    <div class="commerc-left">
+      <h3>From <em>shell</em><br/>to anchor tenant.</h3>
+      <p>For new data center developments: the difference between a financeable project and a stalled one is a signed anchor. We run the entire customer-acquisition motion — target list, narrative, term sheet, negotiation, close — so your capacity gets contracted before it gets built.</p>
+      <p>Already operational? Same motion, applied to fill rate and second-tenant strategy.</p>
+      <ul class="c-list">
+        <li><div class="ci">01</div><div><b>Target list &amp; positioning</b><p>Map the universe of likely anchors — hyperscalers, sovereigns, AI labs, enterprises — and shape the pitch for each.</p></div></li>
+        <li><div class="ci">02</div><div><b>Outbound &amp; warm intros</b><p>Open the doors that matter. We work our network for warm introductions; cold sequences run in parallel.</p></div></li>
+        <li><div class="ci">03</div><div><b>Term sheet &amp; commercial structuring</b><p>Price, term, escalators, expansion rights, exclusivity. We shape the deal you can actually finance against.</p></div></li>
+        <li><div class="ci">04</div><div><b>Negotiation &amp; close</b><p>We sit on every call. Counter-strategy, redlines with your counsel, signature.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="commerc-right">
+      <div class="c-head">Pipeline · current build mandate</div>
+      <h4>How a <em>shell</em> becomes a contracted asset.</h4>
+      <div class="commerc-funnel">
+        <div class="funnel-step">
+          <span class="f-n">01</span>
+          <span class="f-l">Target universe</span>
+          <span class="f-v">~120</span>
+        </div>
+        <div class="funnel-step">
+          <span class="f-n">02</span>
+          <span class="f-l">Qualified targets</span>
+          <span class="f-v">38</span>
+        </div>
+        <div class="funnel-step">
+          <span class="f-n">03</span>
+          <span class="f-l">Active conversations</span>
+          <span class="f-v">14</span>
+        </div>
+        <div class="funnel-step deep">
+          <span class="f-n">04</span>
+          <span class="f-l">Term sheet · in negotiation</span>
+          <span class="f-v">5</span>
+        </div>
+        <div class="funnel-step deep">
+          <span class="f-n">05</span>
+          <span class="f-l">Anchor signed · papered</span>
+          <span class="f-v">1–2</span>
+        </div>
+      </div>
+      <div class="c-foot">Representative motion for a <b>30–80 MW build</b>. Timeline 90–180 days from kickoff to anchor LOI.</div>
+    </div>
+  </div>
+
+  <!-- 05c — Channel Strategy -->
+  <div style="margin:80px 0 24px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:18px">
+    <h3 style="font-family:'Fraunces',serif;font-weight:400;font-size:32px;letter-spacing:-0.02em;margin:0">05<span style="color:var(--ash);font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:0.16em;margin:0 14px">/</span><span style="font-style:italic;color:var(--accent)">c</span> &nbsp; Channel Strategy</h3>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ash);letter-spacing:0.16em;text-transform:uppercase">Partner programs · GTM architecture</span>
+  </div>
+
+  <div class="services" style="border-top:1px solid var(--line-mid)">
+    <article class="svc">
+      <div class="svc-head"><span class="svc-num">06</span><span class="svc-tag">Channel · GTM</span></div>
+      <h3>The channel that <em>fills the funnel.</em></h3>
+      <p>Partner programs, reseller economics, system-integrator alliances, ISV co-sells. We've built channel ecosystems from inside startups and infrastructure firms — and we hand them off, operating, not a deck.</p>
+      <ul class="svc-list">
+        <li>Partner-program design &amp; tiering</li>
+        <li>Channel comp &amp; deal-reg architecture</li>
+        <li>Co-sell motions with hyperscalers</li>
+        <li>Quarterly partner enablement cadence</li>
+      </ul>
+    </article>
+    <article class="svc">
+      <div class="svc-head"><span class="svc-num">07</span><span class="svc-tag">AI Infrastructure Advisory</span></div>
+      <h3>The <em>strategy</em> that holds it together.</h3>
+      <p>Across both desks: how to structure deals, where to deploy capital, when to commit, and what shape your AI infrastructure portfolio should take 12 months out. Board-room language. Operator-grade execution.</p>
+      <ul class="svc-list">
+        <li>Portfolio strategy · buy vs. build vs. broker</li>
+        <li>Deal structuring &amp; capital efficiency</li>
+        <li>Board &amp; investor narrative</li>
+        <li>Quarterly operating review</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- N°06 — ENGAGEMENT TIERS -->
+<section id="engagement" class="shell">
+  <div class="s-head">
+    <div class="num">N°06<b>Engagement</b></div>
+    <div>
+      <h2>Three ways<br/>to <em>retain us.</em></h2>
+      <p class="lede">Every mandate is scoped privately and priced by leverage at stake — not hours. Tell us what's on the table and we'll come back with the right shape and a number.</p>
+    </div>
+  </div>
+  <div class="tiers">
+    <div class="tier">
+      <div class="t-tag">SHORT-TURN</div>
+      <div class="t-tier">Tier 01</div>
+      <div class="t-name">Single Mandate</div>
+      <div class="t-fee" style="font-size:34px;margin:24px 0 6px">One deal<small>flat scope</small></div>
+      <div class="t-sub">One transaction · one negotiation · short engagement</div>
+      <ul class="t-list">
+        <li>One GPU buy, contract, or anchor close</li>
+        <li>Intel, leverage map &amp; counter-strategy</li>
+        <li>We sit on every call that matters</li>
+        <li>Live GPU Desk access during engagement</li>
+      </ul>
+      <a href="#contact" class="t-cta">Inquire →</a>
+    </div>
+    <div class="tier feat">
+      <div class="t-tag">MOST CHOSEN</div>
+      <div class="t-tier">Tier 02</div>
+      <div class="t-name">Quarterly Operator</div>
+      <div class="t-fee" style="font-size:34px;margin:24px 0 6px">Embedded<small>per quarter</small></div>
+      <div class="t-sub">Embedded principal · multiple mandates</div>
+      <ul class="t-list">
+        <li>Multiple active mandates per quarter</li>
+        <li>Acquisition or commercialization — or both</li>
+        <li>Weekly operating cadence with you</li>
+        <li>Channel + Live GPU Desk access</li>
+        <li>Quarterly portfolio review</li>
+      </ul>
+      <a href="#contact" class="t-cta">Inquire →</a>
+    </div>
+    <div class="tier">
+      <div class="t-tag">RETAINER</div>
+      <div class="t-tier">Tier 03</div>
+      <div class="t-name">House</div>
+      <div class="t-fee" style="font-size:34px;margin:24px 0 6px">Annual<small>retainer</small></div>
+      <div class="t-sub">Annual retainer · unlimited deal flow</div>
+      <ul class="t-list">
+        <li>Unlimited mandates within scope</li>
+        <li>Direct line · same-day response</li>
+        <li>Quarterly leverage audit of top contracts</li>
+        <li>Channel access &amp; build commercialization</li>
+        <li>Live GPU Desk for the company</li>
+      </ul>
+      <a href="#contact" class="t-cta">Inquire →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="shell">
+    <div style="position:relative">
+      <div class="eyebrow" style="color:var(--bone-2)"><span class="dot"></span>Direct line · Amanda</div>
+      <h2 style="margin-top:24px">If it's on your<br/>roadmap this quarter,<br/>it's already <em>late.</em></h2>
+    </div>
+
+    <div class="contact-row">
+      <div class="contact-info">
+        <p>Tell us what's on the table — a GPU buy, an anchor close, a channel build, a contract under review. We respond within 48 hours with a yes, a no, or a referral. No funnels. No gatekeepers. The form goes straight to Amanda.</p>
+        <dl class="info-list">
+          <dt>Email</dt>
+          <dd><a href="mailto:Amanda@thechiefnegotiators.com?subject=Inquiry%20from%20VIP%20Access">Amanda@thechiefnegotiators.com</a></dd>
+          <dt>Response</dt>
+          <dd>Within 48 hours · personally</dd>
+          <dt>Availability</dt>
+          <dd>Limited roster · by qualification</dd>
+          <dt>Confidentiality</dt>
+          <dd>MNDA available on request</dd>
+        </dl>
+      </div>
+
+      <form class="form" id="briefForm" action="mailto:Amanda@thechiefnegotiators.com" method="post" enctype="text/plain">
+        <label>Your name</label>
+        <input type="text" name="Name" placeholder="Jane Strickland" required>
+        <label>Company &amp; title</label>
+        <input type="text" name="Company" placeholder="Strickland Industries · CFO" required>
+        <label>Email</label>
+        <input type="email" name="Email" placeholder="jane@company.com" required>
+        <label>What you need</label>
+        <select name="Mandate">
+          <option>GPU advisory / live stock access</option>
+          <option>Authorized NVIDIA channel access</option>
+          <option>Strategic negotiation · buy-side</option>
+          <option>Data center solutions / GPUaaS</option>
+          <option>Capacity commercialization · anchor tenant</option>
+          <option>Channel strategy / partner program</option>
+          <option>AI infrastructure advisory</option>
+          <option>Something else, off-record</option>
+        </select>
+        <label>Decision window</label>
+        <select name="Window">
+          <option>This week</option>
+          <option>This month</option>
+          <option>This quarter</option>
+          <option>Exploratory only</option>
+        </select>
+        <label>Brief — one paragraph</label>
+        <textarea name="Brief" placeholder="What's on the table, what's at stake, what you've already tried." rows="3"></textarea>
+        <button type="submit" class="submit">Send to Amanda →</button>
+        <div class="fineprint">All inquiries reviewed personally within 48 hours. Confidential.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:12px">
+          <img src="logo.jpg" alt="" style="width:34px;height:34px;border-radius:50%;background:#000;object-fit:cover;display:block" />
+          <span style="font-family:'Fraunces',serif;font-size:18px;color:var(--bone)">The Chief Negotiators</span>
+        </div>
+        <p>Negotiation, AI infrastructure, and commercialization for the operators building — and buying — the AI economy.</p>
+        </div>
+      <div>
+        <h5>Acquisition</h5>
+        <a href="#acquisition">Strategic Negotiation</a>
+        <a href="#gpu">GPU Advisory · Live Stock</a>
+        <a href="#channel">Authorized NVIDIA Channel</a>
+      </div>
+      <div>
+        <h5>Commercialization</h5>
+        <a href="#commercialization">Data Center Solutions</a>
+        <a href="#commercialization">Capacity Commercialization</a>
+        <a href="#commercialization">Channel Strategy</a>
+      </div>
+      <div>
+        <h5>Direct</h5>
+        <a href="#engagement">Engagement</a>
+        <a href="#contact">Inquire</a>
+        <a href="mailto:Amanda@thechiefnegotiators.com">Amanda@thechiefnegotiators.com</a>
+        <a href="index.html" id="logoutLink">Log out</a>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© MMXXVI · The Chief Negotiators · All rights reserved</span>
+      <span>Confidential · Privileged · By referral</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Gate enforcement
+  const access = sessionStorage.getItem('tcn_access');
+  if (!access) {
+    window.location.replace('index.html');
+  } else {
+    document.getElementById('sessionTag').textContent = access;
+    document.getElementById('welcomeCode').textContent = access + ' · Authenticated';
+  }
+
+  // Logout
+  document.getElementById('logoutLink').addEventListener('click', () => {
+    sessionStorage.removeItem('tcn_access');
+  });
+
+  
+
+  // Form: confirm + open mailto
+  document.getElementById('briefForm').addEventListener('submit', e=>{
+    e.preventDefault();
+    const f = e.target;
+    const body = [...f.elements].filter(el=>el.name).map(el=>`${el.name}: ${el.value}`).join('\n');
+    const subject = encodeURIComponent('Inquiry — ' + (f.elements['Name'].value || 'New') + ' / ' + (f.elements['Company'].value || ''));
+    const mailto = `mailto:Amanda@thechiefnegotiators.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+    const btn = f.querySelector('.submit');
+    btn.textContent = 'Inquiry sent · Amanda will respond within 48h';
+    btn.style.background = 'var(--gold)';
+    setTimeout(()=>{btn.style.background='var(--accent)'},10);
+  });
+
+  // Smooth scroll (programmatic, not scrollIntoView)
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href');
+      if(id.length>1){
+        const el = document.querySelector(id);
+        if(el){
+          e.preventDefault();
+          const y = el.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

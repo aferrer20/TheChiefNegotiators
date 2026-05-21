@@ -1,0 +1,236 @@
+/* ============================================================
+   Chief Negotiators — Design Tokens
+   Single source of truth for color + type.
+   The Art of the Better Deal.
+   ============================================================ */
+
+/* ---- Web fonts (Google Fonts; swap to local woff2 for prod) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  /* ============================================================
+     COLOR — mono-accent system on pure black.
+     ONE accent. The black is doing the heavy lifting.
+     ============================================================ */
+
+  /* Canvas */
+  --cn-black:           #000000;   /* the one true background */
+  --cn-black-95:        #0a0a0a;   /* hairline lift, rarely used */
+
+  /* Brand accent — warm champagne-rose */
+  --cn-gold:            #C49F8C;   /* THE brand color. logo, headlines, italics, icons */
+  --cn-gold-bright:     #D8B5A2;   /* hover state */
+  --cn-gold-dim:        #9A7E70;   /* disabled / very-low-emphasis */
+  --cn-gold-tint-12:    rgba(196, 159, 140, 0.12); /* faint fills */
+  --cn-gold-tint-24:    rgba(196, 159, 140, 0.24); /* hairline borders */
+
+  /* Surface — dark warm gray cards on black */
+  --cn-surface:         #464342;   /* card / panel surface */
+  --cn-surface-hover:   #535050;   /* card hover */
+  --cn-surface-edge:    #6F6C6C;   /* hairline divider, ~50% on black */
+
+  /* Foreground — warm whites, never pure cool white */
+  --cn-fg:              #FFFFFF;   /* primary text on dark surfaces */
+  --cn-fg-muted:        #E2E2E1;   /* secondary text, body on black */
+  --cn-fg-subtle:       #B8B2B0;   /* tertiary, captions */
+  --cn-fg-faint:        #6F6C6C;   /* dividers, disabled */
+
+  /* Semantic — alias the brand colors for design-system use */
+  --cn-fg1:             var(--cn-fg);
+  --cn-fg2:             var(--cn-fg-muted);
+  --cn-fg3:             var(--cn-fg-subtle);
+  --cn-bg1:             var(--cn-black);
+  --cn-bg2:             var(--cn-surface);
+  --cn-accent:          var(--cn-gold);
+  --cn-accent-hover:    var(--cn-gold-bright);
+  --cn-divider:         var(--cn-surface-edge);
+
+  /* ============================================================
+     TYPE — serif end-to-end. No sans anywhere.
+     ============================================================ */
+
+  --cn-font-display:    'Cormorant Garamond', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --cn-font-body:       'Cardo', 'Cormorant Garamond', Garamond, Georgia, serif;
+  --cn-font-mono:       'Courier New', ui-monospace, monospace;
+
+  /* Weights */
+  --cn-w-regular:       400;
+  --cn-w-medium:        500;
+  --cn-w-semibold:      600;
+  --cn-w-bold:          700;
+
+  /* Sizes — display is generous; body holds at 15–17px */
+  --cn-size-display:    72px;   /* h1 hero (mobile scales down) */
+  --cn-size-h1:         52px;   /* section header */
+  --cn-size-h2:         36px;   /* sub-section / card-cluster head */
+  --cn-size-h3:         24px;   /* card title, service name */
+  --cn-size-h4:         20px;   /* small section head */
+  --cn-size-lead:       18px;   /* lead paragraph under heroes */
+  --cn-size-body:       16px;   /* default body */
+  --cn-size-small:      14px;   /* card body, footnotes */
+  --cn-size-caption:    12px;   /* tracked all-caps label */
+
+  /* Line heights — serif copy gets generous leading */
+  --cn-lh-tight:        1.05;   /* display headlines */
+  --cn-lh-snug:         1.2;    /* h2/h3 */
+  --cn-lh-normal:       1.5;    /* body */
+  --cn-lh-loose:        1.7;    /* long-form body */
+
+  /* Tracking */
+  --cn-tracking-tight:  -0.01em;
+  --cn-tracking-normal: 0;
+  --cn-tracking-wide:   0.08em;
+  --cn-tracking-label:  0.18em; /* tracked all-caps kicker labels */
+
+  /* ============================================================
+     SPACING — 8px scale, generous at the section level
+     ============================================================ */
+  --cn-space-1:   4px;
+  --cn-space-2:   8px;
+  --cn-space-3:   12px;
+  --cn-space-4:   16px;
+  --cn-space-5:   24px;
+  --cn-space-6:   32px;
+  --cn-space-7:   48px;
+  --cn-space-8:   64px;
+  --cn-space-9:   96px;
+  --cn-space-10:  144px;   /* between major sections */
+
+  /* ============================================================
+     BORDERS / RADII / ELEVATION
+     Sharp corners. No shadows. Hairline borders only.
+     ============================================================ */
+  --cn-radius-0:  0px;     /* default — sharp */
+  --cn-radius-1:  2px;     /* the absolute most softness allowed */
+  --cn-radius-2:  4px;     /* never use; included for parity */
+
+  --cn-border-hair:   1px solid var(--cn-surface-edge);
+  --cn-border-gold:   1px solid var(--cn-gold);
+  --cn-border-gold-faint: 1px solid var(--cn-gold-tint-24);
+
+  --cn-shadow-none:   none;   /* the brand. */
+
+  /* ============================================================
+     MOTION — slow, considered, ease-out. Never bouncy.
+     ============================================================ */
+  --cn-duration-fast:    150ms;
+  --cn-duration:         300ms;
+  --cn-duration-slow:    500ms;
+  --cn-ease:             cubic-bezier(0.22, 0.61, 0.36, 1);  /* ease-out */
+
+  /* Layout */
+  --cn-content-max:      640px;     /* body paragraph max-width */
+  --cn-section-max:      1080px;    /* section content max-width */
+  --cn-page-max:         1280px;    /* page rail */
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   Apply these as base styles when scaffolding pages.
+   ============================================================ */
+
+.cn-page {
+  background: var(--cn-bg1);
+  color: var(--cn-fg2);
+  font-family: var(--cn-font-body);
+  font-size: var(--cn-size-body);
+  line-height: var(--cn-lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cn-display {
+  font-family: var(--cn-font-display);
+  font-size: var(--cn-size-display);
+  font-weight: var(--cn-w-regular);
+  line-height: var(--cn-lh-tight);
+  color: var(--cn-gold);
+  letter-spacing: var(--cn-tracking-tight);
+}
+
+.cn-h1 {
+  font-family: var(--cn-font-display);
+  font-size: var(--cn-size-h1);
+  font-weight: var(--cn-w-bold);
+  line-height: var(--cn-lh-snug);
+  color: var(--cn-fg1);
+  letter-spacing: var(--cn-tracking-tight);
+}
+
+.cn-h2 {
+  font-family: var(--cn-font-display);
+  font-size: var(--cn-size-h2);
+  font-weight: var(--cn-w-bold);
+  line-height: var(--cn-lh-snug);
+  color: var(--cn-fg1);
+}
+
+.cn-h3 {
+  font-family: var(--cn-font-display);
+  font-size: var(--cn-size-h3);
+  font-weight: var(--cn-w-bold);
+  line-height: var(--cn-lh-snug);
+  color: var(--cn-gold);
+}
+
+.cn-lead {
+  font-family: var(--cn-font-body);
+  font-size: var(--cn-size-lead);
+  font-weight: var(--cn-w-regular);
+  line-height: var(--cn-lh-loose);
+  color: var(--cn-fg2);
+  font-style: italic;
+}
+
+.cn-body {
+  font-family: var(--cn-font-body);
+  font-size: var(--cn-size-body);
+  font-weight: var(--cn-w-regular);
+  line-height: var(--cn-lh-loose);
+  color: var(--cn-fg2);
+}
+
+.cn-small {
+  font-family: var(--cn-font-body);
+  font-size: var(--cn-size-small);
+  line-height: var(--cn-lh-normal);
+  color: var(--cn-fg3);
+}
+
+.cn-label {
+  font-family: var(--cn-font-display);
+  font-size: var(--cn-size-caption);
+  font-weight: var(--cn-w-semibold);
+  letter-spacing: var(--cn-tracking-label);
+  text-transform: uppercase;
+  color: var(--cn-gold);
+}
+
+.cn-italic {
+  font-style: italic;
+  font-weight: inherit;
+}
+
+/* The signature outlined kicker pill — gold hairline rectangle, tracked all-caps label */
+.cn-pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border: var(--cn-border-gold);
+  color: var(--cn-gold);
+  font-family: var(--cn-font-display);
+  font-size: 11px;
+  font-weight: var(--cn-w-semibold);
+  letter-spacing: var(--cn-tracking-label);
+  text-transform: uppercase;
+  border-radius: var(--cn-radius-0);
+}
+
+/* The signature flat dark card */
+.cn-card {
+  background: var(--cn-surface);
+  color: var(--cn-fg);
+  padding: var(--cn-space-7);
+  border: 0;
+  border-radius: var(--cn-radius-0);
+  box-shadow: var(--cn-shadow-none);
+}
