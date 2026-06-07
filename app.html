@@ -47,8 +47,8 @@
   .topbar-inner{max-width:1320px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;gap:32px}
   .brand{display:flex;align-items:center;gap:14px}
   .brand-mark{width:38px;height:42px;object-fit:contain;display:block;filter:drop-shadow(0 2px 6px rgba(200,145,93,0.25))}
-  .brand-name{font-family:"Fraunces",serif;font-size:17px;letter-spacing:0.02em;font-weight:500;line-height:1;text-transform:uppercase}
-  .brand-name small{display:block;font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.32em;color:var(--copper);margin-top:5px;font-weight:400}
+  .brand-name{font-family:"Fraunces",serif;font-size:17px;letter-spacing:0.02em;font-weight:500;line-height:1;text-transform:uppercase;text-align:center}
+  .brand-name small{display:block;font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.32em;color:var(--copper);margin-top:5px;font-weight:400;text-align:center}
   nav.main{display:flex;gap:30px;margin-left:auto;font-size:13.5px}
   nav.main a{color:var(--ink-2);transition:color .2s}
   nav.main a:hover{color:var(--accent)}
@@ -315,6 +315,12 @@
     .desk-intro{grid-template-columns:1fr}
     .desk-intro::after{display:none}
     .desk-half + .desk-half{border-left:none;border-top:1px solid var(--line-mid)}
+    .desk-half{padding:32px 22px 28px}
+    .desk-half h3{font-size:30px}
+    .desk-half .d-list li{flex-direction:column;align-items:flex-start;gap:4px}
+    .desk-half .d-list li b{font-size:17px}
+    .desk-bar{padding:18px 22px}
+    .desk-bar .b-r{font-size:17px;line-height:1.35}
     .channel-wrap,.commerc-wrap{grid-template-columns:1fr;gap:40px}
     .channel-creds{grid-template-columns:1fr}
     .channel-creds div{border-right:none;border-bottom:1px solid var(--line-soft);padding:18px 0}
@@ -597,6 +603,14 @@
 
   @media (max-width:960px){
     section{padding:80px 0}
+    .hero{padding:60px 0 80px}
+    .hero-grid{grid-template-columns:1fr !important;gap:48px !important}
+    .hero h1{font-size:clamp(44px,9vw,72px) !important}
+    .hero-grid > div:last-child{aspect-ratio:1/0.85 !important;max-height:340px}
+    .topbar-inner{padding:14px 20px;gap:16px}
+    .shell{padding:0 20px}
+    .hero-actions{flex-direction:column;align-items:stretch}
+    .hero-actions a{justify-content:center;text-align:center}
     .hero-grid,.method-wrap,.contact-row,.footer-grid,.hub-wrap,.founder{grid-template-columns:1fr;gap:48px}
     .services,.tiers,.numbers{grid-template-columns:1fr}
     .svc,.tier{border-right:none}
@@ -648,6 +662,7 @@
       <a href="#acquisition">Acquisition</a>
       <a href="#gpu">GPU Desk</a>
       <a href="#channel">Channel</a>
+      <a href="https://chiefnegotiatorsdcsolutions.netlify.app" target="_blank" rel="noopener">Data Centers ↗</a>
       <a href="#commercialization">For Builders</a>
     </nav>
     <span class="session-tag"><span class="pill" id="sessionTag">VIP</span></span>
@@ -659,15 +674,15 @@
 <section id="top" class="hero shell">
   <div class="hero-grid" style="display:grid;grid-template-columns:1.15fr 1fr;gap:80px;align-items:center;max-width:1240px">
     <div>
-      <div class="eyebrow"><span class="dot"></span>Welcome back · <span id="welcomeCode">Authenticated</span></div>
-      <h1 style="font-size:clamp(56px,7.4vw,108px);line-height:0.95">Sharper terms.<br/>On the deals<br/>that <em>matter.</em></h1>
+      <div class="eyebrow"><span class="dot"></span><span id="welcomeCode">Authenticated</span></div>
+      <h1 style="font-size:clamp(56px,7.4vw,108px);line-height:0.95">We negotiate.<br/>You <em>win.</em></h1>
       <p class="hero-sub">Strategic negotiation and procurement advisory for owners and operators — from OEM agreements and major renewals to AI infrastructure sourcing, channel strategy, and capacity commercialization.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn-primary">
-          Open a Mandate
+          Bring Us In
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
         </a>
-        <a href="#gpu" class="btn-ghost">View Live GPU Stock</a>
+        <a href="https://portal.thechiefnegotiators.com" target="_blank" rel="noopener" class="btn-ghost">View Live GPU Stock</a>
       </div>
       <div style="margin-top:54px;padding-top:24px;border-top:1px solid var(--line-mid);display:flex;gap:36px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bone-2)">
         <span>Strategic Negotiation</span>
@@ -682,7 +697,7 @@
     <div style="position:relative;aspect-ratio:1/1.05;display:flex;align-items:center;justify-content:center;overflow:hidden">
       <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(200,145,93,0.18) 0%,rgba(200,145,93,0.05) 35%,transparent 65%);pointer-events:none"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 0%,transparent 55%,rgba(10,8,7,0.4) 100%);pointer-events:none"></div>
-      <img src="logo-shield.png" alt="The Chief Negotiators" style="width:62%;max-width:380px;height:auto;display:block;filter:drop-shadow(0 0 60px rgba(200,145,93,0.35)) drop-shadow(0 16px 48px rgba(0,0,0,0.6));position:relative;z-index:1" />
+      <img src="logo-shield.png" alt="The Chief Negotiators" style="width:42%;max-width:260px;height:auto;display:block;filter:drop-shadow(0 0 60px rgba(200,145,93,0.35)) drop-shadow(0 16px 48px rgba(0,0,0,0.6));position:relative;z-index:1" />
       <!-- Status overlay -->
       <div style="position:absolute;top:8px;left:8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--bone-2);display:flex;align-items:center;gap:8px;z-index:2">
         <span style="width:6px;height:6px;border-radius:50%;background:var(--copper);box-shadow:0 0 10px var(--copper);animation:pulse 1.6s infinite"></span>
@@ -806,16 +821,12 @@
       <div class="num">N°03<b>The Live GPU Desk</b></div>
       <div>
         <div class="eyebrow" style="margin-bottom:18px"><span class="dot"></span>Live stock · By referral</div>
-        <h2>The trading floor for<br/><em>real</em> GPU inventory.</h2>
-        <p class="lede">Two-sided book — vetted sellers with verified stock, qualified buyers with proof of funds. Anonymized listings, NDA at first contact, and a dedicated live-stock site for active mandates. The full counterparty disclosure happens after MNDA and PoF.</p>
+        <h2>The live GPU desk.<br/><em>Real</em> inventory. Real buyers.</h2>
+        <p class="lede">Active two-sided book — vetted sellers, qualified buyers. Anonymized listings, NDA at first contact, and a dedicated live-stock site for active mandates. Full counterparty disclosure happens after MNDA and PoF.</p>
         <div style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="#contact" class="btn-primary" style="background:var(--gold);color:var(--ink)">
-            Request Live Stock Access
+          <a href="https://portal.thechiefnegotiators.com" target="_blank" rel="noopener" class="btn-primary">
+            Visit the Live Stock Site
             <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-          </a>
-          <a href="#" id="liveStockLink" target="_blank" rel="noopener" style="padding:18px 22px;border:1px solid var(--bone);color:var(--bone);border-radius:4px;font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;transition:background .2s,color .2s">
-            Visit gpu.thechiefnegotiators.com
-            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:0.16em">↗</span>
           </a>
         </div>
       </div>
@@ -971,26 +982,26 @@
   </div>
 
   <div class="services" style="border-top:1px solid var(--line-mid)">
-    <article class="svc">
-      <div class="svc-head"><span class="svc-num">a</span><span class="svc-tag">Data Center Solutions</span></div>
+    <article class="svc" id="datacenter" style="scroll-margin-top:90px">
+      <div class="svc-head"><span class="svc-num">04</span><span class="svc-tag">Data Center Solutions</span></div>
       <h3>GPU-as-a-Service &amp; <em>capacity.</em></h3>
       <p>We advise on GPUaaS offerings and data center capacity — cluster shape, commercial terms, and the tenant motion that turns watts and racks into contracted revenue.</p>
     </article>
 
     <article class="svc">
-      <div class="svc-head"><span class="svc-num">b</span><span class="svc-tag">Capacity Commercialization</span></div>
+      <div class="svc-head"><span class="svc-num">05</span><span class="svc-tag">Capacity Commercialization</span></div>
       <h3>From shell to <em>anchor tenant.</em></h3>
       <p>Strategic customer acquisition for new data center developments. Target list, narrative, term sheet, negotiation, close — the motion that puts a signed anchor on a project before the steel is up.</p>
     </article>
 
     <article class="svc">
-      <div class="svc-head"><span class="svc-num">c</span><span class="svc-tag">Channel Strategy</span></div>
+      <div class="svc-head"><span class="svc-num">06</span><span class="svc-tag">Channel Strategy</span></div>
       <h3>The channel that <em>fills the funnel.</em></h3>
       <p>Partner programs, reseller economics, system-integrator alliances, and co-sell motions — designed to operate, not to sit in a deck.</p>
     </article>
 
     <article class="svc">
-      <div class="svc-head"><span class="svc-num">d</span><span class="svc-tag">AI Infrastructure Advisory</span></div>
+      <div class="svc-head"><span class="svc-num">07</span><span class="svc-tag">AI Infrastructure Advisory</span></div>
       <h3>The <em>strategy</em> that holds it together.</h3>
       <p>Across both sides of the desk: how to structure deals, where to deploy capital, when to commit, and what shape your AI infrastructure portfolio should take twelve months out.</p>
     </article>
@@ -1062,7 +1073,7 @@
       <div class="footer-brand">
         <div style="display:flex;align-items:center;gap:14px">
           <img src="logo-shield.png" alt="" style="width:42px;height:46px;object-fit:contain;display:block" />
-          <span style="font-family:'Fraunces',serif;font-size:18px;color:var(--bone);text-transform:uppercase;letter-spacing:0.02em;line-height:1">The Chief<small style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.32em;color:var(--copper);margin-top:5px">NEGOTIATORS</small></span>
+          <span style="font-family:'Fraunces',serif;font-size:18px;color:var(--bone);text-transform:uppercase;letter-spacing:0.02em;line-height:1;text-align:center">The Chief<small style="display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.32em;color:var(--copper);margin-top:5px;text-align:center">NEGOTIATORS</small></span>
         </div>
         <p>Negotiation, AI infrastructure, and commercialization for the operators building — and buying — the AI economy.</p>
         </div>
@@ -1074,9 +1085,9 @@
       </div>
       <div>
         <h5>Commercialization</h5>
-        <a href="#commercialization">Data Center Solutions</a>
+        <a href="https://chiefnegotiatorsdcsolutions.netlify.app" target="_blank" rel="noopener">Data Center Solutions ↗</a>
         <a href="#commercialization">Capacity Commercialization</a>
-        <a href="#commercialization">Channel Strategy</a>
+        <a href="https://portal.thechiefnegotiators.com" target="_blank" rel="noopener">Live GPU Stock ↗</a>
       </div>
       <div>
         <h5>Direct</h5>
