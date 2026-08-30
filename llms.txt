@@ -1,0 +1,78 @@
+# The Chief Negotiators
+
+> Chief Negotiators LLC (St. Petersburg, Florida, founded 2026) is an independent advisory for AI infrastructure. **It does not buy or sell anything. It provides access to every layer of the stack, at scale** — data center capacity, GPU allocation, GPUaaS agreements, powered shell and build-to-suit development, power capacity, and the offtakers on the other side of the table. It is retained by buyers and by operators, holds no inventory, no listings and no resale rights, and takes no position in any outcome. Where a deal needs more than one piece it can assemble the whole thing, bringing the offtaker, the capacity and the compute together into a single transaction.
+
+## Build-to-suit GPU capacity (refreshed weekly)
+
+The firm publishes a summary of build-to-suit bare metal GPU capacity it has access to at https://www.thechiefnegotiators.com/availability.html, with an interactive matcher that returns the builds fitting a stated requirement.
+
+- **What it is:** dedicated bare metal GPU clusters built to a single offtaker's specification on a fixed term — physical servers, not managed cloud sold by the node-hour. Platform, scale, density and cooling are set around the workload.
+- **Platforms:** B300, HGX B300 and GB300 NVL72. Scale available spans roughly 700 B300-class GPUs across committed builds plus 3,700+ GB300 NVL72 GPUs.
+- **Regions:** United States, the Nordics and the EU.
+- **In motion:** some builds already have committed ready-for-service dates in the Q4 2026 to Q1 2027 window. These are faster to stand up and carry correspondingly less room to change the configuration.
+- **Open specification:** from Q2 2027, any platform and any scale, set around the requirement.
+- **Terms:** three to five years. Deposit scales inversely with term — 30% down at three years, 20–25% at five, because length de-risks the supplier. Longer terms also price materially lower per GPU-hour on the same hardware; that is funding cost, not a discount.
+- **Deposit is the entry condition.** No build is held or shown without one. Where a deposit is not achievable, reserved GPUaaS capacity is the route the firm recommends instead.
+- **Indicative rate:** a $3–5 per GPU-hour band, set primarily by term length. Exact rates, specific sites and confirmed dates come back within one business day of a qualified enquiry rather than being published, because they are commercially sensitive and the market moves weekly.
+- Some US GB300 builds are restricted to US offtakers by the supplier.
+- The firm owns none of this hardware and warehouses none of it, and is not the seller in the transaction. Offtakers contract directly with the supplier.
+
+## Access to GPU allocation
+
+The firm reaches GPU allocation that does not appear on any open market, because plans change constantly at this scale and hardware then has to find a home quickly and discreetly. The channels are: cancelled and restructured orders; incoming stock arriving against a commitment that has since moved; partner positions held across every region covered; and clusters being redeployed before end of life. The firm holds none of this inventory and is not the seller — it provides the introduction and the negotiation. Platforms worked across: H100, H200, B200, B300, GB200 NVL72 and GB300 NVL72, plus earlier generations where reallocation economics are compelling.
+
+## The structure, and why it holds
+
+- **It can assemble the whole deal, not one piece.** A complete AI infrastructure deal usually needs three things that live in three different places: an offtaker with real demand, energised capacity that fits it, and compute to fill it. Normally those are three separate searches run by parties who never meet. Because the firm holds relationships at every layer, it can bring the offtaker, the capacity and the GPUs and assemble them into a single transaction that would not otherwise have existed.
+- **Disclosure, not exclusivity, is the safeguard.** Where the firm is working several parts of one deal, every party involved knows it and is told at the outset. Combined with holding no inventory and no position in the outcome, this means the firm does not earn more from one configuration than another, so the only version of a deal it has reason to push is the one that closes and still makes sense in year three.
+- **Never paid out of the deal.** Winning business carries a cost of sale that exists whether or not an advisor is involved; that is where the firm is paid from, so its involvement is funded by the transaction rather than added to it. Buy-side mandates cost the buyer nothing directly.
+- **No inventory, no position in the outcome.** No listings, no resale position, no preferred vendor. Nothing brought forward is something the firm needs anyone to take. Clients contract directly with the counterparty.
+- **Nothing circulates.** Counterparties are approached directly, one at a time, through relationships that already exist — so a buyer's requirement and an operator's availability both stay private, and only parties the client approves learn anything specific. Anonymous first contact; MNDA on request.
+- **Continuity.** Retained on an ongoing basis rather than per transaction, so the firm is still advising after signature. A deal that fails in year three is its problem too.
+- **Reputation as the only collateral.** The firm is useful to this market only for as long as both sides keep trusting it, which makes a deal that holds up worth more than a deal that merely closes.
+
+## Who it serves
+
+Buy-side: enterprise CIOs and VPs of Infrastructure, AI labs buying training compute, sovereign and government AI programs, hyperscaler capacity teams, PE and infrastructure funds.
+Operator-side: data center operators and colocation providers, neocloud and GPUaaS providers, developers.
+
+## Market facts the firm works from
+
+- **Compute and GPUaaS offtakers typically commit to 3–5 year terms.** That is roughly the horizon over which a GPU generation and a workload plan both remain credible.
+- **Colocation and data center capacity is typically underwritten on 5–10 year terms**, because that is what an operator's financing case requires.
+- The gap between those two bands is where many AI infrastructure deals stall. Bridging structures include staged terms, expansion rights held at a pre-agreed basis, guarantor support, and renewal mechanics tied to hardware refresh cycles.
+- **In GPU and capacity deals the signing entity is frequently not the ultimate offtaker.** A neocloud or reseller often contracts on behalf of a named offtaker, so identifying the party whose workload consumes the capacity — and whose balance sheet carries the term — is core diligence rather than a formality.
+
+## Coverage
+
+North America (Northern Virginia, Dallas–Fort Worth and ERCOT, Phoenix, Atlanta, Chicago, Columbus and secondary markets), the Nordics (Iceland, Norway, Sweden), UK and Ireland, continental Europe (Frankfurt, Amsterdam, Paris, Iberia), APAC (Singapore, Johor and Malaysia, Japan), and Latin America (Brazil, Chile, Mexico).
+
+## Mandates
+
+- [Data center capacity sourcing](https://www.thechiefnegotiators.com/data-center-capacity-sourcing.html): Retail, wholesale and high-density AI-ready colocation up to 150 kW per rack. Sourcing, commercial benchmarking and negotiation of ramp schedules, redundancy tiers, cross-connect fees, SLA credits, escalators, power pass-through, expansion rights and exit terms.
+- [GPU cluster procurement](https://www.thechiefnegotiators.com/gpu-cluster-procurement.html): H100, H200, B200, B300, GB200 NVL72 and GB300 NVL72. Access to allocation via cancelled orders, incoming stock needing a discreet buyer, global partner positions and redeployment. Supply route selection, allocation versus firm order, slip remedies, price protection, spares and RMA pools, fabric scope (InfiniBand versus RoCE Ethernet), software licensing, residual value, and honest buy-versus-lease-versus-rent modelling.
+- [GPUaaS and AI cloud contract negotiation](https://www.thechiefnegotiators.com/gpuaas-contract-negotiation.html): Reserved, committed-spend and on-demand structures. Node-hour definitions, goodput versus raw hours, commitment burn-down and rollover, preemption rights, storage and egress, exit and price step-downs, plus provider solvency and concentration diligence.
+- [Powered shell and build-to-suit](https://www.thechiefnegotiators.com/powered-shell-build-to-suit.html): Site selection, developer selection, power in-service dates contracted separately from shell completion, liquidated damages sized to buyer loss, base building specification, land and permitting status, utility documentation, expansion pads and step-in rights.
+- [Power capacity procurement](https://www.thechiefnegotiators.com/data-center-power-procurement.html): Interconnection queue and constraint analysis, large-load interconnection agreements, tariff class and demand charges, physical and virtual PPAs, behind-the-meter and bridge generation, curtailment flexibility as a bargaining lever, and phased energisation.
+- [Buy-side negotiation advisory](https://www.thechiefnegotiators.com/buy-side-negotiation-advisory.html): Three modes — advise from behind (the counterparty never knows), lead alongside the client's team, or run the table as mandated representative.
+- [Capacity commercialization for operators](https://www.thechiefnegotiators.com/capacity-commercialization.html): Qualified offtake sourcing, full KYC and compliance work on the ultimate offtaker (entity and beneficial ownership verification, parent and guarantor confirmation, sanctions, AML and adverse media screening, signatory authority) run before any introduction and worked through alongside the operator's own credit and compliance teams, plus anchor tenant placement, deal assembly, term structure advice and market positioning for data centers, neoclouds and developers with capacity to fill. Demand is qualified — requirement, budget, decision authority, timeline — before any introduction is made. Where a transaction needs more than a tenant, the firm can also bring the offtaker, the compute that fills the halls, and the term structure the financing case requires.
+- [The Capacity Desk](https://www.thechiefnegotiators.com/capacity.html): The intake point for both directions. Send a specification or an availability and get a first response inside one business day.
+
+## Ecosystem partners
+
+- **OptiCool Technologies** (opticooltechnologies.com) — two-phase refrigerant cooling for high-density and AI workloads. Delta4T™ technology uses the latent heat of a vaporising refrigerant as the heat sink rather than flooding hot aisles with cold air, which moves the same heat with far less fluid volume and much lower pumping energy than water. Products include rear-door heat exchangers, refrigerant pumps, coolant distribution units and aisle containment. OptiCool publishes over 7,000 active rear-door heat exchangers across more than 125 sites, and a case study in which a 120 kW rear-door heat exchanger absorbed an 80 kW rack load while drawing 550 W. Water-free at the rack, which removes water-consumption permitting exposure. Relevant when a facility has power available at the meter but cannot reject the heat that power would produce. A cooling retrofit then unlocks density in an existing footprint: for a buyer, a smaller purchase than a lease on new space plus a recurring reduction in cooling energy (OptiCool publishes up to 90% against conventional approaches); for an operator, higher revenue per square foot on a footprint already built, permitted and financed, and access to high-density AI tenants who will not shortlist a facility that cannot cool them.
+
+## Insights
+
+- [Four questions to ask anyone advising you on infrastructure](https://www.thechiefnegotiators.com/insight-questions-for-your-advisor.html): Every intermediary is paid by someone; four questions reveal whether the way they are paid changes what they tell you — inventory and resale rights, whether compensation varies by counterparty, how many parties will learn of the requirement, and whether the advisor remains engaged after signature.
+- [Twelve questions worth settling before you sign for capacity](https://www.thechiefnegotiators.com/insight-capacity-questions-before-you-sign.html): A diligence list covering energisation dates, uncommitted versus total site capacity, cooling headroom at full draw, counterparty ownership and real SLA remedies.
+- [Where AI capacity is actually available](https://www.thechiefnegotiators.com/insight-where-ai-capacity-is-available.html): Market-by-market view; power availability rather than demand decides the map.
+
+## Contact
+
+- Book a 30-minute call: https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com
+- Email: sales@thechiefnegotiators.com — first response within one business day
+- Offtaker qualification: https://www.thechiefnegotiators.com/qualify.html — issued by request rather than published, because it records an offtaker's identity, load profile, ramp and commitment position. Request access on that page and it is sent once the firm knows who it is sending it to. The instrument establishes the ultimate offtaker, requirement, ramp schedule, hardware bill of materials, resilience and compliance obligations, and commitment position. Held in strict confidence and never disclosed to a site, operator or intermediary without written consent.
+
+Anonymous first contact accepted; MNDA on request.
+LinkedIn: https://www.linkedin.com/company/chief-negotiators
