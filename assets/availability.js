@@ -57,7 +57,7 @@
         rfs = val('rfs'), term = val('term'), dep = val('deposit');
 
     if (!dep) {
-      res.innerHTML = '<p class="mtch-empty">Answer all six, including the deposit position — builds are only shown to parties who can hold one.</p>';
+      res.innerHTML = '<p class="mtch-empty">Answer all six and the matching builds appear here, with terms and deposit.</p>';
       cnt.textContent = '—';
       if (mp) mp.value = '';
       return;
@@ -74,10 +74,10 @@
     if (sb) sb.textContent = 'Send enquiry →';
 
     if (dep === 'Cannot place a deposit') {
-      cnt.textContent = 'Deposit required';
+      cnt.textContent = 'See reserved capacity';
       res.innerHTML = note('warn',
-        '<strong>No builds without a deposit.</strong>' +
-        '<p>Every build carries a deposit against the term — 30% on three years, 20–25% on five. Nothing is held without one, so we do not put builds in front of a party who cannot place one.</p>' +
+        '<strong>Build-to-suit carries a deposit.</strong>' +
+        '<p>Every purpose-built position carries cash against the term — 30% on three years, 20–25% on five — because the operator is committing capital to your specification.</p>' +
         '<p>Send the enquiry anyway if approval is the only thing in the way. <a href="gpuaas-contract-negotiation.html">Reserved GPUaaS capacity</a> is the route that requires no deposit.</p>');
       if (mp) mp.value = 'none shown — no deposit capability';
       if (sb) sb.textContent = 'Send enquiry anyway →';
@@ -134,7 +134,7 @@
       '</li>';
     }).join('') + '</ul>';
 
-    html += note('ok', '<strong>Rates released on submit.</strong><p>Exact $/GPU-hour, the specific site and a confirmed RFS date come back within one business day. Indicative band is $3–5, set mainly by term length.</p>');
+    html += note('ok', '<strong>Rates and sites from the partner.</strong><p>We hold no inventory and set no prices. The exact $/GPU-hour, the specific site and a confirmed RFS date come from the operator building it, within one business day of the enquiry.</p>');
     res.innerHTML = html;
   }
 
