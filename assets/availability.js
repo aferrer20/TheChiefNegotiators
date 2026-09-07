@@ -14,6 +14,7 @@
     { id: 'M8', qty: 128,  label: 'B300',        region: 'Nordics',       rfs: 'Q1 2027', terms: [5],     motion: true },
     { id: 'R1', qty: 1728, label: 'GB300 NVL72', region: 'United States', rfs: 'On request', terms: [5],  us: true },
     { id: 'R2', qty: 2000, label: 'GB300 NVL72', region: 'United States', rfs: 'On request', terms: [5],  us: true },
+    { id: 'V1', qty: 3000, label: 'Vera Rubin',  region: 'United States', rfs: 'Q1 2027',    terms: [5],  motion: true, us: true },
     { id: 'O1', open: true, region: 'United States', label: 'Open specification · US',      rfs: 'From Q2 2027', terms: [3,4,5] },
     { id: 'O2', open: true, region: 'Nordics',       label: 'Open specification · Nordics', rfs: 'From Q2 2027', terms: [3,4,5] },
     { id: 'O3', open: true, region: 'EU',            label: 'Open specification · EU',      rfs: 'From Q2 2027', terms: [3,4,5] }

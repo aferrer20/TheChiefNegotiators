@@ -1,3 +1,6 @@
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
 /assets/*.css
   Cache-Control: public, max-age=604800, must-revalidate
 /assets/*.js
