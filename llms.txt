@@ -85,7 +85,7 @@ North America (Northern Virginia, Dallas–Fort Worth and ERCOT, Phoenix, Atlant
 
 ## Security and compliance
 
-- [Security & compliance](https://www.thechiefnegotiators.com/security.html): How the firm handles confidential deal information. Anonymous first contact, MNDA on request, nothing circulated to a counterparty without written consent. Ultimate offtaker identified, ownership verified, and sanctions and AML screening run on every mandate before an introduction is made. Website forms collect only what is needed to qualify a requirement, are delivered through a third-party form processor, and analytics runs with IP anonymization. The firm does not currently hold SOC 2 or ISO 27001 certification and says so directly.
+- [Security & compliance](https://www.thechiefnegotiators.com/security.html): How the firm handles confidential deal information. Anonymous first contact, MNDA on request, nothing circulated to a counterparty without written consent. Ultimate offtaker identified, ownership verified, and sanctions and AML screening run on every mandate before an introduction is made. Website forms collect only what is needed to qualify a requirement, are delivered through a third-party form processor, and analytics runs with IP anonymization. The firm holds no inventory and does not transact, host or process workloads on anyone's behalf, so it does not hold SOC 2 or ISO 27001 certification — those frameworks apply to the operators and platforms it introduces, not to an advisory whose exposure is paperwork and introductions.
 
 ## Contact
 
