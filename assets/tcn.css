@@ -395,3 +395,17 @@ html{scroll-behavior:auto}
 /* ── ambient blueprint texture — reads as engineered depth, not blank space ── */
 body{position:relative}
 body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(14,14,13,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(14,14,13,.035) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,#000 40%,transparent 92%);mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,#000 40%,transparent 92%)}
+
+/* ── cookie consent banner ───────────────────────────── */
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--paper);border-top:1px solid var(--line);box-shadow:var(--sh-3);padding:22px 0;transform:translateY(110%);transition:transform .5s var(--ease)}
+.cookie-banner.is-shown{transform:translateY(0)}
+.cookie-in{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.cookie-copy{flex:1;min-width:240px;font-size:13px;line-height:1.6;color:var(--ink-2)}
+.cookie-copy a{color:var(--accent-2);border-bottom:1px solid var(--line-2)}
+.cookie-actions{display:flex;gap:12px;flex:none}
+.cookie-actions button{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:13px 22px;cursor:pointer;border:1px solid var(--ink);background:none;color:var(--ink);transition:background .24s var(--ease),color .24s var(--ease)}
+.cookie-actions button.cb-accept{background:var(--ink);color:#fff}
+.cookie-actions button.cb-accept:hover{background:var(--accent-2);border-color:var(--accent-2)}
+.cookie-actions button.cb-decline:hover{border-color:var(--accent-2);color:var(--accent-2)}
+@media(prefers-reduced-motion:reduce){.cookie-banner{transition:none}}
+@media(max-width:620px){.cookie-in{flex-direction:column;align-items:stretch}.cookie-actions{justify-content:stretch}.cookie-actions button{flex:1}}

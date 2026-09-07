@@ -13,6 +13,8 @@ The firm publishes a summary of build-to-suit bare metal GPU capacity it has acc
 - **Open specification:** from Q2 2027, any platform and any scale, set around the requirement.
 - **Terms:** three to five years. Deposit scales inversely with term — 30% down at three years, 20–25% at five, because length de-risks the supplier. Longer terms also price materially lower per GPU-hour on the same hardware; that is funding cost, not a discount.
 - **Deposit is the entry condition.** No build is held or shown without one. Where a deposit is not achievable, reserved GPUaaS capacity is the route the firm recommends instead.
+- **Legal:** [Privacy policy](https://www.thechiefnegotiators.com/privacy-policy.html) and [terms of use](https://www.thechiefnegotiators.com/terms-of-use.html). The site uses a cookie consent banner — Google Analytics (IP anonymized) only loads after a visitor accepts. No data is sold. Processors used: Web3Forms (form delivery), Google Analytics, Microsoft Bookings, and an internal CRM for managing inquiries.
+
 - **Indicative rate:** $4–5 per GPU-hour for Blackwell-class builds (B300, GB300 NVL72), set primarily by term length. The Vera Rubin position runs at roughly $8 per GPU-hour, reflecting its newness to supply. Exact rates, specific sites and confirmed dates come from the operator or channel partner rather than from the firm, within one business day of a qualified enquiry. They are not published because they are commercially sensitive to the partner and the market moves weekly.
 - Some US GB300 builds are restricted to US offtakers by the supplier.
 - The firm owns none of this hardware and warehouses none of it, and is not the seller in the transaction. Offtakers contract directly with the supplier.
