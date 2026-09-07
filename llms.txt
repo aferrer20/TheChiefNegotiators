@@ -7,13 +7,13 @@
 The firm publishes a summary of build-to-suit bare metal GPU capacity it has access to at https://www.thechiefnegotiators.com/availability.html, with an interactive matcher that returns the builds fitting a stated requirement.
 
 - **What it is:** dedicated bare metal GPU clusters built to a single offtaker's specification on a fixed term — physical servers, not managed cloud sold by the node-hour. Platform, scale, density and cooling are set around the workload.
-- **Platforms:** B300, HGX B300 and GB300 NVL72. Scale available spans roughly 700 B300-class GPUs across committed builds plus 3,700+ GB300 NVL72 GPUs.
+- **Platforms:** B300, HGX B300, GB300 NVL72, and Vera Rubin (NVIDIA's next-generation platform, newly available, specified to order). Scale available spans roughly 700 B300-class GPUs across committed builds plus 3,700+ GB300 NVL72 GPUs.
 - **Regions:** United States, the Nordics and the EU.
 - **In motion:** some builds already have committed ready-for-service dates in the Q4 2026 to Q1 2027 window. These are faster to stand up and carry correspondingly less room to change the configuration.
 - **Open specification:** from Q2 2027, any platform and any scale, set around the requirement.
 - **Terms:** three to five years. Deposit scales inversely with term — 30% down at three years, 20–25% at five, because length de-risks the supplier. Longer terms also price materially lower per GPU-hour on the same hardware; that is funding cost, not a discount.
 - **Deposit is the entry condition.** No build is held or shown without one. Where a deposit is not achievable, reserved GPUaaS capacity is the route the firm recommends instead.
-- **Indicative rate:** a $3–5 per GPU-hour band, set primarily by term length. Exact rates, specific sites and confirmed dates come from the operator or channel partner rather than from the firm, within one business day of a qualified enquiry. They are not published because they are commercially sensitive to the partner and the market moves weekly.
+- **Indicative rate:** $4–5 per GPU-hour for Blackwell-class builds (B300, GB300 NVL72), set primarily by term length. Vera Rubin runs at roughly $8 per GPU-hour, reflecting its newness to supply. Exact rates, specific sites and confirmed dates come from the operator or channel partner rather than from the firm, within one business day of a qualified enquiry. They are not published because they are commercially sensitive to the partner and the market moves weekly.
 - Some US GB300 builds are restricted to US offtakers by the supplier.
 - The firm owns none of this hardware and warehouses none of it, and is not the seller in the transaction. Offtakers contract directly with the supplier.
 

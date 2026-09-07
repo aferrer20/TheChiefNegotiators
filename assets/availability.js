@@ -43,6 +43,7 @@
   function platMatch(sel, label) {
     if (sel === 'GB300 NVL72') return label.indexOf('GB300') > -1;
     if (sel === 'B300 class') return label.indexOf('GB300') < 0 && label.indexOf('B300') > -1;
+    if (sel === 'Vera Rubin') return label.indexOf('Rubin') > -1;
     return true;
   }
 
