@@ -103,8 +103,14 @@
     }
 
     document.addEventListener('pointermove', onMove, { passive: true });
+    var scrollPending = false;
     window.addEventListener('scroll', function () {
-      if (active) active.rect = active.el.getBoundingClientRect();
+      if (!active || scrollPending) return;
+      scrollPending = true;
+      requestAnimationFrame(function () {
+        scrollPending = false;
+        if (active) active.rect = active.el.getBoundingClientRect();
+      });
     }, { passive: true });
   })();
 
