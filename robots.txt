@@ -1,35 +1,30 @@
 # The Chief Negotiators — https://www.thechiefnegotiators.com/
+# One rule set applies to every crawler, including the AI answer engines
+# named below, which are explicitly welcome to read and cite this site.
 User-agent: *
-Allow: /
-
-# AI answer engines are explicitly welcome to read and cite this site.
 User-agent: GPTBot
-Allow: /
 User-agent: OAI-SearchBot
-Allow: /
 User-agent: ChatGPT-User
-Allow: /
 User-agent: ClaudeBot
-Allow: /
 User-agent: Claude-User
-Allow: /
 User-agent: Claude-SearchBot
-Allow: /
 User-agent: PerplexityBot
-Allow: /
 User-agent: Perplexity-User
-Allow: /
 User-agent: Google-Extended
-Allow: /
 User-agent: Applebot
-Allow: /
 User-agent: Applebot-Extended
-Allow: /
 User-agent: Bingbot
-Allow: /
 User-agent: cohere-ai
-Allow: /
 User-agent: meta-externalagent
 Allow: /
+
+# Unfinished prototypes and design-system previews. Not part of the site.
+Disallow: /preview/
+Disallow: /deploy/
+Disallow: /uploads/
+Disallow: /app.html
+Disallow: /app%20v1.html
+Disallow: /app%20v2.html
+Disallow: /copilot.html
 
 Sitemap: https://www.thechiefnegotiators.com/sitemap.xml
