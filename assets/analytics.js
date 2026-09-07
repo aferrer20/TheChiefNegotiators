@@ -4,6 +4,7 @@
    window.tcnInitAnalytics is called either immediately (a returning visitor
    who already consented) or later, when the consent banner's Accept fires. */
 var TCN_GA4_ID       = 'G-HWR479H49B';   // Google Analytics 4
+var TCN_GOOGLE_TAG_ID = 'GT-WF4ZJVLZ';   // Google tag (linked destinations, e.g. Ads)
 var TCN_LINKEDIN_ID  = '';          // e.g. '1234567'       — LinkedIn partner ID
 var TCN_CLARITY_ID   = '';          // e.g. 'abcdefghij'    — Microsoft Clarity project ID
 
@@ -19,6 +20,9 @@ var TCN_CLARITY_ID   = '';          // e.g. 'abcdefghij'    — Microsoft Clarit
       window.gtag = function () { window.dataLayer.push(arguments); };
       gtag('js', new Date());
       gtag('config', TCN_GA4_ID, { anonymize_ip: true });
+      if (TCN_GOOGLE_TAG_ID) {
+        gtag('config', TCN_GOOGLE_TAG_ID);
+      }
 
       // Lead events worth reporting on
       document.addEventListener('submit', function (e) {
