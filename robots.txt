@@ -18,13 +18,4 @@ User-agent: cohere-ai
 User-agent: meta-externalagent
 Allow: /
 
-# Unfinished prototypes and design-system previews. Not part of the site.
-Disallow: /preview/
-Disallow: /deploy/
-Disallow: /uploads/
-Disallow: /app.html
-Disallow: /app%20v1.html
-Disallow: /app%20v2.html
-Disallow: /copilot.html
-
 Sitemap: https://www.thechiefnegotiators.com/sitemap.xml
