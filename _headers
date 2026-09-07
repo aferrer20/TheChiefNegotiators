@@ -1,0 +1,10 @@
+/assets/*.css
+  Cache-Control: public, max-age=604800, must-revalidate
+/assets/*.js
+  Cache-Control: public, max-age=604800, must-revalidate
+/assets/*.png
+  Cache-Control: public, max-age=2592000, must-revalidate
+/assets/*.webp
+  Cache-Control: public, max-age=2592000, must-revalidate
+/assets/*.svg
+  Cache-Control: public, max-age=2592000, must-revalidate
