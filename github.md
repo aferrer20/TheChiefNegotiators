@@ -1,6 +1,6 @@
 repo: (set on first push)
 branch: main
-host: Vercel
+host: GitHub Pages
 path: repo root
 
 ## Last sync
@@ -12,8 +12,8 @@ commit: (not yet pushed)
 
 - Added /about with named principal, Person schema and LinkedIn sameAs
 - Added /markets hub plus US, Canada, EMEA and APAC market pages
-- Stripped .html from all internal URLs; Vercel cleanUrls handles routing
-- Added 404.html, vercel.json, rebuilt sitemap.xml and llms.txt
+- Stripped .html from all internal URLs; GitHub Pages serves clean URLs natively
+- Added 404.html, rebuilt sitemap.xml and llms.txt
 
 ## Screen map
 
