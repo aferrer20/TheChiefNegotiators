@@ -6,3 +6,6 @@
 # served a second, outdated homepage that Google was free to index.
 _archive/
 github.md
+
+# Maintenance scripts — not part of the site.
+tools/
