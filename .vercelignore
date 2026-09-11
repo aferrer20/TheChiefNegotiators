@@ -1,0 +1,8 @@
+# Kept in git, never deployed.
+#
+# _archive holds superseded builds of the site — an old homepage, earlier app
+# versions and a design-system preview. With cleanUrls on, everything in the
+# repo is publicly reachable, so before this file /_archive/deploy/index.html
+# served a second, outdated homepage that Google was free to index.
+_archive/
+github.md
