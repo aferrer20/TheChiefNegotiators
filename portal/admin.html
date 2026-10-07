@@ -1276,23 +1276,23 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
       <!-- EXCHANGE SETUP -->
       <div class="sku-form" style="padding: 32px; margin-bottom: 20px;">
         <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">3. The Exchange and the Prospect Desk engine</h3>
-        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange runs in preview mode on sample data until Supabase is connected. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
+        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange runs in preview mode on sample data until Supabase is connected. The Prospect Desk needs the Vercel function (api/prospect.mjs) for AI drafts on your domain.</p>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
           <li>Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a>. In SQL Editor, run <span class="kbd">supabase/schema.sql</span>.</li>
           <li>Authentication &rarr; URL Configuration: set Site URL to your domain and add <span class="kbd">https://yourdomain/exchange.html</span> and <span class="kbd">/admin.html</span> as redirect URLs.</li>
           <li>Paste the project URL and anon key into <span class="kbd">exchange</span> in <span class="kbd">assets/config.js</span>.</li>
           <li>Apply on your own exchange with the sales email, click the sign-in link, then run the admin bootstrap line at the bottom of the schema.</li>
-          <li>On Netlify, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/.netlify/functions/prospect</span>.</li>
+          <li>In Vercel project settings, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/api/prospect</span>.</li>
         </ol>
-        <p class="muted" style="font-size:12px; margin: 8px 0 0;">Full walkthrough: EXCHANGE_SETUP.md in the project folder.</p>
+        <p class="muted" style="font-size:12px; margin: 8px 0 0;">Full walkthrough: portal/EXCHANGE_SETUP.md in the site repo.</p>
       </div>
 
-      <!-- NETLIFY DEPLOY -->
+      <!-- VERCEL DEPLOY -->
       <div class="sku-form" style="padding: 32px;">
-        <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">4. Deploy on Netlify</h3>
+        <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">4. Deploy on Vercel</h3>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
-          <li>Drag the project folder onto <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a> for instant deploy, or connect a Git repo for continuous deployment.</li>
-          <li>Point your domain (<span class="kbd">thechiefnegotiators.com</span>) at the Netlify site.</li>
+          <li>Push to the site repo's <span class="kbd">main</span> branch; Vercel deploys automatically. The portal lives in the <span class="kbd">portal/</span> folder.</li>
+          <li>Add <span class="kbd">portal.thechiefnegotiators.com</span> under Vercel → Settings → Domains and point its DNS CNAME at Vercel.</li>
           <li>Whenever you edit <span class="kbd">config.js</span>, redeploy. Changes to the Google Sheet itself do <strong>not</strong> require a redeploy.</li>
         </ol>
       </div>
