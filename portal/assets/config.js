@@ -63,8 +63,8 @@ window.TCN_CONFIG = {
     supabaseAnonKey: "",   // Project Settings -> API -> anon public key
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
-    // Prospect Desk AI endpoint (Netlify function). Leave as-is on Netlify.
-    deskEndpoint: "/.netlify/functions/prospect",
+    // Prospect Desk AI endpoint (Vercel function at api/prospect.mjs).
+    deskEndpoint: "/api/prospect",
   },
 
   // ----- QUOTE BRANDS -----
