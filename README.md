@@ -18,6 +18,8 @@ The firm is an independent, no-inventory AI infrastructure advisory. It negotiat
 | `security.html` | Security & compliance — how the firm handles confidential deal information. |
 | `insights.html` + `insight-*.html` | The blog. |
 | `assets/` | Stylesheet (`tcn.css`), analytics loader (`analytics.js`), availability-matcher script, logos, share card. |
+| `portal/` | The Exchange (marketplace + desk console), served at `portal.thechiefnegotiators.com` via host rewrites in `vercel.json`. Setup: `portal/EXCHANGE_SETUP.md`. |
+| `api/prospect.mjs` | Vercel function backing the Prospect Desk AI (`/api/prospect`). |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI-crawler configuration. |
 | `_archive/` | Superseded drafts and raw uploads, not published by GitHub Pages. See `_archive/README.md`. |
 
