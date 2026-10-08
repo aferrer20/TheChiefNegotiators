@@ -46,7 +46,9 @@
   function save(list) { localStorage.setItem(KEY, JSON.stringify(list)); }
   function settings() {
     var s = {}; try { s = JSON.parse(localStorage.getItem(SKEY)) || {}; } catch (e) {}
-    var exUrl = s.exchangeUrl || (location.origin && /^http/.test(location.origin) ? location.origin + '/exchange.html' : 'https://portal.thechiefnegotiators.com/');
+    // Saved addresses from before the Exchange moved to /portal/exchange are replaced.
+    var stale = /^https?:\/\/[^/]+\/exchange(\.html)?\/?$/.test(s.exchangeUrl || '') || /^https:\/\/portal\.thechiefnegotiators\.com\/?$/.test(s.exchangeUrl || '');
+    var exUrl = (!stale && s.exchangeUrl) || XC.publicUrl || 'https://www.thechiefnegotiators.com/portal/exchange';
     return {
       rep: s.rep || 'Camila', closer: s.closer || 'Amanda Ferrer', closerRole: s.closerRole || 'founder',
       brand: s.brand || 'The Chief Negotiators', link: s.link || DEFAULT_LINK, book: s.book || DEFAULT_BOOK, rules: s.rules || '',

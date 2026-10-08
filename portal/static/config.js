@@ -59,6 +59,8 @@ window.TCN_CONFIG = {
   // Exchange tab), protected by EXCHANGE_ADMIN_PASSWORD set on Netlify.
   // Full steps: portal/EXCHANGE_SETUP.md
   exchange: {
+    // The public Exchange address. Lot links, the console buttons and the menu all use it.
+    publicUrl: "https://www.thechiefnegotiators.com/portal/exchange",
     // Full Netlify address, so saving works even when the page is served by GitHub Pages.
     floorEndpoint: "https://chiefnegotiators.netlify.app/.netlify/functions/exchange",
     // Every path on the exchange ends here: a 20-minute allocation call.

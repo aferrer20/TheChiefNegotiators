@@ -11,7 +11,8 @@
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var num = function (n) { return n == null || n === '' ? '' : Number(n).toLocaleString('en-US'); };
   var toast = function (m) { if (window.TCN && window.TCN.toast) window.TCN.toast(m); else console.log(m); };
-  var base = function () { return (/^http/.test(location.origin) ? location.origin : 'https://portal.thechiefnegotiators.com') + '/'; };
+  var base = function () { return (X.config && X.config.publicUrl) || 'https://www.thechiefnegotiators.com/portal/exchange'; };
+  var openBtn = document.getElementById('xaOpenExchange'); if (openBtn) openBtn.href = base();
   var PWKEY = 'tcnx_admin_pw';
   var pw = ''; try { pw = sessionStorage.getItem(PWKEY) || ''; } catch (e) {}
   var data = null;           // { lots, requirements, updated_at }
