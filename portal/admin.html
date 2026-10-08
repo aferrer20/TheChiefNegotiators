@@ -1276,11 +1276,10 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
       <!-- EXCHANGE SETUP -->
       <div class="sku-form" style="padding: 32px; margin-bottom: 20px;">
         <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">3. The Exchange and the Prospect Desk engine</h3>
-        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange is public, with no accounts or sign-in. Lots come from a Google Sheet; every enquiry is emailed through Formspree. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
+        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange is public, with no accounts or sign-in for visitors. You load lots in the Exchange tab; every enquiry is emailed through Formspree. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
-          <li>Make a Google Sheet with a <span class="kbd">Lots</span> tab (columns in <span class="kbd">portal/EXCHANGE_SETUP.md</span>), and optionally a <span class="kbd">Requirements</span> tab.</li>
-          <li>File &rarr; Share &rarr; Publish to web &rarr; pick the tab &rarr; CSV. Paste the link into <span class="kbd">exchange.lotsSheetCsvUrl</span> (and <span class="kbd">requirementsSheetCsvUrl</span>) in <span class="kbd">static/config.js</span>.</li>
-          <li>Edit the sheet any time; the exchange picks up changes within a minute, no redeploy.</li>
+          <li>On Netlify, add the environment variable <span class="kbd">EXCHANGE_ADMIN_PASSWORD</span> (a long password) and redeploy.</li>
+          <li>Open the Exchange tab, enter that password, then add lots one by one or use Import CSV.</li>
           <li>On Netlify, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/.netlify/functions/prospect</span>.</li>
         </ol>
         <p class="muted" style="font-size:12px; margin: 8px 0 0;">Full walkthrough: portal/EXCHANGE_SETUP.md in the site repo.</p>
