@@ -47,10 +47,27 @@ function sameSecret(a, b) {
   return timingSafeEqual(h(a), h(b));
 }
 
+// Pages on these origins may call this function from the browser, so the
+// exchange and console work wherever the HTML itself is served from.
+const ORIGINS = [
+  /^https:\/\/((www|portal|www\.portal)\.)?thechiefnegotiators\.com$/,
+  /^https:\/\/([a-z0-9-]+--)?chiefnegotiators\.netlify\.app$/,
+  /^http:\/\/localhost(:\d+)?$/,
+];
+
 export default async (req) => {
+  const origin = req.headers.get('origin') || '';
+  const cors = ORIGINS.some((r) => r.test(origin)) ? {
+    'access-control-allow-origin': origin,
+    'access-control-allow-headers': 'content-type, x-admin-password',
+    'access-control-allow-methods': 'GET, POST, OPTIONS',
+    'access-control-max-age': '86400',
+    vary: 'origin',
+  } : { vary: 'origin' };
   const json = (status, body) => new Response(JSON.stringify(body), {
-    status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+    status, headers: { ...cors, 'content-type': 'application/json', 'cache-control': 'no-store' },
   });
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   const store = getStore({ name: 'exchange', consistency: 'strong' });
   const read = async () => (await store.get(KEY, { type: 'json' })) || { lots: [], requirements: [], updated_at: null };
 

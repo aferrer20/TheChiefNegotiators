@@ -40,7 +40,9 @@
       data = await X.admin.load(p);
       pw = p; try { sessionStorage.setItem(PWKEY, p); } catch (e) {}
     } catch (e) {
-      error = e.status === 404 ? 'The exchange function is not deployed yet. Merge and deploy, then try again.' : e.message;
+      error = e.fromFunction ? e.message
+        : e.status ? 'The exchange function did not answer (error ' + e.status + '). In Netlify, check the latest deploy is Published and lists the "exchange" function, then try again.'
+        : 'Could not reach the exchange function on Netlify. Check your connection, and that the latest Netlify deploy is Published.';
       data = null;
     }
     busy = false; render();
