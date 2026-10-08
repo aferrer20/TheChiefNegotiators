@@ -7,4 +7,3 @@ https://portal.thechiefnegotiators.com/.netlify/*  /.netlify/:splat  200!
 https://portal.thechiefnegotiators.com/       /portal/exchange.html  200!
 https://portal.thechiefnegotiators.com/admin  /portal/admin.html     200!
 https://portal.thechiefnegotiators.com/*      /portal/:splat         200!
-/portal/*  https://portal.thechiefnegotiators.com/:splat  301!
