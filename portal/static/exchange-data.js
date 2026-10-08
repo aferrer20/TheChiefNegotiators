@@ -44,7 +44,7 @@
   async function adminCall(pw, body) {
     var r = await fetch(ENDPOINT, { method: 'POST', headers: { 'content-type': 'application/json', 'x-admin-password': pw }, body: JSON.stringify(body) });
     var d = await r.json().catch(function () { return {}; });
-    if (!r.ok) { var e = new Error(d.error || ('Request failed (' + r.status + ')')); e.status = r.status; e.current = d.current; throw e; }
+    if (!r.ok) { var e = new Error(d.error || ('Request failed (' + r.status + ')')); e.status = r.status; e.fromFunction = !!d.error; e.current = d.current; throw e; }
     return d;
   }
 

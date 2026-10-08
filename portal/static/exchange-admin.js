@@ -11,7 +11,8 @@
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var num = function (n) { return n == null || n === '' ? '' : Number(n).toLocaleString('en-US'); };
   var toast = function (m) { if (window.TCN && window.TCN.toast) window.TCN.toast(m); else console.log(m); };
-  var base = function () { return (/^http/.test(location.origin) ? location.origin : 'https://portal.thechiefnegotiators.com') + '/'; };
+  var base = function () { return (X.config && X.config.publicUrl) || 'https://www.thechiefnegotiators.com/portal/exchange'; };
+  var openBtn = document.getElementById('xaOpenExchange'); if (openBtn) openBtn.href = base();
   var PWKEY = 'tcnx_admin_pw';
   var pw = ''; try { pw = sessionStorage.getItem(PWKEY) || ''; } catch (e) {}
   var data = null;           // { lots, requirements, updated_at }
@@ -40,7 +41,9 @@
       data = await X.admin.load(p);
       pw = p; try { sessionStorage.setItem(PWKEY, p); } catch (e) {}
     } catch (e) {
-      error = e.status === 404 ? 'The exchange function is not deployed yet. Merge and deploy, then try again.' : e.message;
+      error = e.fromFunction ? e.message
+        : e.status ? 'The exchange function did not answer (error ' + e.status + '). In Netlify, check the latest deploy is Published and lists the "exchange" function, then try again.'
+        : 'Could not reach the exchange function on Netlify. Check your connection, and that the latest Netlify deploy is Published.';
       data = null;
     }
     busy = false; render();

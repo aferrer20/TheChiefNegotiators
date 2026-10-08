@@ -59,11 +59,14 @@ window.TCN_CONFIG = {
   // Exchange tab), protected by EXCHANGE_ADMIN_PASSWORD set on Netlify.
   // Full steps: portal/EXCHANGE_SETUP.md
   exchange: {
-    floorEndpoint: "/.netlify/functions/exchange",
+    // The public Exchange address. Lot links, the console buttons and the menu all use it.
+    publicUrl: "https://www.thechiefnegotiators.com/portal/exchange",
+    // Full Netlify address, so saving works even when the page is served by GitHub Pages.
+    floorEndpoint: "https://chiefnegotiators.netlify.app/.netlify/functions/exchange",
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
-    // Prospect Desk AI endpoint (Netlify function). Leave as-is on Netlify.
-    deskEndpoint: "/.netlify/functions/prospect",
+    // Prospect Desk AI endpoint (Netlify function), full address for the same reason.
+    deskEndpoint: "https://chiefnegotiators.netlify.app/.netlify/functions/prospect",
   },
 
   // ----- QUOTE BRANDS -----
