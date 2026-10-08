@@ -346,13 +346,6 @@
   $('#xModel').addEventListener('change', function (e) { state.model = e.target.value; renderFloor(); });
   $('#xRegion').addEventListener('change', function (e) { state.region = e.target.value; renderFloor(); });
 
-  // Owner preview of the sample lots, before the sheet is connected.
-  if (X.mode === 'preview') {
-    var b = document.createElement('div'); b.className = 'x-preview';
-    b.innerHTML = '<span>Preview: sample lots. Connect your Google Sheet in config.js to show real lots.</span>';
-    document.body.appendChild(b);
-  }
-
   // ------------------------------------------------------------------
   // Boot
   // ------------------------------------------------------------------

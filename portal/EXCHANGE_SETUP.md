@@ -59,7 +59,7 @@ It lives in the `portal/` folder of the site repo. Netlify serves it from the sa
    ```
 5. Commit to `main`. After this, editing the sheet updates the site within a minute or two (that's Google's publish delay), with no redeploy.
 
-Until the sheet is connected, the floor shows "New lots are being added". To preview the page with sample lots, open `https://portal.thechiefnegotiators.com/?preview`.
+Until the sheet is connected, the floor shows "New lots are being added".
 
 ## 3. How enquiries reach you
 

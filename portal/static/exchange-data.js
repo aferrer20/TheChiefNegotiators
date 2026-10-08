@@ -3,7 +3,6 @@
 //   Lots and open requirements come from a published Google Sheet
 //   (config.exchange.lotsSheetCsvUrl / requirementsSheetCsvUrl).
 //   Every enquiry from the page goes to the sales inbox through Formspree.
-// Add ?preview to the URL to see built-in sample lots before the sheet is set up.
 (function () {
   'use strict';
 
@@ -102,27 +101,6 @@
     };
   }
 
-  // ---------------------------------------------------------------
-  // Sample lots, shown only with ?preview before the sheet is set up
-  // ---------------------------------------------------------------
-  function sample() {
-    var L = function (o, i) { return Object.assign({ id: o.ref, status: 'live', featured: false, _row: i }, o); };
-    return {
-      lots: [
-        { ref: 'TCN-VERARUBIN-0401', kind: 'gpuaas', model: 'Vera Rubin', config: 'NVL144 racks', gpu_count: 3600, region: 'United States', available: 'Q1 2027', price: 8.00, price_unit: 'per GPU-hr', term_months: 60, deposit_pct: 30, min_commit: 576, featured: true, notes: 'Single-tenant cluster. Liquid cooled, InfiniBand fabric.' },
-        { ref: 'TCN-GB300-0402', kind: 'gpuaas', model: 'GB300', config: 'NVL72 racks', gpu_count: 2304, region: 'United States', available: 'Q1 2027', price: 4.40, price_unit: 'per GPU-hr', term_months: 60, deposit_pct: 20, min_commit: 576, featured: true, notes: 'Direct liquid cooling. Bare metal with managed Kubernetes option.' },
-        { ref: 'TCN-B300-0403', kind: 'gpuaas', model: 'B300', config: 'HGX 8-GPU nodes', gpu_count: 1024, region: 'United States', available: 'Q4 2026', price: 4.45, price_unit: 'per GPU-hr', term_months: 36, deposit_pct: 25, min_commit: 256 },
-        { ref: 'TCN-H200-0406', kind: 'hardware', model: 'H200', config: 'HGX 8-GPU', gpu_count: 512, condition: 'New, sealed', region: 'EU', available: 'Immediate', price: null, price_unit: 'per GPU', min_commit: 64, status: 'reserved' },
-        { ref: 'TCN-H100-0408', kind: 'hardware', model: 'H100', config: 'SXM5', gpu_count: 128, condition: 'New, open box', region: 'United States', available: 'Immediate', price: null, price_unit: 'per GPU', min_commit: 64, notes: 'Burn-in reports available.' },
-      ].map(L),
-      reqs: [
-        { id: 'r_1', kind: 'gpuaas', model: 'B300', gpu_count: 1024, region: 'United States', timeline: 'Live by Q1 2027' },
-        { id: 'r_2', kind: 'hardware', model: 'H200', gpu_count: 256, region: 'EU', timeline: 'Within 60 days' },
-      ],
-    };
-  }
-
-  var preview = /[?&]preview\b/.test(location.search);
   var cache = { lots: null, reqs: null };
 
   async function fetchSheet(url) {
@@ -135,7 +113,7 @@
   }
 
   var api = {
-    mode: X.lotsSheetCsvUrl ? 'sheet' : preview ? 'preview' : 'empty',
+    mode: X.lotsSheetCsvUrl ? 'sheet' : 'empty',
     ready: function () { return Promise.resolve(); },
     floor: async function () {
       if (X.lotsSheetCsvUrl) {
@@ -143,7 +121,7 @@
         catch (e) { console.error(e); if (!cache.lots) throw e; }
         return cache.lots;
       }
-      return preview ? sortLots(sample().lots) : [];
+      return [];
     },
     demand: async function () {
       if (X.requirementsSheetCsvUrl) {
@@ -151,7 +129,7 @@
         catch (e) { console.error(e); if (!cache.reqs) throw e; }
         return cache.reqs;
       }
-      return preview && !X.lotsSheetCsvUrl ? sample().reqs : [];
+      return [];
     },
     notify: notify,
   };

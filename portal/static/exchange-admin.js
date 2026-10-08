@@ -15,8 +15,7 @@
   async function render() {
     var mount = document.getElementById('exchangeMount'); if (!mount) return;
     if (X.mode !== 'sheet') {
-      mount.innerHTML = '<div class="xa-gate"><h3>Connect the lots sheet.</h3><p>The exchange is public and reads its lots from a Google Sheet. Publish the sheet\'s Lots tab as CSV and paste the link into <span class="kbd">exchange.lotsSheetCsvUrl</span> in <span class="kbd">static/config.js</span>. Columns and steps are in <span class="kbd">portal/EXCHANGE_SETUP.md</span>.</p>' +
-        '<p class="xa-mute">To see the page with sample lots meanwhile, open <a href="' + base() + '?preview" target="_blank" rel="noopener">' + esc(base()) + '?preview</a>.</p></div>';
+      mount.innerHTML = '<div class="xa-gate"><h3>Connect the lots sheet.</h3><p>The exchange is public and reads its lots from a Google Sheet. Publish the sheet\'s Lots tab as CSV and paste the link into <span class="kbd">exchange.lotsSheetCsvUrl</span> in <span class="kbd">static/config.js</span>. Columns and steps are in <span class="kbd">portal/EXCHANGE_SETUP.md</span>.</p></div>';
       return;
     }
     mount.innerHTML = '<p class="xa-mute">Loading the floor from the sheet</p>';
