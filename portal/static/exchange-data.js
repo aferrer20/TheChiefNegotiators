@@ -74,7 +74,7 @@
       gpu_count: gpus,
       condition: col(o, ['condition']) || null,
       region: col(o, ['region', 'location']) || null,
-      available: col(o, ['available', 'availability', 'lead text', 'timing']) || null,
+      available: col(o, ['available', 'availability', 'lead text', 'timing']) || (numOrNull(col(o, ['lead days'])) != null ? (numOrNull(col(o, ['lead days'])) === 0 ? 'Immediate' : numOrNull(col(o, ['lead days'])) + ' days') : null),
       price: price,
       price_unit: col(o, ['price unit', 'unit']) || (kindOf(col(o, ['type', 'kind'])) === 'gpuaas' ? 'per GPU-hr' : 'per GPU'),
       term_months: numOrNull(col(o, ['term months', 'term'])),
