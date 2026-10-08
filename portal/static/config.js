@@ -58,8 +58,9 @@ window.TCN_CONFIG = {
   // Lots come from a Google Sheet published as CSV, just like inventory.
   // Full steps and column names: portal/EXCHANGE_SETUP.md
   exchange: {
-    // Same published sheet as inventory above. To use a separate tab, publish that tab as CSV and paste its link here.
-    lotsSheetCsvUrl:         "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCAUf-jizddlTAJ-eZar_8Npx2SalvtjwmgcoFJBUcClRoUjJRghanYu2Dmu6-ifR3asbPRXJrsr7-/pub?gid=0&single=true&output=csv",
+    // Exchange lots sheet (shared as "anyone with the link can view"); reads the first tab.
+    // To read a different tab, add &sheet=TabName to the end of the link.
+    lotsSheetCsvUrl:         "https://docs.google.com/spreadsheets/d/1ssLtg9Xvz7dT70HC1NjVyE57_adE9-UGXa_HYaK8COc/gviz/tq?tqx=out:csv",
     requirementsSheetCsvUrl: "",   // optional: Requirements tab, same steps
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",

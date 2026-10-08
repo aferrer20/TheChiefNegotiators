@@ -57,6 +57,7 @@ It lives in the `portal/` folder of the site repo. Netlify serves it from the sa
      ...
    }
    ```
+   Alternatively, share the sheet as **Anyone with the link → Viewer** and use `https://docs.google.com/spreadsheets/d/<sheet id>/gviz/tq?tqx=out:csv` (first tab; add `&sheet=TabName` for another tab). This is how the Exchange is connected today.
 5. Commit to `main`. After this, editing the sheet updates the site within a minute or two (that's Google's publish delay), with no redeploy.
 
 Until the sheet is connected, the floor shows "New lots are being added".
