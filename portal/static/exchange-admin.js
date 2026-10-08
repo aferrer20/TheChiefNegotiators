@@ -1,70 +1,73 @@
 // Admin console: Exchange tab
 // Load and edit everything on the public exchange: lots and open requirements.
-// Changes save straight to the Netlify function (Netlify Blobs) and show on
-// the exchange within a minute. Editing needs EXCHANGE_ADMIN_PASSWORD.
+// Data lives in Supabase. Sign in with an email + password created in
+// Supabase -> Authentication -> Users; that email must also be listed in the
+// exchange_admins table (see portal/supabase-exchange.sql).
 // Enquiries from the exchange arrive by email (Formspree), subject-tagged
 // [INTRO · CALL NOW], [REQUIREMENT · CALL NOW] or [NEW LOT · REVIEW].
 (function () {
   'use strict';
   var X = window.TCNX;
-  if (!X || !X.admin || !X.admin.load) return;
+  if (!X || !X.admin || !X.admin.list) return;
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var num = function (n) { return n == null || n === '' ? '' : Number(n).toLocaleString('en-US'); };
   var toast = function (m) { if (window.TCN && window.TCN.toast) window.TCN.toast(m); else console.log(m); };
   var base = function () { return (X.config && X.config.publicUrl) || 'https://www.thechiefnegotiators.com/portal/exchange'; };
   var openBtn = document.getElementById('xaOpenExchange'); if (openBtn) openBtn.href = base();
-  var PWKEY = 'tcnx_admin_pw';
-  var pw = ''; try { pw = sessionStorage.getItem(PWKEY) || ''; } catch (e) {}
-  var data = null;           // { lots, requirements, updated_at }
+  var data = null;           // { lots, requirements }
   var editing = null;        // { type: 'lot'|'req', index: number|-1 }
-  var busy = false, savedAt = null, error = '';
+  var busy = false, savedAt = null, error = '', who = '';
 
   var STATUS = { live: 'Live', reserved: 'Under offer', hidden: 'Hidden' };
   var MODELS = ['Vera Rubin', 'GB300', 'B300', 'GB200', 'B200', 'H200', 'H100', 'A100', 'L40S', 'RTX PRO 6000'];
   var REGIONS = ['United States', 'Canada', 'EU', 'UK', 'Middle East', 'APAC', 'LATAM'];
 
   function slug(s) { return String(s || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase() || 'LOT'; }
-  function nextRef(model) {
+  function nextRef(model, taken) {
     var max = 400;
-    (data.lots || []).forEach(function (l) { var m = String(l.ref || '').match(/(\d+)$/); if (m) max = Math.max(max, +m[1]); });
+    (data.lots || []).concat(taken || []).forEach(function (l) { var m = String(l.ref || '').match(/(\d+)$/); if (m) max = Math.max(max, +m[1]); });
     return 'TCN-' + slug(model) + '-' + String(max + 1).padStart(4, '0');
   }
-  function nextReqId() { return 'r_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   function mount() { return document.getElementById('exchangeMount'); }
 
   // ------------------------------------------------------------------
-  // Server
+  // Supabase
   // ------------------------------------------------------------------
-  async function unlock(p) {
-    busy = true; error = ''; render();
-    try {
-      data = await X.admin.load(p);
-      pw = p; try { sessionStorage.setItem(PWKEY, p); } catch (e) {}
-    } catch (e) {
-      error = e.fromFunction ? e.message
-        : e.status ? 'The exchange function did not answer (error ' + e.status + '). In Netlify, check the latest deploy is Published and lists the "exchange" function, then try again.'
-        : 'Could not reach the exchange function on Netlify. Check your connection, and that the latest Netlify deploy is Published.';
-      data = null;
+  async function enter() {
+    // Signed in: confirm the login is an admin, then load everything.
+    if (!(await X.admin.isAdmin())) {
+      await X.admin.signOut();
+      throw new Error('This login is not an exchange admin. In Supabase, add its email to the exchange_admins table (see the setup guide).');
     }
+    data = await X.admin.list();
+  }
+  async function signIn(email, password) {
+    busy = true; error = ''; render();
+    try { await X.admin.signIn(email, password); who = email; await enter(); }
+    catch (e) { error = e.message; data = null; }
     busy = false; render();
   }
-  function lock() { pw = ''; data = null; try { sessionStorage.removeItem(PWKEY); } catch (e) {} render(); }
+  async function resume() {
+    if (!X.admin.configured()) { render(); return; }
+    try { var s = await X.admin.session(); if (s) { who = (s.user && s.user.email) || ''; await enter(); } }
+    catch (e) { error = e.message; data = null; }
+    render();
+  }
+  async function lock() { await X.admin.signOut(); data = null; who = ''; render(); }
 
-  // Apply a change to a copy, save it, and keep the copy only if the save works.
-  async function commit(mutate, msg) {
+  // Run one change against Supabase, then reload the lists.
+  async function run(op, msg) {
     if (busy) return false;
-    var next = JSON.parse(JSON.stringify({ lots: data.lots, requirements: data.requirements }));
-    mutate(next);
     busy = true; render();
     try {
-      data = await X.admin.save(pw, next, data.updated_at);
+      await op();
+      data = await X.admin.list();
       savedAt = new Date(); editing = null;
       toast(msg || 'Saved');
       busy = false; render(); return true;
     } catch (e) {
       busy = false;
-      if (e.status === 401) { lock(); toast('Password changed. Unlock again.'); return false; }
-      if (e.status === 409 && e.current) { data = e.current; toast('Someone else saved first. Showing the latest; redo your change.'); render(); return false; }
+      if (e.raw && /JWT|expired|not authenticated/i.test(e.raw.message || '')) { data = null; error = 'Your sign-in expired. Sign in again.'; }
       toast(e.message); render(); return false;
     }
   }
@@ -73,8 +76,12 @@
   // Views
   // ------------------------------------------------------------------
   function gate() {
-    return '<div class="xa-gate"><h3>Unlock the exchange editor</h3><p>Lots and requirements you load here appear on the public exchange. Enter the password set as <span class="kbd">EXCHANGE_ADMIN_PASSWORD</span> on Netlify.</p>' +
-      '<form id="xaUnlock" class="xa-row"><input class="xa-in" id="xaPw" type="password" autocomplete="current-password" placeholder="Exchange password" required><button class="btn btn-primary btn-sm" type="submit"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Checking' : 'Unlock') + '</button></form>' +
+    if (!X.admin.configured()) {
+      return '<div class="xa-gate"><h3>Connect Supabase</h3><p>Add your Supabase project URL and anon (publishable) key to <span class="kbd">exchange.supabaseUrl</span> and <span class="kbd">exchange.supabaseAnonKey</span> in <span class="kbd">static/config.js</span>, then run <span class="kbd">portal/supabase-exchange.sql</span> in the Supabase SQL Editor. Steps: <span class="kbd">portal/EXCHANGE_SETUP.md</span>.</p></div>';
+    }
+    return '<div class="xa-gate"><h3>Sign in to edit the exchange</h3><p>Lots and requirements you load here appear on the public exchange. Use the email and password of an admin login created in Supabase.</p>' +
+      '<form id="xaSignIn"><div class="xa-row"><input class="xa-in" id="xaEmail" type="email" autocomplete="username" placeholder="Email" value="' + esc(who) + '" required></div>' +
+      '<div class="xa-row" style="margin-top:8px"><input class="xa-in" id="xaPw" type="password" autocomplete="current-password" placeholder="Password" required><button class="btn btn-primary btn-sm" type="submit"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Signing in' : 'Sign in') + '</button></div></form>' +
       (error ? '<p class="xa-mute" style="color:#B4532A">' + esc(error) + '</p>' : '') + '</div>';
   }
 
@@ -163,13 +170,13 @@
 
   function render() {
     var m = mount(); if (!m) return;
-    if (!data) { m.innerHTML = gate(); if (!busy) { var f = m.querySelector('#xaPw'); if (f) f.focus(); } return; }
+    if (!data) { m.innerHTML = gate(); if (!busy) { var f = m.querySelector(who ? '#xaPw' : '#xaEmail'); if (f) f.focus(); } return; }
     var c = document.getElementById('tabc-exchange'); if (c) c.textContent = (data.lots || []).filter(function (l) { return l.status !== 'hidden'; }).length;
     m.innerHTML =
       '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><button class="btn btn-primary btn-sm" data-xa="add-lot">Add lot</button><button class="btn btn-ghost btn-sm" data-xa="add-req">Add requirement</button>' +
       '<label class="btn btn-ghost btn-sm" style="cursor:pointer">Import CSV<input type="file" accept=".csv,text/csv" id="xaCsv" style="display:none"></label>' +
-      '<span class="xa-mode">' + (busy ? 'Saving' : savedAt ? 'Saved ' + savedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : data.updated_at ? 'Last saved ' + new Date(data.updated_at).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'Nothing saved yet') +
-      ' &middot; <a href="#" data-xa="lock">Lock</a></span></div>' +
+      '<span class="xa-mode">' + (busy ? 'Saving' : savedAt ? 'Saved ' + savedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Signed in') +
+      ' &middot; ' + esc(who) + ' &middot; <a href="#" data-xa="lock">Sign out</a></span></div>' +
       (editing ? (editing.type === 'lot' ? lotForm() : reqForm()) : '') +
       lotsTable() + reqTable();
   }
@@ -218,17 +225,12 @@
   async function importCsv(file) {
     var rows = parseCSV(await file.text()).map(lotFromRow).filter(Boolean);
     if (!rows.length) { toast('No lots found. The first row must be headers, with at least Model and GPUs (or Quantity).'); return; }
-    if (!confirm('Add ' + rows.length + ' lot' + (rows.length === 1 ? '' : 's') + ' from ' + file.name + '? Lots with a Ref that already exists are updated instead.')) return;
-    await commit(function (d) {
-      rows.forEach(function (r) {
-        var at = r.ref ? d.lots.findIndex(function (l) { return l.ref === r.ref; }) : -1;
-        if (at >= 0) { d.lots[at] = Object.assign({}, d.lots[at], r); return; }
-        data.lots = d.lots; // so nextRef sees lots added earlier in this import
-        if (!r.ref) r.ref = nextRef(r.model);
-        r.created_at = new Date().toISOString();
-        d.lots.push(r);
-      });
-    }, rows.length + ' lot' + (rows.length === 1 ? '' : 's') + ' imported');
+    var noRef = rows.filter(function (r) { return !r.ref; }).length;
+    if (!confirm('Import ' + rows.length + ' lot' + (rows.length === 1 ? '' : 's') + ' from ' + file.name + '?\n\nRows with a Ref that already exists update that lot.' +
+      (noRef ? '\n' + noRef + ' row' + (noRef === 1 ? ' has' : 's have') + ' no Ref, so ' + (noRef === 1 ? 'it is' : 'they are') + ' added as new lots. Importing the same file again would add ' + (noRef === 1 ? 'it' : 'them') + ' twice; add a Ref column to update instead.' : ''))) return;
+    var made = [];
+    rows.forEach(function (r) { if (!r.ref) { r.ref = nextRef(r.model, made); } made.push(r); });
+    await run(function () { return X.admin.importLots(rows); }, rows.length + ' lot' + (rows.length === 1 ? '' : 's') + ' imported');
   }
 
   // ------------------------------------------------------------------
@@ -247,20 +249,16 @@
     var f = e.target;
     if (!mount() || !mount().contains(f)) return;
     e.preventDefault();
-    if (f.id === 'xaUnlock') { var p = f.querySelector('#xaPw').value; if (p) unlock(p); return; }
+    if (f.id === 'xaSignIn') { var em = f.querySelector('#xaEmail').value.trim(), p = f.querySelector('#xaPw').value; if (em && p) signIn(em, p); return; }
     var v = formValues(f);
     if (!v.model || !v.gpu_count) { toast('Model and GPUs are required'); return; }
     var i = editing.index;
     if (f.id === 'xaLotForm') {
-      commit(function (d) {
-        if (i >= 0) d.lots[i] = Object.assign({}, d.lots[i], v);
-        else d.lots.unshift(Object.assign(v, { ref: nextRef(v.model), created_at: new Date().toISOString() }));
-      }, i >= 0 ? 'Lot updated' : 'Lot added');
+      var lot = i >= 0 ? Object.assign({}, data.lots[i], v) : Object.assign(v, { ref: nextRef(v.model) });
+      run(function () { return X.admin.saveLot(lot); }, i >= 0 ? 'Lot updated' : 'Lot added');
     } else if (f.id === 'xaReqForm') {
-      commit(function (d) {
-        if (i >= 0) d.requirements[i] = Object.assign({}, d.requirements[i], v);
-        else d.requirements.unshift(Object.assign(v, { id: nextReqId(), created_at: new Date().toISOString() }));
-      }, i >= 0 ? 'Requirement updated' : 'Requirement added');
+      var req = i >= 0 ? Object.assign({}, data.requirements[i], v) : v;
+      run(function () { return X.admin.saveReq(req); }, i >= 0 ? 'Requirement updated' : 'Requirement added');
     }
   });
 
@@ -275,21 +273,20 @@
     if (a === 'add-req') { editing = { type: 'req', index: -1 }; render(); return; }
     if (a === 'edit-lot') { editing = { type: 'lot', index: i }; render(); return window.scrollTo({ top: mount().getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' }); }
     if (a === 'edit-req') { editing = { type: 'req', index: i }; return render(); }
-    if (a === 'feature') return commit(function (d) { d.lots[i].featured = !d.lots[i].featured; }, d0(i) ? 'Removed desk pick' : 'Marked as desk pick');
+    if (a === 'feature') { var fl = data.lots[i]; return run(function () { return X.admin.saveLot({ id: fl.id, featured: !fl.featured }); }, fl.featured ? 'Removed desk pick' : 'Marked as desk pick'); }
     if (a === 'copy') { var ref = data.lots[i].ref; return navigator.clipboard.writeText(base() + '#lot=' + encodeURIComponent(ref)).then(function () { toast('Lot link copied'); }, function () { toast(base() + '#lot=' + ref); }); }
-    if (a === 'del-lot') { if (confirm('Delete lot ' + data.lots[i].ref + ' (' + data.lots[i].model + ')? To take it off the exchange but keep it, set it to Hidden instead.')) commit(function (d) { d.lots.splice(i, 1); }, 'Lot deleted'); return; }
-    if (a === 'toggle-req') return commit(function (d) { d.requirements[i].status = d.requirements[i].status === 'open' ? 'closed' : 'open'; }, 'Requirement updated');
-    if (a === 'del-req') { if (confirm('Delete this requirement?')) commit(function (d) { d.requirements.splice(i, 1); }, 'Requirement deleted'); }
+    if (a === 'del-lot') { if (confirm('Delete lot ' + data.lots[i].ref + ' (' + data.lots[i].model + ')? To take it off the exchange but keep it, set it to Hidden instead.')) { var dl = data.lots[i]; run(function () { return X.admin.deleteLot(dl.id); }, 'Lot deleted'); } return; }
+    if (a === 'toggle-req') { var tr = data.requirements[i]; return run(function () { return X.admin.saveReq({ id: tr.id, status: tr.status === 'open' ? 'closed' : 'open' }); }, 'Requirement updated'); }
+    if (a === 'del-req') { if (confirm('Delete this requirement?')) { var dr = data.requirements[i]; run(function () { return X.admin.deleteReq(dr.id); }, 'Requirement deleted'); } }
   });
-  function d0(i) { return data.lots[i] && data.lots[i].featured; }
 
   document.addEventListener('change', function (e) {
     var t = e.target;
     if (!mount() || !mount().contains(t)) return;
     if (t.id === 'xaCsv' && t.files && t.files[0]) { importCsv(t.files[0]); t.value = ''; return; }
-    if (t.dataset.xaStatus != null) { var i = +t.dataset.xaStatus, v = t.value; commit(function (d) { d.lots[i].status = v; }, 'Lot ' + (STATUS[v] || v).toLowerCase()); }
+    if (t.dataset.xaStatus != null) { var si = +t.dataset.xaStatus, v = t.value, sl = data.lots[si]; run(function () { return X.admin.saveLot({ id: sl.id, status: v }); }, 'Lot ' + (STATUS[v] || v).toLowerCase()); }
   });
 
   window.TCNExchangeAdmin = { render: render };
-  if (pw) unlock(pw); else render();
+  resume();
 })();

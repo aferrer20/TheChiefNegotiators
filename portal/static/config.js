@@ -55,14 +55,15 @@ window.TCN_CONFIG = {
   },
 
   // ----- THE EXCHANGE (marketplace, public, no sign-in) -----
-  // Lots and requirements are managed in the desk console (admin.html ->
-  // Exchange tab), protected by EXCHANGE_ADMIN_PASSWORD set on Netlify.
-  // Full steps: portal/EXCHANGE_SETUP.md
+  // Lots and requirements live in Supabase and are managed in the desk
+  // console (admin.html -> Exchange tab). Full steps: portal/EXCHANGE_SETUP.md
   exchange: {
     // The public Exchange address. Lot links, the console buttons and the menu all use it.
     publicUrl: "https://www.thechiefnegotiators.com/portal/exchange",
-    // Full Netlify address, so saving works even when the page is served by GitHub Pages.
-    floorEndpoint: "https://chiefnegotiators.netlify.app/.netlify/functions/exchange",
+    // Supabase -> Project Settings -> API. The anon / publishable key is meant to be public;
+    // the row-level security rules in portal/supabase-exchange.sql decide who can change what.
+    supabaseUrl:     "https://pqfeumdtqzopkfqreney.supabase.co",
+    supabaseAnonKey: "",
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
     // Prospect Desk AI endpoint (Netlify function), full address for the same reason.

@@ -1276,10 +1276,12 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
       <!-- EXCHANGE SETUP -->
       <div class="sku-form" style="padding: 32px; margin-bottom: 20px;">
         <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">3. The Exchange and the Prospect Desk engine</h3>
-        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange is public, with no accounts or sign-in for visitors. You load lots in the Exchange tab; every enquiry is emailed through Formspree. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
+        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange is public, with no accounts or sign-in for visitors. Lots are stored in Supabase and loaded in the Exchange tab; every enquiry is emailed through Formspree. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
-          <li>On Netlify, add the environment variable <span class="kbd">EXCHANGE_ADMIN_PASSWORD</span> (a long password) and redeploy.</li>
-          <li>Open the Exchange tab, enter that password, then add lots one by one or use Import CSV.</li>
+          <li>In Supabase &rarr; SQL Editor, run <span class="kbd">portal/supabase-exchange.sql</span> (with your email at the bottom).</li>
+          <li>In Supabase &rarr; Authentication &rarr; Users, add a user with that email and tick Auto Confirm.</li>
+          <li>Paste the Supabase anon / publishable key into <span class="kbd">exchange.supabaseAnonKey</span> in <span class="kbd">static/config.js</span>.</li>
+          <li>Open the Exchange tab, sign in, then add lots one by one or use Import CSV.</li>
           <li>On Netlify, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/.netlify/functions/prospect</span>.</li>
         </ol>
         <p class="muted" style="font-size:12px; margin: 8px 0 0;">Full walkthrough: portal/EXCHANGE_SETUP.md in the site repo.</p>
@@ -1330,6 +1332,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
 <script src="static/app.js"></script>
 <script src="static/leads.js"></script>
 <script src="static/chrome.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="static/exchange-data.js"></script>
 <script src="static/exchange-admin.js"></script>
 <script src="static/prospect-desk.js"></script>
