@@ -2,7 +2,7 @@
 // The only metric this desk optimises: 20-minute calls booked with the closer.
 //
 // What changed from v1
-//   * Runs on your own site: calls the AI through a Vercel function (api/prospect.mjs)
+//   * Runs on your own site: calls the AI through a Netlify function
 //     (config.exchange.deskEndpoint), falls back to window.claude.complete.
 //   * Inventory-aware: reads live lots from the Exchange and uses them as
 //     specific, factual reasons to talk, with deep links to each lot.
@@ -279,7 +279,7 @@
     if (out == null && window.claude && window.claude.complete) {
       try { out = await window.claude.complete(req); } catch (e) { lastErr = e; }
     }
-    if (out == null) throw new Error(lastErr ? lastErr.message : 'No AI engine. Deploy the Vercel function in api/prospect.mjs and set ANTHROPIC_API_KEY. Playbook drafts below still work.');
+    if (out == null) throw new Error(lastErr ? lastErr.message : 'No AI engine. Deploy the Netlify function in netlify/functions/prospect.mjs and set ANTHROPIC_API_KEY. Playbook drafts below still work.');
     var m = String(out).match(/\{[\s\S]*\}/);
     if (!m) throw new Error('The engine returned an unreadable response. Run it again.');
     return JSON.parse(m[0]);
@@ -524,7 +524,7 @@
     modal('<h3>Desk settings</h3><div class="dk-sub">Everything the engine knows about the offer. Saved on this device.</div><div class="dk-form">' +
       f('brand', 'Brand on messages') + f('rep', 'Rep') + f('closer', 'Closer (takes the calls)') + f('closerRole', 'Closer title') +
       f('link', 'Booking link', 1) + f('exchangeUrl', 'Exchange URL (for lot links)', 1) + f('tz', 'Time zone for times offered') +
-      f('deskKey', 'Desk key (matches DESK_KEY on Vercel)', 0, 'optional') +
+      f('deskKey', 'Desk key (matches DESK_KEY on Netlify)', 0, 'optional') +
       '<label class="full"><span class="dk-k">Offer book, quoted only when asked</span><textarea class="dk-in" name="book" style="min-height:150px">' + esc(s.book) + '</textarea></label>' +
       '<label class="full"><span class="dk-k">Extra rules, one per line</span><textarea class="dk-in" name="rules" placeholder="Never mention the site state for Vera Rubin">' + esc(s.rules) + '</textarea></label></div>' +
       '<div class="dk-modal-ft"><button class="btn btn-ghost btn-sm" data-dk-cancel>Cancel</button><button class="btn btn-primary btn-sm" data-dk-save>Save</button></div>',

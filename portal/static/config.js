@@ -63,8 +63,8 @@ window.TCN_CONFIG = {
     supabaseAnonKey: "",   // Project Settings -> API -> anon public key
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
-    // Prospect Desk AI endpoint (Vercel function at api/prospect.mjs).
-    deskEndpoint: "/api/prospect",
+    // Prospect Desk AI endpoint (Netlify function). Leave as-is on Netlify.
+    deskEndpoint: "/.netlify/functions/prospect",
   },
 
   // ----- QUOTE BRANDS -----
@@ -74,7 +74,7 @@ window.TCN_CONFIG = {
   brands: {
     tcn: {
       name: "The Chief Negotiators",
-      logo: "assets/logo.png",     // transparent crest — prints clean on white
+      logo: "static/logo.png",     // transparent crest — prints clean on white
       accent: "#856517",          // gold
       ink: "#16130E",
       logoBg: "transparent",      // logo sits on white quote sheet
@@ -83,7 +83,7 @@ window.TCN_CONFIG = {
     },
     ssp: {
       name: "Strategic Supply Partners",
-      logo: "assets/ssp-logo.png",
+      logo: "static/ssp-logo.png",
       accent: "#0F2A5C",          // SSP navy
       ink: "#0F2A5C",
       logoBg: "transparent",

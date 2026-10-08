@@ -1,6 +1,6 @@
 # The Chief Negotiators
 
-Static HTML/CSS/JS site for **Chief Negotiators LLC** (St. Petersburg, FL), served via GitHub Pages at `www.thechiefnegotiators.com` (see `CNAME`). No build step, no framework — pages are hand-authored HTML at the repo root.
+Static HTML/CSS/JS site for **Chief Negotiators LLC** (St. Petersburg, FL), hosted on Netlify (deployed from this GitHub repo) at `www.thechiefnegotiators.com`. No build step, no framework — pages are hand-authored HTML at the repo root.
 
 The firm is an independent, no-inventory AI infrastructure advisory. It negotiates GPU allocation, GPUaaS and AI cloud contracts, data center colocation, powered shell / build-to-suit, and power procurement for buyers, and sources qualified offtake and capacity commercialization for operators. It holds no inventory and takes no position in any deal — see the homepage (`index.html`) and `llms.txt` for the full description in the firm's own words.
 
@@ -18,10 +18,10 @@ The firm is an independent, no-inventory AI infrastructure advisory. It negotiat
 | `security.html` | Security & compliance — how the firm handles confidential deal information. |
 | `insights.html` + `insight-*.html` | The blog. |
 | `assets/` | Stylesheet (`tcn.css`), analytics loader (`analytics.js`), availability-matcher script, logos, share card. |
-| `portal/` | The Exchange (marketplace + desk console), served at `portal.thechiefnegotiators.com` via host rewrites in `vercel.json`. Setup: `portal/EXCHANGE_SETUP.md`. |
-| `api/prospect.mjs` | Vercel function backing the Prospect Desk AI (`/api/prospect`). |
+| `portal/` | The Exchange (marketplace + desk console), served at `portal.thechiefnegotiators.com` via domain rules in `_redirects`. Setup: `portal/EXCHANGE_SETUP.md`. |
+| `netlify/functions/prospect.mjs` | Netlify function backing the Prospect Desk AI. |
 | `sitemap.xml`, `robots.txt`, `llms.txt` | Search and AI-crawler configuration. |
-| `_archive/` | Superseded drafts and raw uploads, not published by GitHub Pages. See `_archive/README.md`. |
+| `_archive/` | Superseded drafts and raw uploads, not linked from the site. See `_archive/README.md`. |
 
 ---
 

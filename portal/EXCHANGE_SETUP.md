@@ -1,6 +1,6 @@
 # The Chief Negotiators Exchange: setup
 
-The exchange lives in the `portal/` folder of the site repo and is served at **https://portal.thechiefnegotiators.com** by the same Vercel project as the main site (host-based rewrites in `vercel.json`). `www.portal.thechiefnegotiators.com` redirects to it. Until step 2 is done, the exchange runs in **preview mode**: sample lots, stored only in each visitor's browser, with a bar at the bottom to view it as a guest, applicant, buyer or seller.
+The exchange lives in the `portal/` folder of the site repo and is served at **https://portal.thechiefnegotiators.com** by the same Netlify site as the main site (domain rules in `_redirects`). `www.portal.thechiefnegotiators.com` redirects to it. Until step 2 is done, the exchange runs in **preview mode**: sample lots, stored only in each visitor's browser, with a bar at the bottom to view it as a guest, applicant, buyer or seller.
 
 ## What's in the folder
 
@@ -8,22 +8,22 @@ The exchange lives in the `portal/` folder of the site repo and is served at **h
 |---|---|
 | `portal/exchange.html` | The public marketplace (served at `/`) |
 | `portal/admin.html` | Desk console (served at `/admin`), now with the Exchange tab and rebuilt Prospect Desk |
-| `portal/assets/exchange-data.js` | Data layer (Supabase when configured, preview data otherwise) |
-| `portal/assets/exchange.js`, `assets/exchange.css` | Exchange interface |
-| `portal/assets/exchange-admin.js` | Exchange tab in the console |
-| `portal/assets/prospect-desk.js` | Prospect Desk v2 (replaces the old desk script) |
-| `portal/assets/config.js` | Your config, with a new `exchange` block |
-| `portal/assets/app.js`, `leads.js`, `chrome.js` | Your existing scripts (chrome.js gains an Exchange nav link) |
+| `portal/static/exchange-data.js` | Data layer (Supabase when configured, preview data otherwise) |
+| `portal/static/exchange.js`, `exchange.css` | Exchange interface |
+| `portal/static/exchange-admin.js` | Exchange tab in the console |
+| `portal/static/prospect-desk.js` | Prospect Desk v2 (replaces the old desk script) |
+| `portal/static/config.js` | Your config, with a new `exchange` block |
+| `portal/static/app.js`, `leads.js`, `chrome.js` | Your existing scripts (chrome.js gains an Exchange nav link) |
 | `portal/schema.sql` | Database, security rules and triggers |
-| `api/prospect.mjs` | Server-side AI for the Prospect Desk (Vercel function at `/api/prospect`) |
-| `vercel.json` (repo root) | Routes the portal host to `portal/`, keeps admin out of search |
+| `netlify/functions/prospect.mjs` | Server-side AI for the Prospect Desk |
+| `_redirects` (repo root) | Routes the portal domain to `portal/` |
 
 
 ## 1. Deploy and connect the domain
 
-1. Merge to `main`; Vercel deploys as usual.
-2. **Vercel → Project → Settings → Domains → Add**: `portal.thechiefnegotiators.com`. Also add `www.portal.thechiefnegotiators.com` (vercel.json redirects it to the bare portal host).
-3. At your DNS provider, add a `CNAME` record for `portal` (and `www.portal`) pointing to `cname.vercel-dns.com` (or the exact value Vercel shows). Vercel issues the SSL certificate automatically.
+1. Merge to `main` on GitHub; Netlify deploys as usual.
+2. **Netlify → Domain management → Add a domain alias**: `portal.thechiefnegotiators.com`, then add `www.portal.thechiefnegotiators.com` too (it redirects to the bare portal host).
+3. If your DNS is with Netlify DNS, the records are created for you. Otherwise, at your DNS provider add a `CNAME` for `portal` (and `www.portal`) pointing to your site's `*.netlify.app` address. Netlify issues the SSL certificate automatically.
 4. Visit https://portal.thechiefnegotiators.com to see preview mode.
 
 ## 2. Go live with Supabase (about 15 minutes)
@@ -34,7 +34,7 @@ The exchange lives in the `portal/` folder of the site repo and is served at **h
    - Site URL: `https://portal.thechiefnegotiators.com`
    - Redirect URLs: add `https://portal.thechiefnegotiators.com/**`
 4. **Authentication → Emails**: edit the "Magic Link" and "Confirm signup" templates so they read as The Chief Negotiators. For volume, set up custom SMTP (Resend or Postmark), because Supabase's built-in mailer is rate-limited.
-5. **Project Settings → API**: copy the Project URL and the `anon` public key into `portal/assets/config.js`:
+5. **Project Settings → API**: copy the Project URL and the `anon` public key into `portal/static/config.js`:
    ```js
    exchange: {
      supabaseUrl:     "https://xxxx.supabase.co",
@@ -54,7 +54,7 @@ The exchange lives in the `portal/` folder of the site repo and is served at **h
 
 ## 3. Turn on the Prospect Desk engine
 
-In Vercel → **Project → Settings → Environment Variables**:
+In Netlify → **Site configuration → Environment variables**:
 
 | Variable | Value |
 |---|---|
@@ -81,6 +81,6 @@ The playbook drafts (opener, follow-up touches, call ask) work without the engin
 
 ## Before you launch publicly
 
-- **Protect `admin.html`.** Live exchange data already requires an admin sign-in, but the page itself and the desk's local data are reachable by anyone with the URL. Put it behind Vercel password protection / Deployment Protection, or move it to a separate private project.
+- **Protect `admin.html`.** Live exchange data already requires an admin sign-in, but the page itself and the desk's local data are reachable by anyone with the URL. Put it behind Netlify password protection, or move it to a separate private site.
 - **Review the legal copy.** Have counsel review the lot disclaimer in the footer, your NCNDA, and the member terms.
 - **Watch your email limits.** Supabase's default email limits are low, so set up custom SMTP before driving traffic.
