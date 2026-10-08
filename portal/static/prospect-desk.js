@@ -145,7 +145,7 @@
     var two = sl[0] + ' or ' + sl[1];
     var T = {
       buyer: {
-        opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We run a members-only exchange for GPU allocation and GPUaaS capacity, with every seller verified. Are you planning to add compute in the next 12 months?',
+        opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We run an open exchange for GPU allocation and GPUaaS capacity, with every lot reviewed by our desk. Are you planning to add compute in the next 12 months?',
         value: 'Hi ' + f + ', ' + (lotHook || 'Q1 \'27 B300 and GB300 capacity is committing now. ') + 'Worth 20 minutes with ' + closer + ' to see if it fits what you\'re building?',
         call: 'Voicemail: "Hi ' + f + ', ' + s.rep + ' from ' + s.brand + '. We place GPU allocation and GPUaaS capacity for teams scaling compute. I sent you a note on LinkedIn; worth a quick call with ' + closer + '? I\'ll send times there."',
         proof: 'Hi ' + f + ', one thing buyers tell us they value: they see verified allocation, with terms, before it reaches the open market, and pay nothing for the access. ' + closer + ' has ' + two + ' open. Either work?',
@@ -154,7 +154,7 @@
         chase: 'Hi ' + f + ', still worth a quick call? ' + closer + ' has ' + two + '. Or pick a time here: [booking link]',
       },
       supplier: {
-        opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We run a members-only exchange where verified buyers source GPU allocation and GPUaaS capacity. Do you have capacity coming available in the next two quarters?',
+        opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We run an exchange where qualified buyers source GPU allocation and GPUaaS capacity. Do you have capacity coming available in the next two quarters?',
         value: 'Hi ' + f + ', we have vetted buyers looking for B300 and GB300 capacity live by Q1 \'27, and your name never appears on the floor. Worth 20 minutes with ' + closer + ' to see if your capacity fits?',
         call: 'Voicemail: "Hi ' + f + ', ' + s.rep + ' from ' + s.brand + '. We have verified buyers for GPU capacity right now. Quick call with ' + closer + '? I\'ll send times on LinkedIn."',
         proof: 'Hi ' + f + ', sellers on the exchange only spend time with buyers whose budget and signing authority we have already checked. ' + closer + ' has ' + two + '. Either work?',
@@ -172,7 +172,7 @@
         chase: 'Hi ' + f + ', still worth a quick call? ' + closer + ' has ' + two + ', or [booking link]',
       },
     };
-    T.neocloud = Object.assign({}, T.buyer, { opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We help neoclouds secure GPUaaS capacity and allocation on buyer-side terms, through a verified members-only exchange. Are you sourcing more capacity for 2026–27?' });
+    T.neocloud = Object.assign({}, T.buyer, { opener: 'Hi ' + f + ', thanks for connecting. I\'m with ' + s.brand + '. We help neoclouds secure GPUaaS capacity and allocation on buyer-side terms, through our GPU exchange. Are you sourcing more capacity for 2026–27?' });
     return T[p.side] || T.buyer;
   }
 
@@ -205,7 +205,7 @@
       '',
       'THE ONLY SCORE THAT COUNTS: a 20-minute call booked with ' + s.closer + ' (' + s.closerRole + '). Everything you write exists to get that call. Write the booking link literally as [booking link]. Offer two concrete times when closing: ' + slots().join(' or ') + '.',
       '',
-      'WHO ' + s.brand.toUpperCase() + ' IS: an independent GPU procurement and capacity advisory that runs a members-only exchange (' + s.exchangeUrl + '). Sellers list GPU hardware allocation and GPUaaS capacity; buyers are vetted before they see terms; the desk introduces both sides under NCNDA and negotiates. We take no position; the client contracts directly with the counterparty. End users and direct holders only, no brokers. Buyers pay nothing.',
+      'WHO ' + s.brand.toUpperCase() + ' IS: an independent GPU procurement and capacity advisory that runs a public GPU exchange (' + s.exchangeUrl + '). Sellers list GPU hardware allocation and GPUaaS capacity; lots and terms are shown openly, and the desk qualifies buyers before any introduction; the desk introduces both sides under NCNDA and negotiates. We take no position; the client contracts directly with the counterparty. End users and direct holders only, no brokers. Buyers pay nothing.',
       'SIDES: buyer (enterprise / AI company), neocloud (buying GPUaaS or allocation), supplier (holds GPUs or GPUaaS capacity to sell; the call is about listing on the exchange), operator (colo; the call is about tenants we bring).',
       '',
       'CALL-FIRST PLAYBOOK:',
@@ -309,7 +309,7 @@
     try {
       await loadLots();
       var s = settings();
-      var sys = 'You prepare call briefs for ' + s.closer + ' at ' + s.brand + ', a GPU procurement advisory running a members-only exchange. Be terse and specific. Never invent facts not in the thread. Respond with ONLY JSON: {"summary":"two sentences","known":["..."],"unknown":["the gaps to close on the call"],"likely_objections":["..."],"lots_to_bring":["TCN-... and why"],"opening_line":"how ' + first(s.closer) + ' should open","close":"the concrete next step to ask for at the end of the call"}';
+      var sys = 'You prepare call briefs for ' + s.closer + ' at ' + s.brand + ', a GPU procurement advisory running a public GPU exchange. Be terse and specific. Never invent facts not in the thread. Respond with ONLY JSON: {"summary":"two sentences","known":["..."],"unknown":["the gaps to close on the call"],"likely_objections":["..."],"lots_to_bring":["TCN-... and why"],"opening_line":"how ' + first(s.closer) + ' should open","close":"the concrete next step to ask for at the end of the call"}';
       var r = await callEngine(sys + '\n\nLIVE LOTS:\n' + lotsFor(p).map(lotLine).join('\n'), userPrompt(p, false, 'Write the call brief for this booked call.'));
       p = get(state.sel); p.brief = r; p.briefAt = Date.now(); put(p);
     } catch (e) { state.err = e.message || String(e); }
