@@ -55,11 +55,11 @@ window.TCN_CONFIG = {
   },
 
   // ----- THE EXCHANGE (marketplace, public, no sign-in) -----
-  // Lots come from a Google Sheet published as CSV, just like inventory.
-  // Full steps and column names: portal/EXCHANGE_SETUP.md
+  // Lots and requirements are managed in the desk console (admin.html ->
+  // Exchange tab), protected by EXCHANGE_ADMIN_PASSWORD set on Netlify.
+  // Full steps: portal/EXCHANGE_SETUP.md
   exchange: {
-    lotsSheetCsvUrl:         "",   // File > Share > Publish to web > Lots tab > CSV
-    requirementsSheetCsvUrl: "",   // optional: Requirements tab, same steps
+    floorEndpoint: "/.netlify/functions/exchange",
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
     // Prospect Desk AI endpoint (Netlify function). Leave as-is on Netlify.

@@ -9,13 +9,15 @@ It lives in the `portal/` folder of the site repo. Netlify serves it from the sa
 | File | What it is |
 |---|---|
 | `portal/exchange.html` | The public exchange (served at `/`) |
-| `portal/admin.html` | Desk console (served at `/admin`), Exchange tab shows what is on the floor |
-| `portal/static/config.js` | Settings: the Google Sheet links, Formspree endpoints, booking link |
-| `portal/static/exchange-data.js` | Reads lots and requirements from the sheet; sends enquiries |
+| `portal/admin.html` | Desk console (served at `/admin`). The Exchange tab is where you add and edit lots and requirements |
+| `portal/static/config.js` | Settings: Formspree endpoints, booking link, function addresses |
+| `portal/static/exchange-data.js` | Loads the floor from the exchange function; sends enquiries |
 | `portal/static/exchange.js`, `exchange.css` | Exchange interface |
-| `portal/static/exchange-admin.js` | Exchange tab in the console |
+| `portal/static/exchange-admin.js` | Exchange editor in the console |
 | `portal/static/prospect-desk.js` | Prospect Desk |
+| `netlify/functions/exchange.mjs` (repo root) | Stores lots and requirements in Netlify Blobs; editing needs the admin password |
 | `netlify/functions/prospect.mjs` (repo root) | Server-side AI for the Prospect Desk |
+| `package.json` (repo root) | Lets Netlify install `@netlify/blobs` for the exchange function |
 | `_redirects` (repo root) | Routes the portal domain to `portal/` |
 
 ## 1. Connect the domain
@@ -24,42 +26,17 @@ It lives in the `portal/` folder of the site repo. Netlify serves it from the sa
 2. **Netlify → Domain management → Add a domain alias**: `portal.thechiefnegotiators.com`. Add `www.portal.thechiefnegotiators.com` too; it redirects to the bare portal address.
 3. If the domain uses Netlify DNS, the records are created for you. Otherwise, at your DNS provider, add a `CNAME` for `portal` (and `www.portal`) pointing to your site's `*.netlify.app` address. Netlify issues the SSL certificate automatically.
 
-## 2. Put your lots in a Google Sheet
+## 2. Load your lots in the console
 
-1. Make a Google Sheet with a tab named **Lots**. Row 1 is the header row. Column names are not case-sensitive:
+1. **Set the editor password.** In Netlify, go to **Site configuration → Environment variables → Add a variable**: key `EXCHANGE_ADMIN_PASSWORD`, value a long password. Then **Deploys → Trigger deploy** so the function picks it up.
+2. **Open the editor.** Go to https://portal.thechiefnegotiators.com/admin, open the **Exchange** tab, and enter the password. It stays unlocked until you close the browser tab or click **Lock**.
+3. **Add lots:**
+   - **Add lot** opens a form. Model and GPUs are required; everything else is optional. Each lot gets a reference like `TCN-B300-0405`, which is also its share link.
+   - **Import CSV** adds many lots at once. Row 1 must be the column headers; Model and GPUs (or Quantity) are required. Recognised columns: Ref, Type (GPUaaS or Hardware), Model, Config (or Form Factor), GPUs (or Quantity), Condition, Region, Available (or Lead Text / Lead Days), Price, Price Unit, Term Months, Deposit, Min Order, Featured, Status, Notes. A row whose Ref matches an existing lot updates that lot instead of adding a new one. To bring lots over from Google Sheets, use File → Download → CSV.
+4. **Manage the floor.** Each lot's **Status** menu sets it to Live, Under offer, or Hidden (taken off the exchange but kept). Use **Desk pick** to feature a lot at the top, **Edit** to change it, and **Copy link** for outreach. Every change saves immediately and shows on the exchange within a minute.
+5. **Requirements board.** **Add requirement** posts a public "buyer is looking for" row. Never include the buyer's name. Use **Close** to take one down.
 
-   | Column | Required | Example | Notes |
-   |---|---|---|---|
-   | Ref | | `TCN-B300-0403` | The lot's ID and share link. A plain number becomes `TCN-<MODEL>-<number>`. Left blank, one is made from the row order, so set it if you share lot links. |
-   | Type | | `GPUaaS` or `Hardware` | Defaults to Hardware |
-   | Model | yes | `B300` | |
-   | Config | | `HGX 8-GPU nodes` | |
-   | GPUs | yes | `1024` | |
-   | Condition | | `New, sealed` | Hardware lots |
-   | Region | | `United States` | Also feeds the region filter |
-   | Available | | `Q1 2027` | |
-   | Price | | `4.45` | Blank shows "Price on request" |
-   | Price Unit | | `per GPU-hr` | Defaults to per GPU-hr (GPUaaS) or per GPU (hardware) |
-   | Term Months | | `36` | GPUaaS lots |
-   | Deposit | | `25` | Percent |
-   | Min Order | | `256` | GPUs; defaults to 64 |
-   | Featured | | `yes` | Shows a "Desk pick" tag and sorts to the top |
-   | Status | | `live`, `under offer`, `hidden` | Blank means live. `hidden`, `closed` or `sold` removes it from the floor. |
-   | Notes | | `Liquid cooled, InfiniBand` | Shown on the lot's detail panel |
-
-2. Optional: add a tab named **Requirements** with `Type`, `Model`, `GPUs`, `Region`, `Timeline`, `Status` (blank or `open` shows it). These appear on the public requirements board, so put only what you're happy to show publicly. Never put buyer names here.
-3. **File → Share → Publish to web**. Pick the **Lots** tab and **Comma-separated values (.csv)**, then **Publish**, and copy the link. Do the same for the Requirements tab.
-4. Paste the links into `portal/static/config.js`:
-   ```js
-   exchange: {
-     lotsSheetCsvUrl:         "https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv",
-     requirementsSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv",
-     ...
-   }
-   ```
-5. Commit to `main`. After this, editing the sheet updates the site within a minute or two (that's Google's publish delay), with no redeploy.
-
-Until the sheet is connected, the floor shows "New lots are being added".
+The lots are stored on Netlify (Netlify Blobs), so there's no other service to sign up for. If two people edit at once, the second save is refused and the editor reloads the latest version, so nobody overwrites anyone else's changes.
 
 ## 3. How enquiries reach you
 
@@ -69,7 +46,7 @@ Every form on the exchange emails the sales inbox through your Formspree endpoin
 |---|---|
 | `[INTRO · CALL NOW]` | Someone asked for an introduction on a lot, or offered to fill a requirement |
 | `[REQUIREMENT · CALL NOW]` | A buyer posted a requirement |
-| `[NEW LOT · REVIEW]` | A seller submitted a lot. Verify it, then add it to the sheet to list it. |
+| `[NEW LOT · REVIEW]` | A seller submitted a lot. Verify it, then add it in the console to list it. |
 | `[CALL LINK CLICKED]` | Someone opened the booking link |
 
 Each form asks for name, company, work email and phone. The browser remembers them, so a visitor's second enquiry takes one click.
@@ -92,5 +69,6 @@ Redeploy. Then in the console, go to Prospect Desk → **Desk settings**, paste 
 ## Before you launch publicly
 
 - **The desk console at `/admin` is reachable by anyone with the link.** It stores its own data (leads, quotes, desk notes) only in the browser you use it on, and search engines are told not to index it. To lock it, move `admin.html` to a separate, password-protected Netlify site.
-- **Prices are public.** Anything in the Price column is visible to everyone. Leave it blank for "Price on request".
+- **Prices are public.** Any price you enter on a lot is visible to everyone. Leave it blank for "Price on request".
+- **Use a long, unique exchange password.** Anyone who has it can change the floor. To change it, update `EXCHANGE_ADMIN_PASSWORD` in Netlify and redeploy.
 - **Review the legal copy.** Have counsel review the lot disclaimer in the footer and your NCNDA.

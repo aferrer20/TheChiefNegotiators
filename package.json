@@ -1,0 +1,8 @@
+{
+  "name": "thechiefnegotiators",
+  "private": true,
+  "description": "Static site; dependencies here are only for Netlify Functions.",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.3"
+  }
+}
