@@ -4,28 +4,6 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.portal.thechiefnegotiators.com"
-        }
-      ],
-      "destination": "https://portal.thechiefnegotiators.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/portal/:path*",
-      "missing": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "destination": "https://portal.thechiefnegotiators.com/:path*",
-      "permanent": false
-    },
-    {
       "source": "/rate-index",
       "destination": "/capacity",
       "permanent": true
@@ -58,73 +36,6 @@
           "value": "strict-origin-when-cross-origin"
         }
       ]
-    },
-    {
-      "source": "/assets/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/admin",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
-    {
-      "source": "/(EXCHANGE_SETUP.md|schema.sql)",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "destination": "/portal/exchange"
-    },
-    {
-      "source": "/:path((?!api/).*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?:www\\.)?portal\\.thechiefnegotiators\\.com"
-        }
-      ],
-      "destination": "/portal/:path"
     }
   ]
 }

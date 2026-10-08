@@ -17,7 +17,7 @@
     <nav class="nav">
       <div class="wrap nav-inner">
         <a href="index.html" class="brand">
-          <img src="assets/logo.png" alt="The Chief Negotiators" class="brand-logo" />
+          <img src="static/logo.png" alt="The Chief Negotiators" class="brand-logo" />
           <span class="brand-word">The Chief <span>Negotiators</span></span>
         </a>
         <div class="nav-links">
@@ -35,7 +35,7 @@
         <div class="foot-grid">
           <div>
             <div class="brand" style="margin-bottom:14px">
-              <img src="assets/logo.png" alt="" class="brand-logo" />
+              <img src="static/logo.png" alt="" class="brand-logo" />
               <span class="brand-word">The Chief <span>Negotiators</span></span>
             </div>
             <div class="foot-tagline">Strategic access. Stronger outcomes.</div>

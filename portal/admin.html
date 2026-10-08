@@ -919,8 +919,8 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
   <section class="admin-section" id="tab-exchange">
     <div class="wrap" style="max-width:1480px">
       <div class="add-bar">
-        <div><h2>Exchange</h2><div class="dk-sub">Members, lots, introductions. Speed to lead wins.</div></div>
-        <div class="right"><a class="btn btn-ghost btn-sm" href="exchange.html" target="_blank" rel="noopener">Open the exchange</a></div>
+        <div><h2>Exchange</h2><div class="dk-sub">What is on the public floor right now. Enquiries arrive by email.</div></div>
+        <div class="right"><a class="btn btn-ghost btn-sm" href="/" target="_blank" rel="noopener">Open the exchange</a></div>
       </div>
       <div id="exchangeMount"></div>
     </div>
@@ -1199,7 +1199,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
   <section class="admin-section hidden" id="tab-setup">
     <div class="wrap">
       <h2 style="font-family:var(--serif); font-weight:400; font-size:32px; margin: 0 0 8px;">Site setup</h2>
-      <p class="muted" style="margin: 0 0 32px; max-width:640px;">Wire the site to Formspree (for form submissions) and Google Sheets (for live inventory). All settings live in <span class="kbd">assets/config.js</span> — edit that one file and redeploy.</p>
+      <p class="muted" style="margin: 0 0 32px; max-width:640px;">Wire the site to Formspree (for form submissions) and Google Sheets (for live inventory). All settings live in <span class="kbd">static/config.js</span> — edit that one file and redeploy.</p>
 
       <!-- STATUS CARDS -->
       <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 36px;">
@@ -1221,7 +1221,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
           <li>Sign up at <a href="https://formspree.io" target="_blank" rel="noopener">formspree.io</a> with sales@thechiefnegotiators.com.</li>
           <li>Create <strong>four forms</strong>. Suggested names: <span class="kbd">Reservation</span>, <span class="kbd">Want to Buy</span>, <span class="kbd">Contact</span>, <span class="kbd">BOM Request</span>.</li>
           <li>Each form has an endpoint that looks like <span class="kbd">https://formspree.io/f/xxxxxxxx</span>.</li>
-          <li>Open <span class="kbd">assets/config.js</span> and paste each URL into the matching slot:</li>
+          <li>Open <span class="kbd">static/config.js</span> and paste each URL into the matching slot:</li>
         </ol>
         <pre style="background: var(--bg); border: 1px solid var(--line); padding: 18px; border-radius: var(--r-sm); font-family: var(--mono); font-size: 12px; color: var(--text-2); overflow-x: auto; margin: 16px 0; line-height: 1.7;">formspree: {
   reservation: <span style="color:var(--copper)">"https://formspree.io/f/xxxxxxxx"</span>,
@@ -1267,7 +1267,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
           <li>In the sheet: <strong>File → Share → Publish to web</strong>.</li>
           <li>Select the inventory tab and choose <strong>Comma-separated values (.csv)</strong>.</li>
           <li>Click <strong>Publish</strong>. Copy the URL it gives you.</li>
-          <li>Paste it into <span class="kbd">assets/config.js</span>:</li>
+          <li>Paste it into <span class="kbd">static/config.js</span>:</li>
         </ol>
         <pre style="background: var(--bg); border: 1px solid var(--line); padding: 18px; border-radius: var(--r-sm); font-family: var(--mono); font-size: 12px; color: var(--text-2); overflow-x: auto; margin: 16px 0;">inventorySheetCsvUrl: <span style="color:var(--copper)">"https://docs.google.com/spreadsheets/d/e/.../pub?output=csv"</span>,</pre>
         <p class="muted" style="font-size:12px; margin: 0;">Redeploy. The Inventory page now reads your sheet every 60 seconds. To update stock: edit the sheet and save. No code changes needed.</p>
@@ -1276,23 +1276,22 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
       <!-- EXCHANGE SETUP -->
       <div class="sku-form" style="padding: 32px; margin-bottom: 20px;">
         <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">3. The Exchange and the Prospect Desk engine</h3>
-        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange runs in preview mode on sample data until Supabase is connected. The Prospect Desk needs the Vercel function (api/prospect.mjs) for AI drafts on your domain.</p>
+        <p class="muted" style="font-size:13px; margin: 0 0 16px;">The exchange is public, with no accounts or sign-in. Lots come from a Google Sheet; every enquiry is emailed through Formspree. The Prospect Desk needs the Netlify function for AI drafts on your domain.</p>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
-          <li>Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a>. In SQL Editor, run <span class="kbd">supabase/schema.sql</span>.</li>
-          <li>Authentication &rarr; URL Configuration: set Site URL to your domain and add <span class="kbd">https://yourdomain/exchange.html</span> and <span class="kbd">/admin.html</span> as redirect URLs.</li>
-          <li>Paste the project URL and anon key into <span class="kbd">exchange</span> in <span class="kbd">assets/config.js</span>.</li>
-          <li>Apply on your own exchange with the sales email, click the sign-in link, then run the admin bootstrap line at the bottom of the schema.</li>
-          <li>In Vercel project settings, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/api/prospect</span>.</li>
+          <li>Make a Google Sheet with a <span class="kbd">Lots</span> tab (columns in <span class="kbd">portal/EXCHANGE_SETUP.md</span>), and optionally a <span class="kbd">Requirements</span> tab.</li>
+          <li>File &rarr; Share &rarr; Publish to web &rarr; pick the tab &rarr; CSV. Paste the link into <span class="kbd">exchange.lotsSheetCsvUrl</span> (and <span class="kbd">requirementsSheetCsvUrl</span>) in <span class="kbd">static/config.js</span>.</li>
+          <li>Edit the sheet any time; the exchange picks up changes within a minute, no redeploy.</li>
+          <li>On Netlify, set <span class="kbd">ANTHROPIC_API_KEY</span> (and optionally <span class="kbd">DESK_KEY</span>). The desk calls <span class="kbd">/.netlify/functions/prospect</span>.</li>
         </ol>
         <p class="muted" style="font-size:12px; margin: 8px 0 0;">Full walkthrough: portal/EXCHANGE_SETUP.md in the site repo.</p>
       </div>
 
-      <!-- VERCEL DEPLOY -->
+      <!-- NETLIFY DEPLOY -->
       <div class="sku-form" style="padding: 32px;">
-        <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">4. Deploy on Vercel</h3>
+        <h3 style="font-family:var(--serif); font-weight:400; font-size: 24px; color:var(--text); margin: 0 0 6px;">4. Deploy on Netlify</h3>
         <ol style="padding-left: 18px; color: var(--text-2); font-size: 14px; line-height: 1.7;">
-          <li>Push to the site repo's <span class="kbd">main</span> branch; Vercel deploys automatically. The portal lives in the <span class="kbd">portal/</span> folder.</li>
-          <li>Add <span class="kbd">portal.thechiefnegotiators.com</span> under Vercel → Settings → Domains and point its DNS CNAME at Vercel.</li>
+          <li>Drag the project folder onto <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a> for instant deploy, or connect a Git repo for continuous deployment.</li>
+          <li>The portal is served at <span class="kbd">portal.thechiefnegotiators.com</span>, a domain alias on the same Netlify site (see <span class="kbd">_redirects</span>).</li>
           <li>Whenever you edit <span class="kbd">config.js</span>, redeploy. Changes to the Google Sheet itself do <strong>not</strong> require a redeploy.</li>
         </ol>
       </div>
@@ -1327,16 +1326,15 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
 
 <div data-foot=""></div>
 
-<script src="assets/config.js"></script>
+<script src="static/config.js"></script>
 <script>(function(){var R=window.__resources||{},b=(window.TCN_CONFIG||{}).brands||{};if(R.tcnLogo&&b.tcn)b.tcn.logo=R.tcnLogo;if(R.sspLogo&&b.ssp)b.ssp.logo=R.sspLogo;})();</script>
-<script src="assets/app.js"></script>
-<script src="assets/leads.js"></script>
-<script src="assets/chrome.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="assets/exchange-data.js"></script>
-<script src="assets/exchange-admin.js"></script>
-<script src="assets/prospect-desk.js"></script>
-<script>document.addEventListener("DOMContentLoaded",function(){var R=window.__resources||{};if(R.tcnLogo)document.querySelectorAll('img[src="assets/logo.png"]').forEach(function(i){i.src=R.tcnLogo;});});</script>
+<script src="static/app.js"></script>
+<script src="static/leads.js"></script>
+<script src="static/chrome.js"></script>
+<script src="static/exchange-data.js"></script>
+<script src="static/exchange-admin.js"></script>
+<script src="static/prospect-desk.js"></script>
+<script>document.addEventListener("DOMContentLoaded",function(){var R=window.__resources||{};if(R.tcnLogo)document.querySelectorAll('img[src="static/logo.png"]').forEach(function(i){i.src=R.tcnLogo;});});</script>
 <script>
 (function () {
   const { LocalInventory, Inventory, Sheet, Reservations, WTB, fmtRelative, fmtDate, fmtTime, toast, config } = window.TCN;
@@ -1662,7 +1660,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
   const { BOMs, nextQuoteNo } = window.TCN;
   const CUR = { USD: '$', EUR: '€', GBP: '£' };
   const BRANDS = (config.brands) || {
-    tcn: { name: 'The Chief Negotiators', logo: 'assets/logo-full.png', accent: '#C6986C', ink: '#1a1613', tagline: 'Verified GPU procurement.', contactLine: 'sales@thechiefnegotiators.com · +1 (305) 610-2849' },
+    tcn: { name: 'The Chief Negotiators', logo: 'static/logo-full.png', accent: '#C6986C', ink: '#1a1613', tagline: 'Verified GPU procurement.', contactLine: 'sales@thechiefnegotiators.com · +1 (305) 610-2849' },
   };
   const BRAND_KEYS = Object.keys(BRANDS);
 
@@ -1923,7 +1921,7 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
     const ink = brand.ink || '#1a1613';
     const qno = (meta.brand === 'ssp' ? 'SSP-Q' : 'TCN-Q') + nextQuoteNo();
     const cur = meta.currency;
-    const logo = (/^(blob:|data:)/.test(brand.logo||'') ? brand.logo : new URL(brand.logo || 'assets/logo.png', location.href).href);
+    const logo = (/^(blob:|data:)/.test(brand.logo||'') ? brand.logo : new URL(brand.logo || 'static/logo.png', location.href).href);
     const today = fmtDate(Date.now());
     const validTxt = meta.valid ? meta.valid : '—';
     const rowsHtml = meta.lines.map(l => {

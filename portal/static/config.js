@@ -54,17 +54,16 @@ window.TCN_CONFIG = {
     phoneHref: "+13056102849",
   },
 
-  // ----- THE EXCHANGE (marketplace) -----
-  // Leave the two Supabase values empty to run the exchange in preview
-  // mode (sample data, stored in the visitor's browser only).
-  // Fill them in to go live. Full steps: EXCHANGE_SETUP.md
+  // ----- THE EXCHANGE (marketplace, public, no sign-in) -----
+  // Lots come from a Google Sheet published as CSV, just like inventory.
+  // Full steps and column names: portal/EXCHANGE_SETUP.md
   exchange: {
-    supabaseUrl:     "",   // e.g. https://abcdefgh.supabase.co
-    supabaseAnonKey: "",   // Project Settings -> API -> anon public key
+    lotsSheetCsvUrl:         "",   // File > Share > Publish to web > Lots tab > CSV
+    requirementsSheetCsvUrl: "",   // optional: Requirements tab, same steps
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
-    // Prospect Desk AI endpoint (Vercel function at api/prospect.mjs).
-    deskEndpoint: "/api/prospect",
+    // Prospect Desk AI endpoint (Netlify function). Leave as-is on Netlify.
+    deskEndpoint: "/.netlify/functions/prospect",
   },
 
   // ----- QUOTE BRANDS -----
@@ -74,7 +73,7 @@ window.TCN_CONFIG = {
   brands: {
     tcn: {
       name: "The Chief Negotiators",
-      logo: "assets/logo.png",     // transparent crest — prints clean on white
+      logo: "static/logo.png",     // transparent crest — prints clean on white
       accent: "#856517",          // gold
       ink: "#16130E",
       logoBg: "transparent",      // logo sits on white quote sheet
@@ -83,7 +82,7 @@ window.TCN_CONFIG = {
     },
     ssp: {
       name: "Strategic Supply Partners",
-      logo: "assets/ssp-logo.png",
+      logo: "static/ssp-logo.png",
       accent: "#0F2A5C",          // SSP navy
       ink: "#0F2A5C",
       logoBg: "transparent",

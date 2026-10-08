@@ -1,60 +1,84 @@
 # The Chief Negotiators Exchange: setup
 
-The exchange lives in the `portal/` folder of the site repo and is served at **https://portal.thechiefnegotiators.com** by the same Vercel project as the main site (host-based rewrites in `vercel.json`). `www.portal.thechiefnegotiators.com` redirects to it. Until step 2 is done, the exchange runs in **preview mode**: sample lots, stored only in each visitor's browser, with a bar at the bottom to view it as a guest, applicant, buyer or seller.
+The exchange is a public page at **https://portal.thechiefnegotiators.com**. Nobody signs in or creates an account. Everyone sees every lot, including price, deposit and term. Visitors act through short forms, and every form goes to the sales inbox.
+
+It lives in the `portal/` folder of the site repo. Netlify serves it from the same site as www.thechiefnegotiators.com, using the domain rules in `_redirects`.
 
 ## What's in the folder
 
 | File | What it is |
 |---|---|
-| `portal/exchange.html` | The public marketplace (served at `/`) |
-| `portal/admin.html` | Desk console (served at `/admin`), now with the Exchange tab and rebuilt Prospect Desk |
-| `portal/assets/exchange-data.js` | Data layer (Supabase when configured, preview data otherwise) |
-| `portal/assets/exchange.js`, `assets/exchange.css` | Exchange interface |
-| `portal/assets/exchange-admin.js` | Exchange tab in the console |
-| `portal/assets/prospect-desk.js` | Prospect Desk v2 (replaces the old desk script) |
-| `portal/assets/config.js` | Your config, with a new `exchange` block |
-| `portal/assets/app.js`, `leads.js`, `chrome.js` | Your existing scripts (chrome.js gains an Exchange nav link) |
-| `portal/schema.sql` | Database, security rules and triggers |
-| `api/prospect.mjs` | Server-side AI for the Prospect Desk (Vercel function at `/api/prospect`) |
-| `vercel.json` (repo root) | Routes the portal host to `portal/`, keeps admin out of search |
+| `portal/exchange.html` | The public exchange (served at `/`) |
+| `portal/admin.html` | Desk console (served at `/admin`), Exchange tab shows what is on the floor |
+| `portal/static/config.js` | Settings: the Google Sheet links, Formspree endpoints, booking link |
+| `portal/static/exchange-data.js` | Reads lots and requirements from the sheet; sends enquiries |
+| `portal/static/exchange.js`, `exchange.css` | Exchange interface |
+| `portal/static/exchange-admin.js` | Exchange tab in the console |
+| `portal/static/prospect-desk.js` | Prospect Desk |
+| `netlify/functions/prospect.mjs` (repo root) | Server-side AI for the Prospect Desk |
+| `_redirects` (repo root) | Routes the portal domain to `portal/` |
 
+## 1. Connect the domain
 
-## 1. Deploy and connect the domain
+1. Merge to `main` on GitHub; Netlify deploys as usual.
+2. **Netlify → Domain management → Add a domain alias**: `portal.thechiefnegotiators.com`. Add `www.portal.thechiefnegotiators.com` too; it redirects to the bare portal address.
+3. If the domain uses Netlify DNS, the records are created for you. Otherwise, at your DNS provider, add a `CNAME` for `portal` (and `www.portal`) pointing to your site's `*.netlify.app` address. Netlify issues the SSL certificate automatically.
 
-1. Merge to `main`; Vercel deploys as usual.
-2. **Vercel → Project → Settings → Domains → Add**: `portal.thechiefnegotiators.com`. Also add `www.portal.thechiefnegotiators.com` (vercel.json redirects it to the bare portal host).
-3. At your DNS provider, add a `CNAME` record for `portal` (and `www.portal`) pointing to `cname.vercel-dns.com` (or the exact value Vercel shows). Vercel issues the SSL certificate automatically.
-4. Visit https://portal.thechiefnegotiators.com to see preview mode.
+## 2. Put your lots in a Google Sheet
 
-## 2. Go live with Supabase (about 15 minutes)
+1. Make a Google Sheet with a tab named **Lots**. Row 1 is the header row. Column names are not case-sensitive:
 
-1. Create a project at supabase.com (the free tier is enough to start).
-2. **SQL Editor → New query** → paste all of `supabase/schema.sql` → **Run**. If it reports an error, send it to me with the line number.
-3. **Authentication → URL Configuration**
-   - Site URL: `https://portal.thechiefnegotiators.com`
-   - Redirect URLs: add `https://portal.thechiefnegotiators.com/**`
-4. **Authentication → Emails**: edit the "Magic Link" and "Confirm signup" templates so they read as The Chief Negotiators. For volume, set up custom SMTP (Resend or Postmark), because Supabase's built-in mailer is rate-limited.
-5. **Project Settings → API**: copy the Project URL and the `anon` public key into `portal/assets/config.js`:
+   | Column | Required | Example | Notes |
+   |---|---|---|---|
+   | Ref | | `TCN-B300-0403` | The lot's ID and share link. A plain number becomes `TCN-<MODEL>-<number>`. Left blank, one is made from the row order, so set it if you share lot links. |
+   | Type | | `GPUaaS` or `Hardware` | Defaults to Hardware |
+   | Model | yes | `B300` | |
+   | Config | | `HGX 8-GPU nodes` | |
+   | GPUs | yes | `1024` | |
+   | Condition | | `New, sealed` | Hardware lots |
+   | Region | | `United States` | Also feeds the region filter |
+   | Available | | `Q1 2027` | |
+   | Price | | `4.45` | Blank shows "Price on request" |
+   | Price Unit | | `per GPU-hr` | Defaults to per GPU-hr (GPUaaS) or per GPU (hardware) |
+   | Term Months | | `36` | GPUaaS lots |
+   | Deposit | | `25` | Percent |
+   | Min Order | | `256` | GPUs; defaults to 64 |
+   | Featured | | `yes` | Shows a "Desk pick" tag and sorts to the top |
+   | Status | | `live`, `under offer`, `hidden` | Blank means live. `hidden`, `closed` or `sold` removes it from the floor. |
+   | Notes | | `Liquid cooled, InfiniBand` | Shown on the lot's detail panel |
+
+2. Optional: add a tab named **Requirements** with `Type`, `Model`, `GPUs`, `Region`, `Timeline`, `Status` (blank or `open` shows it). These appear on the public requirements board, so put only what you're happy to show publicly. Never put buyer names here.
+3. **File → Share → Publish to web**. Pick the **Lots** tab and **Comma-separated values (.csv)**, then **Publish**, and copy the link. Do the same for the Requirements tab.
+4. Paste the links into `portal/static/config.js`:
    ```js
    exchange: {
-     supabaseUrl:     "https://xxxx.supabase.co",
-     supabaseAnonKey: "eyJ...",
+     lotsSheetCsvUrl:         "https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv",
+     requirementsSheetCsvUrl: "https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv",
      ...
    }
    ```
-   The anon key is designed to be public. The security comes from the row-level rules in the schema.
-6. Redeploy.
-7. **Make yourself admin.** Apply on https://portal.thechiefnegotiators.com with `sales@thechiefnegotiators.com`, click the email link, then run this in the SQL Editor:
-   ```sql
-   update public.members set is_admin = true, status = 'approved'
-    where email = 'sales@thechiefnegotiators.com';
-   ```
-8. Open https://portal.thechiefnegotiators.com/admin → Exchange tab → sign in with the same email.
-9. **Seed the floor.** In the console, approve your own account as a seller (it already is), then submit your real lots from the portal → *Submit a lot*, and put them live from the Exchange tab. Or add rows in Supabase → Table Editor → `listings` with `status = live`.
+5. Commit to `main`. After this, editing the sheet updates the site within a minute or two (that's Google's publish delay), with no redeploy.
 
-## 3. Turn on the Prospect Desk engine
+Until the sheet is connected, the floor shows "New lots are being added".
 
-In Vercel → **Project → Settings → Environment Variables**:
+## 3. How enquiries reach you
+
+Every form on the exchange emails the sales inbox through your Formspree endpoint (`formspree.lead` in config.js, or `formspree.contact` if that's blank). The subject says what kind of enquiry it is, so you can set inbox rules or phone alerts on it:
+
+| Subject starts with | From |
+|---|---|
+| `[INTRO · CALL NOW]` | Someone asked for an introduction on a lot, or offered to fill a requirement |
+| `[REQUIREMENT · CALL NOW]` | A buyer posted a requirement |
+| `[NEW LOT · REVIEW]` | A seller submitted a lot. Verify it, then add it to the sheet to list it. |
+| `[CALL LINK CLICKED]` | Someone opened the booking link |
+
+Each form asks for name, company, work email and phone. The browser remembers them, so a visitor's second enquiry takes one click.
+
+Share lot links in outreach: `https://portal.thechiefnegotiators.com/#lot=TCN-B300-0403`. The Exchange tab in the console has a **Copy link** button for each lot.
+
+## 4. Turn on the Prospect Desk engine
+
+In Netlify → **Site configuration → Environment variables**:
 
 | Variable | Value |
 |---|---|
@@ -63,24 +87,10 @@ In Vercel → **Project → Settings → Environment Variables**:
 | `ANTHROPIC_MODEL` | Optional; defaults to `claude-sonnet-5-5` |
 | `ALLOWED_ORIGIN` | Optional; `https://portal.thechiefnegotiators.com` |
 
-Redeploy, then in the console: Prospect Desk → **Desk settings** → paste the same `DESK_KEY`, and check the closer name, booking link, time zone and exchange URL.
-
-The playbook drafts (opener, follow-up touches, call ask) work without the engine. The engine adds thread reading, objection handling, live-lot references and call briefs.
-
-## How leads reach you
-
-- Every application, introduction, new lot and requirement is also emailed through your existing Formspree contact endpoint (or `formspree.lead` if you set one). Subjects start with the tier and `CALL NOW` when the lead is hot, so you can set an inbox rule or phone alert on that phrase.
-- The console's **Call now** queue shows the same leads with a clock; red means past an hour.
-
-## Daily rhythm that books the most calls
-
-1. **Exchange → Call now.** Clear it first. Approve applicants on the call, not before.
-2. **Prospect Desk → Due now.** Replies owed first, then follow-up touches, then openers.
-3. **Exchange → Matches.** Any open requirement with a live lot is an introduction email you can send today.
-4. Share lot links (`https://portal.thechiefnegotiators.com/exchange#lot=TCN-...`) in outreach. The desk inserts them automatically.
+Redeploy. Then in the console, go to Prospect Desk → **Desk settings**, paste the same `DESK_KEY`, and check the closer name, booking link, time zone and exchange URL.
 
 ## Before you launch publicly
 
-- **Protect `admin.html`.** Live exchange data already requires an admin sign-in, but the page itself and the desk's local data are reachable by anyone with the URL. Put it behind Vercel password protection / Deployment Protection, or move it to a separate private project.
-- **Review the legal copy.** Have counsel review the lot disclaimer in the footer, your NCNDA, and the member terms.
-- **Watch your email limits.** Supabase's default email limits are low, so set up custom SMTP before driving traffic.
+- **The desk console at `/admin` is reachable by anyone with the link.** It stores its own data (leads, quotes, desk notes) only in the browser you use it on, and search engines are told not to index it. To lock it, move `admin.html` to a separate, password-protected Netlify site.
+- **Prices are public.** Anything in the Price column is visible to everyone. Leave it blank for "Price on request".
+- **Review the legal copy.** Have counsel review the lot disclaimer in the footer and your NCNDA.
