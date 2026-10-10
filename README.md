@@ -14,7 +14,7 @@ The firm is an independent, no-inventory AI infrastructure advisory. It negotiat
 | `gpu-clusters-gpuaas.html`, `gpu-cluster-procurement.html`, `gpuaas-contract-negotiation.html`, `data-center-capacity-sourcing.html`, `powered-shell-build-to-suit.html`, `data-center-power-procurement.html`, `buy-side-negotiation-advisory.html`, `capacity-commercialization.html` | The eight mandate pages. |
 | `availability.html` | Live build-to-suit GPU cluster matcher (buyer-facing form). |
 | `gpu-power-estimator.html` + `assets/estimator.js` | GPU power & rack estimator — browser-only planning calculator (IT load, facility MW, racks, cooling class). Fires GA4 `estimator_run` / `estimator_cta`. |
-| `partners.html` + `assets/partners.js` | Partner ecosystem, rendered live from the Supabase `partners` table (managed in the desk console's Partners tab). Static OptiCool card is the fallback. |
+| `partners.html` + `assets/partners.js` | Partner ecosystem, rendered live from the Supabase `site_partners` table (managed in the desk console's Partners tab, which can publish entries from the CRM's private `partners` table without exposing it). Static OptiCool card is the fallback. |
 | `nvidia-gb300-nvl72.html`, `nvidia-b300-gpu-clusters.html`, `nvidia-b200-gpu-clusters.html`, `nvidia-h200-gpu-clusters.html` | Platform briefs — SEO landing pages per GPU platform. |
 | `qualify.html` | Offtaker qualification brief, issued by request. |
 | `capacity.html` | The Capacity Desk (colocation sourcing). |

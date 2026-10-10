@@ -98,7 +98,7 @@
   function fetchPartners(cfg) {
     var X = (cfg && cfg.exchange) || {};
     if (!X.supabaseUrl || !X.supabaseAnonKey || !window.fetch) return;
-    var url = X.supabaseUrl.replace(/\/$/, '') + '/rest/v1/partners?select=name,slug,layer,blurb,website,logo_url,region,featured,updated_at,created_at&status=eq.live&order=sort.asc,name.asc';
+    var url = X.supabaseUrl.replace(/\/$/, '') + '/rest/v1/site_partners?select=name,slug,layer,blurb,website,logo_url,region,featured,updated_at,created_at&status=eq.live&order=sort.asc,name.asc';
     fetch(url, { headers: { apikey: X.supabaseAnonKey, Accept: 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (list) { if (Array.isArray(list) && list.length) render(list); })
