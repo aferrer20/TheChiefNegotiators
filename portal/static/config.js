@@ -63,7 +63,7 @@ window.TCN_CONFIG = {
     // Supabase -> Project Settings -> API. The anon / publishable key is meant to be public;
     // the row-level security rules in portal/supabase-exchange.sql decide who can change what.
     supabaseUrl:     "https://stpkhpxhqzgruorrupaw.supabase.co",
-    supabaseAnonKey: "sb_publishable_v4uwhuJdh4kJQrN1tGSEWA_5rf9Nl7q",
+    supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN0cGtocHhocXpncnVvcnJ1cGF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxMDMxNjYsImV4cCI6MjA5NDY3OTE2Nn0.1TjVRSpoNGTk6cs4cR2CA3vxAD3aLTTkNZW0IYgkkws",
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
     // Prospect Desk AI endpoint (Netlify function), full address for the same reason.
