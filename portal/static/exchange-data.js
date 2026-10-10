@@ -36,7 +36,7 @@
     if (/Invalid login credentials/i.test(m)) return 'Email or password is wrong.';
     if (/Email not confirmed/i.test(m)) return 'This login is not confirmed. In Supabase, open Authentication -> Users and confirm it (or re-create it with "Auto Confirm User").';
     if (/row-level security|permission denied/i.test(m)) return 'This login is not an exchange admin. Add its email to exchange_admins in Supabase (see the setup guide).';
-    if (/check constraint .*partners/i.test(m)) return 'Check the partner fields: the website and logo must start with https://, and the blurb must be 400 characters or fewer.';
+    if (/check constraint .*site_partners/i.test(m)) return 'Check the partner fields: the website and logo must start with https://, and the blurb must be 400 characters or fewer.';
     if (/duplicate key .*slug/i.test(m)) return 'Another partner already uses that short name. Change the name slightly.';
     if (/relation .* does not exist|Could not find the table/i.test(m)) return 'The exchange tables are missing. Run portal/supabase-exchange.sql in the Supabase SQL Editor.';
     if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'Could not reach Supabase. Check your connection and the Supabase URL in config.js.';
@@ -53,7 +53,7 @@
   var LOT_COLS = 'ref, kind, model, config, gpu_count, condition, region, available, price, price_unit, term_months, deposit_pct, min_commit, featured, status, notes, created_at';
   var LOT_FIELDS = ['ref', 'kind', 'model', 'config', 'gpu_count', 'condition', 'region', 'available', 'price', 'price_unit', 'term_months', 'deposit_pct', 'min_commit', 'featured', 'status', 'notes'];
   var REQ_FIELDS = ['kind', 'model', 'gpu_count', 'region', 'timeline', 'status'];
-  var PARTNER_FIELDS = ['slug', 'name', 'layer', 'blurb', 'website', 'logo_url', 'region', 'featured', 'status', 'sort'];
+  var PARTNER_FIELDS = ['slug', 'name', 'layer', 'blurb', 'website', 'logo_url', 'region', 'featured', 'status', 'sort', 'crm_id'];
   function pick(o, keys) { var r = {}; keys.forEach(function (k) { if (o[k] !== undefined) r[k] = o[k] === '' ? null : o[k]; }); return r; }
 
   var api = {
@@ -98,15 +98,23 @@
         return ok(await sb.from('exchange_requirements').insert(row).select().single());
       },
       deleteReq: async function (id) { need(); ok(await sb.from('exchange_requirements').delete().eq('id', id)); },
-      // Partners shown on the public website (homepage Ecosystem section, /partners)
-      partners: async function () { need(); return ok(await sb.from('partners').select('*').order('sort', { ascending: true }).order('name', { ascending: true })); },
+      // Partners shown on the public website (homepage Ecosystem section, /partners).
+      // Stored in site_partners, separate from the CRM's private partners table.
+      partners: async function () { need(); return ok(await sb.from('site_partners').select('*').order('sort', { ascending: true }).order('name', { ascending: true })); },
       savePartner: async function (p) {
         need();
         var row = pick(p, PARTNER_FIELDS);
-        if (p.id) return ok(await sb.from('partners').update(row).eq('id', p.id).select().single());
-        return ok(await sb.from('partners').insert(row).select().single());
+        if (p.id) return ok(await sb.from('site_partners').update(row).eq('id', p.id).select().single());
+        return ok(await sb.from('site_partners').insert(row).select().single());
       },
-      deletePartner: async function (id) { need(); ok(await sb.from('partners').delete().eq('id', id)); },
+      // The CRM partner list, read only and only the columns safe to show an admin
+      // picking which partner to publish. Never the private data / owner_rep fields.
+      crmPartners: async function () {
+        need();
+        var r = await sb.from('partners').select('id, name, org, company, region, status').order('name', { ascending: true });
+        return r.error ? null : r.data; // null = this login cannot read the CRM table; linking is then optional
+      },
+      deletePartner: async function (id) { need(); ok(await sb.from('site_partners').delete().eq('id', id)); },
     },
   };
 

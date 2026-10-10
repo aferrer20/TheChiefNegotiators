@@ -3,6 +3,9 @@
 // Ecosystem section and /partners. Every change saves to Supabase and
 // appears on the site the next time a visitor loads the page.
 // Uses the same admin sign-in as the Exchange tab (one session).
+// Website partners live in site_partners. The CRM's own partners table is
+// only read (name, org, company, region, status) so you can publish a CRM
+// partner in one click; its private fields never reach the website.
 (function () {
   'use strict';
   var X = window.TCNX;
@@ -13,7 +16,8 @@
   var LAYERS = [['compute', 'Compute'], ['capacity', 'Capacity'], ['power', 'Power'], ['cooling', 'Cooling'], ['network', 'Network'], ['licensing', 'Licensing'], ['finance', 'Finance'], ['other', 'Other']];
   var LAYER = {}; LAYERS.forEach(function (l) { LAYER[l[0]] = l[1]; });
 
-  var list = null, editing = null, busy = false, error = '', loaded = false;
+  var list = null, crm = null, editing = null, busy = false, error = '', loaded = false;
+  function crmLabel(c) { return c.company || c.org || c.name || c.id; }
   function mount() { return document.getElementById('partnersMount'); }
 
   function slugify(s) { return String(s || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'partner'; }
@@ -30,7 +34,8 @@
     try {
       var s = await X.admin.session();
       if (!s) { list = null; loaded = true; return render(); }
-      list = await X.admin.partners();
+      var r = await Promise.all([X.admin.partners(), X.admin.crmPartners()]);
+      list = r[0]; crm = r[1];
     } catch (e) { error = e.message; list = null; }
     loaded = true;
     render();
@@ -64,7 +69,9 @@
   }
 
   function form() {
-    var p = editing.index >= 0 ? list[editing.index] : { layer: 'other', status: 'live', sort: 100 };
+    var p = editing.index >= 0 ? list[editing.index] : Object.assign({ layer: 'other', status: 'live', sort: 100 }, editing.seed || {});
+    var link = crm && crm.length ? field('crm_id', 'Linked CRM partner', p.crm_id || '', { span: 2, options: [['', 'Not linked']].concat(crm.map(function (c) { return [c.id, crmLabel(c) + (c.region ? ' · ' + c.region : '')]; })) })
+      : '<input type="hidden" name="crm_id" value="' + esc(p.crm_id || '') + '">';
     return '<div class="sku-form" style="margin-bottom:18px"><h3 style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin:0 0 18px">// ' + (editing.index >= 0 ? 'Edit ' + esc(p.name) : 'New partner') + '</h3>' +
       '<p class="xa-mute" style="margin:-8px 0 16px">Everything here is public on the website. Only list partners who have agreed to be named.</p>' +
       '<form id="paForm"><div class="sku-form-grid">' +
@@ -76,6 +83,7 @@
       field('sort', 'Order', p.sort, { type: 'number', ph: '100 (lower shows first)' }) +
       field('status', 'Status', p.status, { options: [['live', 'Live (on the website)'], ['hidden', 'Hidden']] }) +
       field('featured', 'Featured', p.featured, { check: 1, text: 'Show on the homepage' }) +
+      link +
       field('blurb', 'What they do (public, 400 characters max)', p.blurb, { textarea: 1, span: 4, ph: 'One or two plain sentences on what they do and why it matters to a buyer or operator.' }) +
       '</div><div style="display:flex;gap:10px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)"><button class="btn btn-primary" type="submit"' + (busy ? ' disabled' : '') + '>' + (busy ? 'Saving' : 'Save partner') + '</button><button class="btn btn-ghost" type="button" data-pa="cancel">Cancel</button></div></form></div>';
   }
@@ -85,7 +93,7 @@
     var feat = live.filter(function (p) { return p.featured; });
     return '<div class="xa-panel"><div class="xa-h"><h3>Partners</h3><span class="xa-mute">' + live.length + ' on the website, ' + feat.length + ' featured on the homepage' + (list.length > live.length ? ', ' + (list.length - live.length) + ' hidden' : '') + '</span></div>' +
       (list.length ? '<div class="xa-scroll"><table class="xa-t"><thead><tr><th>Partner</th><th>Layer</th><th>Order</th><th>Status</th><th></th></tr></thead><tbody>' + list.map(function (p, i) {
-        return '<tr' + (p.status !== 'live' ? ' style="opacity:.55"' : '') + '><td><b>' + esc(p.name) + '</b> ' + (p.featured ? '<span class="xa-pill priority">homepage</span>' : '') +
+        return '<tr' + (p.status !== 'live' ? ' style="opacity:.55"' : '') + '><td><b>' + esc(p.name) + '</b> ' + (p.featured ? '<span class="xa-pill priority">homepage</span>' : '') + (p.crm_id ? ' <span class="xa-pill">CRM linked</span>' : '') +
           '<div class="xa-sub">' + esc([p.region, p.website ? p.website.replace(/^https:\/\//, '').replace(/\/$/, '') : ''].filter(Boolean).join(' · ')) + '</div></td>' +
           '<td>' + esc(LAYER[p.layer] || p.layer) + '</td><td>' + esc(p.sort) + '</td><td>' + (p.status === 'live' ? 'Live' : 'Hidden') + '</td>' +
           '<td class="xa-btns"><button class="btn btn-ghost btn-sm" data-pa="edit" data-i="' + i + '">Edit</button>' +
@@ -93,6 +101,20 @@
           '<button class="btn btn-ghost btn-sm" data-pa="toggle" data-i="' + i + '">' + (p.status === 'live' ? 'Hide' : 'Show') + '</button>' +
           '<button class="btn btn-ghost btn-sm" data-pa="del" data-i="' + i + '">Delete</button></td></tr>';
       }).join('') + '</tbody></table></div>' : '<p class="xa-mute" style="padding:16px 0">No partners yet. Add the first one.</p>') + '</div>';
+  }
+
+  // CRM partners not yet on the website, each with a Publish button.
+  // Only name / org / company / region are read from the CRM — never its private fields.
+  function crmPanel() {
+    if (crm === null) return '<p class="xa-mute" style="margin-top:18px">Your CRM partner list is not readable with this login, so linking is off. You can still add website partners by hand.</p>';
+    var linked = {}; list.forEach(function (p) { if (p.crm_id) linked[p.crm_id] = true; });
+    var todo = crm.filter(function (c) { return !linked[c.id]; });
+    return '<div class="xa-panel" style="margin-top:18px"><div class="xa-h"><h3>From your CRM</h3><span class="xa-mute">' + crm.length + ' CRM partners, ' + (crm.length - todo.length) + ' on the website. Publishing copies only the name and region; you add the public description.</span></div>' +
+      (todo.length ? '<div class="xa-scroll"><table class="xa-t"><thead><tr><th>CRM partner</th><th>Region</th><th>CRM status</th><th></th></tr></thead><tbody>' + todo.map(function (c) {
+        var i = crm.indexOf(c);
+        return '<tr><td><b>' + esc(crmLabel(c)) + '</b>' + (c.name && c.name !== crmLabel(c) ? '<div class="xa-sub">' + esc(c.name) + '</div>' : '') + '</td><td>' + esc(c.region || '') + '</td><td>' + esc(c.status || '') + '</td>' +
+          '<td class="xa-btns"><button class="btn btn-ghost btn-sm" data-pa="publish" data-i="' + i + '">Publish to website</button></td></tr>';
+      }).join('') + '</tbody></table></div>' : '<p class="xa-mute" style="padding:16px 0">Every CRM partner is already on the website.</p>') + '</div>';
   }
 
   function render() {
@@ -112,7 +134,7 @@
     m.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><button class="btn btn-primary btn-sm" data-pa="add">Add partner</button>' +
       '<a class="btn btn-ghost btn-sm" href="' + SITE + '/partners" target="_blank" rel="noopener">View on the website</a>' +
       '<span class="xa-mode">' + (busy ? 'Saving' : 'Changes are live on the website as soon as they save') + '</span></div>' +
-      (editing ? form() : '') + table();
+      (editing ? form() : '') + table() + crmPanel();
   }
 
   document.addEventListener('submit', function (e) {
@@ -126,7 +148,7 @@
     v.website = https(v.website);
     v.logo_url = https(v.logo_url);
     v.sort = parseInt(v.sort, 10); if (!isFinite(v.sort)) v.sort = 100;
-    ['blurb', 'region'].forEach(function (k) { if (!v[k]) v[k] = null; });
+    ['blurb', 'region', 'crm_id'].forEach(function (k) { if (!v[k]) v[k] = null; });
     var i = editing.index;
     var row = i >= 0 ? Object.assign({}, list[i], v) : Object.assign(v, { slug: slugify(v.name) });
     run(function () { return X.admin.savePartner(row); }, i >= 0 ? 'Partner updated' : 'Partner added');
@@ -142,6 +164,12 @@
     if (a === 'cancel') { editing = null; return render(); }
     if (a === 'add') { editing = { index: -1 }; return render(); }
     if (a === 'edit') { editing = { index: i }; return render(); }
+    if (a === 'publish') {
+      var c = crm[i];
+      editing = { index: -1, seed: { name: crmLabel(c), region: c.region || '', crm_id: c.id } };
+      render();
+      return window.scrollTo({ top: mount().getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
+    }
     if (a === 'feature') return run(function () { return X.admin.savePartner({ id: p.id, featured: !p.featured }); }, p.featured ? 'Removed from homepage' : 'Featured on homepage');
     if (a === 'toggle') return run(function () { return X.admin.savePartner({ id: p.id, status: p.status === 'live' ? 'hidden' : 'live' }); }, p.status === 'live' ? 'Hidden from the website' : 'Live on the website');
     if (a === 'del' && confirm('Delete ' + p.name + '? To take it off the website but keep it, use Hide instead.')) run(function () { return X.admin.deletePartner(p.id); }, 'Partner deleted');
