@@ -13,6 +13,8 @@ The firm is an independent, no-inventory AI infrastructure advisory. It negotiat
 | `index.html` | Homepage. |
 | `gpu-clusters-gpuaas.html`, `gpu-cluster-procurement.html`, `gpuaas-contract-negotiation.html`, `data-center-capacity-sourcing.html`, `powered-shell-build-to-suit.html`, `data-center-power-procurement.html`, `buy-side-negotiation-advisory.html`, `capacity-commercialization.html` | The eight mandate pages. |
 | `availability.html` | Live build-to-suit GPU cluster matcher (buyer-facing form). |
+| `gpu-power-estimator.html` + `assets/estimator.js` | GPU power & rack estimator — browser-only planning calculator (IT load, facility MW, racks, cooling class). Fires GA4 `estimator_run` / `estimator_cta`. |
+| `nvidia-gb300-nvl72.html`, `nvidia-b300-gpu-clusters.html`, `nvidia-b200-gpu-clusters.html`, `nvidia-h200-gpu-clusters.html` | Platform briefs — SEO landing pages per GPU platform. |
 | `qualify.html` | Offtaker qualification brief, issued by request. |
 | `capacity.html` | The Capacity Desk (colocation sourcing). |
 | `security.html` | Security & compliance — how the firm handles confidential deal information. |
@@ -30,5 +32,9 @@ The firm is an independent, no-inventory AI infrastructure advisory. It negotiat
 Every real page shares the same structure: full meta/OG/Twitter tags, a canonical URL, JSON-LD (`Organization`/`ProfessionalService`/`WebSite` on the homepage; `Service`/`FAQPage`/`BreadcrumbList` on mandate pages; `Article`/`FAQPage`/`BreadcrumbList` on insight posts), the identical `<nav>` and `<footer>` blocks, and `assets/tcn.css` for styling. When adding a page, copy the structure of the closest existing example rather than starting from scratch, and add the new URL to `sitemap.xml` and the footer nav.
 
 Lead capture goes through two channels: [Web3Forms](https://web3forms.com) (`https://api.web3forms.com/submit`) for the inquiry forms, and a Microsoft Bookings link for scheduled calls. `assets/analytics.js` fires GA4 events (`generate_lead`, `book_call_click`, `contact_email_click`, `phone_click`, `availability_enquiry`) on both.
+
+**Cache-busting.** `_headers` caches `/assets/*` for a year as immutable, so every page references shared assets with a version query (`assets/tcn.css?v=20261010`). When you change `tcn.css` or any script, bump the `?v=` value on every page (one find-and-replace), or returning visitors will keep the old file.
+
+**Motion layer.** `assets/interactions.js` (loaded on every page) handles scroll reveal, staggered children, the scroll-progress bar, cursor spotlight, magnetic buttons and the homepage deal-desk terminal. All of it is progressive enhancement and switches off under `prefers-reduced-motion`.
 
 Content voice: short declarative sentences, direct answers to the objections a buyer or operator would actually raise, no unverifiable numbers or claims about third parties. Company names appear only in neutral, factual, well-known context (e.g. category — "hyperscalers such as AWS, Azure, Google Cloud and Oracle" — not disputed specifics like pricing or SLA terms).

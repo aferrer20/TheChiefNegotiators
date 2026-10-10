@@ -20,6 +20,7 @@
         el.style.transition = 'opacity .8s cubic-bezier(.16,.8,.24,1), transform .8s cubic-bezier(.16,.8,.24,1)';
         el.style.opacity = '1';
         el.style.transform = 'none';
+        el.classList.add('is-in');
       });
       countUp(el);
     }
@@ -33,6 +34,14 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
 
     targets.forEach(function (el) {
+      el.classList.add('rv');
+      var groups = el.querySelectorAll('.cards, .rows, .dlist, .pol, .specs, .tiers, .geo, .faq, .std-grid ul');
+      groups.forEach(function (g) {
+        Array.prototype.forEach.call(g.children, function (c, i) {
+          c.classList.add('stg');
+          c.style.setProperty('--i', Math.min(i, 10));
+        });
+      });
       el.style.opacity = '0';
       el.style.transform = 'translateY(22px)';
       io.observe(el);
@@ -138,6 +147,130 @@
         setTimeout(function () { el.style.transition = ''; }, 400);
       });
     });
+  })();
+
+  /* ---------- scroll progress + nav state ---------- */
+  (function scrollState() {
+    var nav = document.querySelector('.nav');
+    var bar = null;
+    if (!reduced) {
+      bar = document.createElement('div');
+      bar.className = 'scrollbar';
+      bar.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(bar);
+    }
+    var pending = false;
+    function update() {
+      pending = false;
+      var y = window.scrollY || document.documentElement.scrollTop;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      if (bar) bar.style.setProperty('--sp', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+      if (nav) nav.classList.toggle('is-scrolled', y > 8);
+    }
+    window.addEventListener('scroll', function () {
+      if (!pending) { pending = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ---------- deal desk terminal (homepage hero) ----------
+     Rows are illustrative workstreams moving through the four-step method.
+     The static markup is the no-JS / crawler state; this only animates it. */
+  (function desk() {
+    var root = document.querySelector('[data-desk]');
+    if (!root) return;
+    var clock = root.querySelector('[data-desk-clock]');
+    function tickClock() {
+      if (!clock) return;
+      var d = new Date();
+      function p(n) { return (n < 10 ? '0' : '') + n; }
+      clock.textContent = p(d.getUTCHours()) + ':' + p(d.getUTCMinutes()) + ':' + p(d.getUTCSeconds()) + ' UTC';
+    }
+    tickClock();
+    setInterval(tickClock, 1000);
+    if (reduced) return;
+
+    var body = root.querySelector('[data-desk-rows]');
+    var cmd = root.querySelector('[data-desk-cmd]');
+    var stages = root.querySelectorAll('[data-desk-stages] span');
+    var STEPS = ['Qualify', 'Map', 'Negotiate', 'Execute'];
+    var POOL = [
+      ['Compute', 'GB300 NVL72 · rack-scale allocation', 'US'],
+      ['Power', 'Interconnection position · behind-the-meter', 'NA'],
+      ['Capacity', 'Liquid-cooled colocation · high density', 'EMEA'],
+      ['Contract', 'Reserved GPUaaS · multi-year term', 'US'],
+      ['Offtake', 'Anchor tenant · KYC on ultimate offtaker', 'APAC'],
+      ['Compute', 'HGX B300 · cancelled-order reallocation', 'ISL'],
+      ['Develop', 'Powered shell · build-to-suit', 'CAN'],
+      ['Licensing', 'Microsoft SPLA · data center estate', 'EMEA'],
+      ['Contract', 'Committed-spend AI cloud renewal', 'NA'],
+      ['Capacity', 'Wholesale colocation · sovereign program', 'APAC'],
+      ['Compute', 'B200 cluster · fabric and spares terms', 'LATAM'],
+      ['Power', 'PPA structure · energisation timeline', 'EMEA'],
+      ['Cooling', 'Two-phase rear-door retrofit · live racks', 'US'],
+      ['Offtake', 'Neocloud capacity · qualified demand', 'NA']
+    ];
+    var CMDS = [
+      'desk.match <b>--stack=full</b> --region=global',
+      'desk.qualify <b>--counterparty</b> --kyc=ultimate',
+      'desk.benchmark <b>--terms</b> --against=market',
+      'desk.map <b>--layer=power,capacity,compute</b>',
+      'desk.route <b>--direct</b> --no-intermediaries'
+    ];
+    var next = 6, cmdI = 1, stageI = 0; // first six pool rows are already in the markup
+    // stages advance on their own clock
+    function stepStage() {
+      stages.forEach(function (s, i) {
+        s.classList.remove('on', 'done');
+        if (i < stageI) s.classList.add('done');
+        if (i === stageI) { void s.offsetWidth; s.classList.add('on'); }
+      });
+      stageI = (stageI + 1) % stages.length;
+    }
+    function typeCmd() {
+      if (!cmd) return;
+      var html = CMDS[cmdI++ % CMDS.length];
+      var plain = html.replace(/<[^>]+>/g, '');
+      var n = 0;
+      (function t() {
+        n++;
+        // rebuild with markup once fully typed; type plain text before that
+        cmd.innerHTML = '<span aria-hidden="true">›</span> ' + (n >= plain.length ? html : plain.slice(0, n).replace(/</g, '&lt;')) + '<span class="desk-caret" aria-hidden="true"></span>';
+        if (n < plain.length) setTimeout(t, 26 + Math.random() * 40);
+      })();
+    }
+    function pushRow() {
+      var item = POOL[next++ % POOL.length];
+      var step = STEPS[Math.floor(Math.random() * STEPS.length)];
+      var row = document.createElement('div');
+      row.className = 'desk-row is-new';
+      row.innerHTML = '<span class="l"></span><span class="r"></span><span class="g"></span><span class="s"></span>';
+      row.children[0].textContent = item[0];
+      row.children[1].textContent = item[1];
+      row.children[2].textContent = item[2];
+      row.children[3].textContent = step;
+      row.children[3].setAttribute('data-s', step);
+      body.insertBefore(row, body.firstChild);
+      while (body.children.length > 7) body.removeChild(body.lastChild);
+      // advance one existing row a step, so the board visibly progresses
+      var rows = body.querySelectorAll('.desk-row');
+      var pick = rows[1 + Math.floor(Math.random() * Math.max(1, rows.length - 1))];
+      if (pick) {
+        var s = pick.querySelector('.s');
+        var at = STEPS.indexOf(s.getAttribute('data-s'));
+        if (at > -1 && at < STEPS.length - 1) { s.textContent = STEPS[at + 1]; s.setAttribute('data-s', STEPS[at + 1]); }
+      }
+      setTimeout(function () { row.classList.remove('is-new'); }, 1400);
+    }
+    var visible = true;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(root);
+    }
+    stepStage();
+    typeCmd();
+    setInterval(function () { if (visible && !document.hidden) stepStage(); }, 2600);
+    setInterval(function () { if (visible && !document.hidden) pushRow(); }, 2900);
+    setInterval(function () { if (visible && !document.hidden) typeCmd(); }, 9000);
   })();
 
   /* ---------- lazy-load Google Preferred Sources button ---------- */

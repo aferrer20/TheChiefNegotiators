@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GPU Power &amp; Rack Estimator: B300, GB300 | Chief Negotiators</title>
+<meta name="description" content="Free GPU cluster power calculator. Enter B200, B300, GB300 NVL72 or H200 GPU count to estimate IT load, facility MW, rack count and cooling. No sign-up." />
+<link rel="canonical" href="https://www.thechiefnegotiators.com/gpu-power-estimator" />
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="The Chief Negotiators" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://www.thechiefnegotiators.com/gpu-power-estimator" />
+<meta property="og:title" content="GPU Power &amp; Rack Estimator: B300, GB300 | Chief Negotiators" />
+<meta property="og:description" content="Free GPU cluster power calculator. Enter B200, B300, GB300 NVL72 or H200 GPU count to estimate IT load, facility MW, rack count and cooling. No sign-up." />
+<meta property="og:image" content="https://www.thechiefnegotiators.com/assets/share-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="The Chief Negotiators — independent advisory for AI infrastructure" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GPU Power &amp; Rack Estimator: B300, GB300 | Chief Negotiators" />
+<meta name="twitter:description" content="Free GPU cluster power calculator. Enter B200, B300, GB300 NVL72 or H200 GPU count to estimate IT load, facility MW, rack count and cooling. No sign-up." />
+<meta name="twitter:image" content="https://www.thechiefnegotiators.com/assets/share-card.png" />
+<link rel="icon" href="assets/logo-chief-negotiators.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/tcn.css?v=20261010" />
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.thechiefnegotiators.com/gpu-power-estimator#app", "name": "GPU Power & Rack Estimator", "url": "https://www.thechiefnegotiators.com/gpu-power-estimator", "applicationCategory": "BusinessApplication", "operatingSystem": "Any (runs in the browser)", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Estimate IT load, facility power, rack count and cooling class for NVIDIA H100, H200, B200, B300, GB200 NVL72 and GB300 NVL72 GPU clusters.", "publisher": {"@id": "https://www.thechiefnegotiators.com/#org"}}, {"@type": "WebPage", "@id": "https://www.thechiefnegotiators.com/gpu-power-estimator", "url": "https://www.thechiefnegotiators.com/gpu-power-estimator", "name": "GPU Power & Rack Estimator", "description": "Free GPU cluster power calculator. Enter B200, B300, GB300 NVL72 or H200 GPU count to estimate IT load, facility MW, rack count and cooling. No sign-up.", "isPartOf": {"@type": "WebSite", "@id": "https://www.thechiefnegotiators.com/#website"}, "inLanguage": "en-US", "breadcrumb": {"@id": "https://www.thechiefnegotiators.com/gpu-power-estimator#bc"}, "mainEntity": {"@id": "https://www.thechiefnegotiators.com/gpu-power-estimator#app"}}, {"@type": "BreadcrumbList", "@id": "https://www.thechiefnegotiators.com/gpu-power-estimator#bc", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.thechiefnegotiators.com/"}, {"@type": "ListItem", "position": 2, "name": "GPU clusters & GPUaaS", "item": "https://www.thechiefnegotiators.com/gpu-clusters-gpuaas"}, {"@type": "ListItem", "position": 3, "name": "GPU Power & Rack Estimator", "item": "https://www.thechiefnegotiators.com/gpu-power-estimator"}]}, {"@type": "FAQPage", "@id": "https://www.thechiefnegotiators.com/gpu-power-estimator#faq", "mainEntity": [{"@type": "Question", "name": "How much power does a GB300 NVL72 rack need?", "acceptedAnswer": {"@type": "Answer", "text": "Published figures put a GB300 NVL72 rack at roughly 120 kW nominal, with OEM specifications up to about 140 kW. The estimator uses 135 kW per rack for planning. It is liquid-cooled by design and needs a coolant distribution unit and facility water, so an air-cooled hall cannot host it at any price."}}, {"@type": "Question", "name": "How many racks does a 1,024-GPU B300 cluster need?", "acceptedAnswer": {"@type": "Answer", "text": "It depends on the density the facility can carry. An HGX B300 system draws about 14.5 kW, so at 50 kW per rack you fit three systems, or 24 GPUs, per rack — around 43 compute racks for 1,024 GPUs, before network and storage. At 130 kW per rack that falls to 16. Set the density in the estimator to see the trade-off."}}, {"@type": "Question", "name": "What PUE should I assume?", "acceptedAnswer": {"@type": "Answer", "text": "Modern liquid-cooled AI facilities commonly design for a PUE between about 1.1 and 1.3; older air-cooled halls run higher. The estimator defaults to 1.30 as a conservative planning figure. The operator's contracted PUE, and how it is metered and billed, is a term worth negotiating in its own right."}}, {"@type": "Question", "name": "Is this a quote?", "acceptedAnswer": {"@type": "Answer", "text": "No. It is planning arithmetic from published system power figures. Real draw depends on workload, configuration, firmware power limits and the facility design. It tells you the order of magnitude of what you are looking for — a conversation gets you capacity, allocation and terms against your specific requirement."}}, {"@type": "Question", "name": "Is anything I enter stored or sent?", "acceptedAnswer": {"@type": "Answer", "text": "No. The calculation runs entirely in your browser. Nothing leaves the page unless you choose to email us the requirement."}}]}]}
+</script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<nav class="nav" aria-label="Primary"><div class="wrap nav-in"><a href="/" class="nav-logo" aria-label="The Chief Negotiators — home"><img src="assets/logo-chief-negotiators.png" alt="The Chief Negotiators" width="1003" height="297" /></a><div class="nav-links"><a href="/gpu-clusters-gpuaas">GPU clusters &amp; GPUaaS</a><a href="/data-center-capacity-sourcing">Data center capacity</a><a href="/microsoft-licensing-for-data-centers">Microsoft licensing</a><a href="/availability">Availability</a><a href="/markets">Markets</a><a href="/capacity-commercialization">For operators</a><a href="/insights">Insights</a><a href="/about">About</a></div><a href="https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true" target="_blank" rel="noopener noreferrer" class="nav-cta">Book 30 minutes</a></div></nav><div class="wrap crumb"><nav aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/gpu-clusters-gpuaas">GPU clusters &amp; GPUaaS</a></li><li aria-current="page">Power &amp; rack estimator</li></ol></nav></div>
+<main id="main">
+<header class="phero">
+<div class="wrap">
+<p class="kicker">Planning tool · No sign-up</p>
+<h1>How much power does your cluster <span class="em">actually need?</span></h1>
+<p class="lede">Choose a platform and a GPU count. The estimator returns IT load, facility power, rack count and the cooling class the hall must support — the four numbers that decide which sites can even take the call. It runs in your browser, and nothing you enter is stored.</p>
+</div>
+</header>
+
+<section class="sec">
+<div class="wrap est">
+<form id="est-form" class="inq-form" novalidate aria-label="Cluster requirement">
+<label class="inq-l" for="est-gpu" style="margin-top:0">Platform</label>
+<select id="est-gpu" class="inq-i">
+<option value="gb300">NVIDIA GB300 NVL72 — rack-scale</option>
+<option value="gb200">NVIDIA GB200 NVL72 — rack-scale</option>
+<option value="b300" selected>NVIDIA HGX B300 — 8-GPU system</option>
+<option value="b200">NVIDIA HGX B200 — 8-GPU system</option>
+<option value="h200">NVIDIA HGX H200 — 8-GPU system</option>
+<option value="h100">NVIDIA HGX H100 — 8-GPU system</option>
+</select>
+<label class="inq-l" for="est-n">GPU count</label>
+<input id="est-n" class="inq-i" type="number" inputmode="numeric" min="8" max="200000" step="8" value="1024" />
+<label class="inq-l" for="est-dens">Facility density limit (kW per rack)</label>
+<select id="est-dens" class="inq-i">
+<option value="15">15 kW — legacy enterprise hall</option>
+<option value="30">30 kW — air with containment</option>
+<option value="50" selected>50 kW — rear-door heat exchange</option>
+<option value="80">80 kW — hybrid liquid</option>
+<option value="130">130 kW — direct-to-chip liquid</option>
+<option value="150">150 kW — high-density liquid</option>
+</select>
+<label class="inq-l" for="est-pue">Design PUE <span class="est-val" id="est-pue-v">1.30</span></label>
+<input id="est-pue" class="est-range" type="range" min="1.05" max="1.8" step="0.01" value="1.3" />
+<label class="inq-l" for="est-ovh">Network &amp; storage overhead <span class="est-val" id="est-ovh-v">10%</span></label>
+<input id="est-ovh" class="est-range" type="range" min="0" max="25" step="1" value="10" />
+<button type="submit" class="btn btn-solid inq-submit">Recalculate</button>
+<p class="inq-note">Planning figures from published system power. Verify against the current OEM specification before committing to a site.</p>
+</form>
+
+<aside class="desk est-out" aria-live="polite" aria-label="Estimate">
+<div class="desk-bar"><span class="desk-id">TCN · Requirement readout</span><span class="desk-clock"><span class="dot" aria-hidden="true"></span>Computed live</span></div>
+<div class="est-kpis">
+<div class="est-kpi"><span class="k">IT load</span><span class="v" id="o-it">—</span></div>
+<div class="est-kpi"><span class="k">Facility load</span><span class="v" id="o-fac">—</span></div>
+<div class="est-kpi"><span class="k">Racks</span><span class="v" id="o-racks">—</span></div>
+<div class="est-kpi"><span class="k">Systems</span><span class="v" id="o-sys">—</span></div>
+</div>
+<div class="est-lines">
+<div><span>Per rack</span><b id="o-per">—</b></div>
+<div><span>Cooling class</span><b id="o-cool">—</b></div>
+<div><span>Annual energy at full load</span><b id="o-mwh">—</b></div>
+<div><span>Basis</span><b id="o-basis">—</b></div>
+</div>
+<p class="est-warn" id="o-warn"></p>
+<div class="est-fit" id="o-fit"><strong>Readout</strong>Enable JavaScript to compute the estimate.</div>
+<div class="est-cta">
+<a href="https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&amp;ismsaljsauthenabled=true" target="_blank" rel="noopener noreferrer" class="btn btn-solid" data-est-cta="book">Get a real number</a>
+<a href="mailto:sales@thechiefnegotiators.com" id="o-mail" class="btn-text" data-est-cta="email">Email this requirement →</a>
+</div>
+</aside>
+</div>
+</section>
+
+<section class="sec band">
+<div class="wrap">
+<div class="secno"><span>01</span><i></i></div>
+<div class="head2">
+<h2 class="h-lg">Power is the filter. <span class="em">Everything else comes after.</span></h2>
+<p class="lede">Most capacity searches fail at the first question an operator asks: how many megawatts, at what density, and when. Walking in with those numbers already worked out is the difference between a screening reply and a real one.</p>
+</div>
+<div class="specs">
+<div class="spec"><span class="k">IT load</span><span class="v" style="font-size:15px;font-family:var(--sans);font-weight:300;line-height:1.6;color:var(--ink-2)">GPU systems at published maximum draw, plus an allowance for the network fabric and storage that sit alongside them.</span></div>
+<div class="spec"><span class="k">Facility load</span><span class="v" style="font-size:15px;font-family:var(--sans);font-weight:300;line-height:1.6;color:var(--ink-2)">IT load multiplied by PUE — what the site has to deliver from the grid or behind the meter, and what you will ultimately pay for.</span></div>
+<div class="spec"><span class="k">Rack count</span><span class="v" style="font-size:15px;font-family:var(--sans);font-weight:300;line-height:1.6;color:var(--ink-2)">How many systems fit under the hall's density limit. Low density means more racks, more floor and longer cable runs on the fabric.</span></div>
+<div class="spec"><span class="k">Cooling class</span><span class="v" style="font-size:15px;font-family:var(--sans);font-weight:300;line-height:1.6;color:var(--ink-2)">The heat rejection the rack demands. Above roughly 45 kW, air alone stops being a serious answer.</span></div>
+</div>
+<div class="prose" style="max-width:74ch;margin-top:44px">
+<p>The figures are deliberately conservative. Real draw depends on workload, power-capping, firmware and how the operator meters it — which is exactly why the contracted power definition is a term worth negotiating. For the terms themselves, see <a href="/gpuaas-contract-negotiation">GPUaaS contract negotiation</a> and <a href="/insight-gpu-contract-terms-that-move-price">the GPU contract terms that move the price</a>.</p>
+<p>If the density is the constraint rather than the megawatts, the answer is not always a new lease. <a href="/insight-two-phase-cooling-density">Two-phase cooling can lift density inside a footprint you already pay for</a>. When the megawatts are the constraint, start with <a href="/data-center-power-procurement">power procurement</a> and <a href="/data-center-capacity-sourcing">capacity sourcing</a>.</p>
+</div>
+</div>
+</section>
+
+<section class="sec">
+<div class="wrap">
+<div class="secno"><span>Platform briefs</span><i></i></div>
+<div class="cards">
+<a href="/nvidia-gb300-nvl72" class="card"><span class="k">Rack-scale</span><h3>NVIDIA GB300 NVL72</h3><p>72 Blackwell Ultra GPUs in one NVLink domain. Liquid-cooled, heavy, and specified to the facility from day one.</p><span class="go">Read the brief →</span></a>
+<a href="/nvidia-b300-gpu-clusters" class="card"><span class="k">Blackwell Ultra</span><h3>NVIDIA B300 clusters</h3><p>HGX B300 systems — allocation routes, density and the terms that matter at cluster scale.</p><span class="go">Read the brief →</span></a>
+<a href="/nvidia-b200-gpu-clusters" class="card"><span class="k">Blackwell</span><h3>NVIDIA B200 clusters</h3><p>HGX B200 — where it fits against B300, and how to contract for it.</p><span class="go">Read the brief →</span></a>
+<a href="/nvidia-h200-gpu-clusters" class="card"><span class="k">Hopper</span><h3>NVIDIA H200 clusters</h3><p>H200 allocation and reallocation — when the previous generation is the right economic answer.</p><span class="go">Read the brief →</span></a>
+</div>
+</div>
+</section>
+
+<section class="sec band" id="questions">
+<div class="wrap">
+<div class="secno"><span>Questions</span><i></i></div>
+<h2 class="h-md" style="margin-bottom:44px">Asked about the estimate.</h2>
+<div class="faq"><details open><summary><span class="n">01</span><h3>How much power does a GB300 NVL72 rack need?</h3><span class="ic" aria-hidden="true">+</span></summary><div><p>Published figures put a GB300 NVL72 rack at roughly 120 kW nominal, with OEM specifications up to about 140 kW. The estimator uses 135 kW per rack for planning. It is liquid-cooled by design and needs a coolant distribution unit and facility water, so an air-cooled hall cannot host it at any price.</p></div></details><details><summary><span class="n">02</span><h3>How many racks does a 1,024-GPU B300 cluster need?</h3><span class="ic" aria-hidden="true">+</span></summary><div><p>It depends on the density the facility can carry. An HGX B300 system draws about 14.5 kW, so at 50 kW per rack you fit three systems, or 24 GPUs, per rack — around 43 compute racks for 1,024 GPUs, before network and storage. At 130 kW per rack that falls to 16. Set the density in the estimator to see the trade-off.</p></div></details><details><summary><span class="n">03</span><h3>What PUE should I assume?</h3><span class="ic" aria-hidden="true">+</span></summary><div><p>Modern liquid-cooled AI facilities commonly design for a PUE between about 1.1 and 1.3; older air-cooled halls run higher. The estimator defaults to 1.30 as a conservative planning figure. The operator's contracted PUE, and how it is metered and billed, is a term worth negotiating in its own right.</p></div></details><details><summary><span class="n">04</span><h3>Is this a quote?</h3><span class="ic" aria-hidden="true">+</span></summary><div><p>No. It is planning arithmetic from published system power figures. Real draw depends on workload, configuration, firmware power limits and the facility design. It tells you the order of magnitude of what you are looking for — a conversation gets you capacity, allocation and terms against your specific requirement.</p></div></details><details><summary><span class="n">05</span><h3>Is anything I enter stored or sent?</h3><span class="ic" aria-hidden="true">+</span></summary><div><p>No. The calculation runs entirely in your browser. Nothing leaves the page unless you choose to email us the requirement.</p></div></details></div>
+</div>
+</section>
+
+<section class="ctab">
+<div class="wrap ctab-in">
+<div>
+<h2>You have the megawatts. Now find the site that can deliver them.</h2>
+<p>Send us the readout and the date you need it live. We will tell you where it can land, what the terms should look like and where the number in front of you sits against the market.</p>
+</div>
+<div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+<a href="https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&amp;ismsaljsauthenabled=true" target="_blank" rel="noopener noreferrer" class="btn btn-solid">Book 30 minutes</a>
+<a href="/availability" class="btn-text">See live availability →</a>
+</div>
+</div>
+</section>
+</main>
+<footer class="foot"><div class="wrap"><div class="foot-top"><div class="foot-brand"><img src="assets/logo-chief-negotiators.png" alt="The Chief Negotiators" width="1003" height="297" loading="lazy" /><p class="foot-p">An independent advisory for the people buying and building AI infrastructure. Mandates across North America, EMEA, APAC and Latin America.<br /><br />Chief Negotiators LLC · United States &amp; Australia.</p><a href="https://www.linkedin.com/company/chief-negotiators" target="_blank" rel="noopener noreferrer" class="btn-text">Follow on LinkedIn →</a></div><div class="foot-cols"><div><p class="foot-h">Mandates</p><a href="/gpu-clusters-gpuaas" class="foot-link">GPU clusters &amp; GPUaaS</a><a href="/availability" class="foot-link">Live GPU availability</a><a href="/gpu-power-estimator" class="foot-link">GPU power &amp; rack estimator</a><a href="/data-center-capacity-sourcing" class="foot-link">Data center capacity sourcing</a><a href="/gpu-cluster-procurement" class="foot-link">GPU cluster procurement</a><a href="/gpuaas-contract-negotiation" class="foot-link">GPUaaS contract negotiation</a><a href="/microsoft-licensing-for-data-centers" class="foot-link">Microsoft licensing for data centers</a><a href="/powered-shell-build-to-suit" class="foot-link">Powered shell &amp; build-to-suit</a><a href="/data-center-power-procurement" class="foot-link">Power capacity procurement</a><a href="/buy-side-negotiation-advisory" class="foot-link">Buy-side negotiation advisory</a><a href="/capacity-commercialization" class="foot-link">Capacity commercialization</a></div><div><p class="foot-h">Markets</p><a href="/markets" class="foot-link">All markets</a><a href="/markets/united-states" class="foot-link">United States</a><a href="/markets/canada" class="foot-link">Canada</a><a href="/markets/emea" class="foot-link">EMEA</a><a href="/markets/apac" class="foot-link">APAC</a></div><div><p class="foot-h">Firm</p><a href="/about" class="foot-link">About the firm</a><a href="/#model" class="foot-link">The model</a><a href="/#method" class="foot-link">The method</a><a href="/#standard" class="foot-link">The standard</a><a href="/#coverage" class="foot-link">Coverage</a><a href="/#faq" class="foot-link">Answers</a><a href="/insights" class="foot-link">Insights</a></div><div><p class="foot-h">Get in touch</p><a href="https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true" target="_blank" rel="noopener noreferrer" class="foot-link">Book 30 minutes</a><a href="mailto:sales@thechiefnegotiators.com" class="foot-link">sales@thechiefnegotiators.com</a><a href="/qualify" class="foot-link">Offtaker qualification</a><a href="/capacity" class="foot-link">The Capacity Desk</a></div></div></div><div class="foot-base"><span>© 2026 Chief Negotiators LLC</span><span>Independent · No inventory · Retained by both sides</span></div></div></footer>
+<script src="assets/analytics.js?v=20261010" defer></script>
+<script src="assets/interactions.js?v=20261010" defer></script>
+<script src="assets/estimator.js?v=20261010" defer></script>
+</body>
+</html>
