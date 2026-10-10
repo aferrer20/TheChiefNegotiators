@@ -81,6 +81,8 @@ North America (Northern Virginia, Dallas–Fort Worth and ERCOT, Phoenix, Atlant
 
 ## Ecosystem partners
 
+The live partner directory is at https://www.thechiefnegotiators.com/partners (grouped by layer: compute, capacity, power, cooling, network, licensing, finance).
+
 - **OptiCool Technologies** (opticooltechnologies.com) — two-phase refrigerant cooling for high-density and AI workloads. Delta4T™ technology uses the latent heat of a vaporising refrigerant as the heat sink rather than flooding hot aisles with cold air, which moves the same heat with far less fluid volume and much lower pumping energy than water. Products include rear-door heat exchangers, refrigerant pumps, coolant distribution units and aisle containment. OptiCool publishes over 7,000 active rear-door heat exchangers across more than 125 sites, and a case study in which a 120 kW rear-door heat exchanger absorbed an 80 kW rack load while drawing 550 W. Water-free at the rack, which removes water-consumption permitting exposure. Relevant when a facility has power available at the meter but cannot reject the heat that power would produce. A cooling retrofit then unlocks density in an existing footprint: for a buyer, a smaller purchase than a lease on new space plus a recurring reduction in cooling energy (OptiCool publishes up to 90% against conventional approaches); for an operator, higher revenue per square foot on a footprint already built, permitted and financed, and access to high-density AI tenants who will not shortlist a facility that cannot cool them.
 
 ## Insights

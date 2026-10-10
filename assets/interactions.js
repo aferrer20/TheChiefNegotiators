@@ -273,6 +273,36 @@
     setInterval(function () { if (visible && !document.hidden) typeCmd(); }, 9000);
   })();
 
+  /* ---------- lead alerts: tag inquiry email subjects by urgency ----------
+     Every Web3Forms inquiry arrives by email. The subject is prefixed so an
+     inbox rule or phone notification can fire on "[HOT" alone:
+       [HOT]    this week / urgent / soonest live date / frontier-hyperscale scale
+       [WARM]   this month / next quarter
+       [LEAD]   everything else
+       [SCREEN] broker or reseller — check the end user before calling */
+  (function leadAlerts() {
+    document.addEventListener('submit', function (e) {
+      var f = e.target;
+      if (!f || !f.action || f.action.indexOf('web3forms') === -1) return;
+      var subj = f.querySelector('input[name="subject"]');
+      if (!subj || subj.dataset.tagged) return;
+      function v(n) { var el = f.querySelector('[name="' + n + '"]'); return el ? String(el.value || '').trim() : ''; }
+      var when = [v('decision_window'), v('live_date'), v('timing')].join(' ');
+      var scale = v('scale') + ' ' + v('qty');
+      var tier = 'LEAD';
+      if (/this month|next quarter|this quarter/i.test(when)) tier = 'WARM';
+      if (/this week|urgent|soonest|immediate|asap/i.test(when) || /frontier|hyperscale|1,000\+ hosts/i.test(scale)) tier = 'HOT';
+      if (/broker|reseller/i.test(v('position'))) tier = 'SCREEN';
+      var what = v('what_they_need') || v('platform') || v('product') || '';
+      var parts = [subj.value, what, location.pathname].filter(Boolean);
+      subj.value = '[' + tier + '] ' + parts.join(' · ');
+      subj.dataset.tagged = '1';
+      var hid = document.createElement('input');
+      hid.type = 'hidden'; hid.name = 'lead_priority'; hid.value = tier;
+      f.appendChild(hid);
+    }, true);
+  })();
+
   /* ---------- lazy-load Google Preferred Sources button ---------- */
   (function preferredSource() {
     var host = document.querySelector('[google-add-preferred-source-btn]');

@@ -3,7 +3,7 @@
 -- Safe to run again; it only creates what is missing and refreshes the rules.
 --
 -- Who can do what:
---   Anyone (the public exchange page)  read live / under-offer lots and open requirements
+--   Anyone (the public exchange page)  read live / under-offer lots, open requirements and live partners
 --   Admins (signed in, email listed in exchange_admins)  read everything, add, edit, delete
 -- Nobody else can write, whatever they send.
 
@@ -105,6 +105,53 @@ drop policy if exists "admins write requirements" on public.exchange_requirement
 create policy "admins write requirements" on public.exchange_requirements
   for all to authenticated
   using (public.is_exchange_admin()) with check (public.is_exchange_admin());
+
+-- ---------------------------------------------------------------
+-- Partners: the ecosystem shown on the public website
+-- (homepage Ecosystem section and /partners). Managed in the desk
+-- console -> Partners tab. Anyone can read live partners; only
+-- exchange admins can change them.
+-- ---------------------------------------------------------------
+create table if not exists public.partners (
+  id          uuid primary key default gen_random_uuid(),
+  slug        text not null unique check (slug ~ '^[a-z0-9-]{1,80}$'),
+  name        text not null check (length(name) between 1 and 120),
+  layer       text not null default 'other' check (layer in ('compute', 'capacity', 'power', 'cooling', 'network', 'licensing', 'finance', 'other')),
+  blurb       text check (blurb is null or length(blurb) <= 400),
+  website     text check (website is null or website ~* '^https://'),
+  logo_url    text check (logo_url is null or logo_url ~* '^https://'),
+  region      text check (region is null or length(region) <= 80),
+  featured    boolean not null default false,
+  status      text not null default 'live' check (status in ('live', 'hidden')),
+  sort        integer not null default 100,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+drop trigger if exists partners_touch on public.partners;
+create trigger partners_touch before update on public.partners
+  for each row execute function public.exchange_touch();
+
+alter table public.partners enable row level security;
+grant select on public.partners to anon;
+grant select, insert, update, delete on public.partners to authenticated;
+
+drop policy if exists "public reads live partners" on public.partners;
+create policy "public reads live partners" on public.partners
+  for select to anon, authenticated
+  using (status = 'live' or public.is_exchange_admin());
+
+drop policy if exists "admins write partners" on public.partners;
+create policy "admins write partners" on public.partners
+  for all to authenticated
+  using (public.is_exchange_admin()) with check (public.is_exchange_admin());
+
+-- Seed the partner already named on the site (skipped if it exists).
+insert into public.partners (slug, name, layer, blurb, website, region, featured, sort) values
+  ('opticool', 'OptiCool Technologies', 'cooling',
+   'Two-phase refrigerant cooling for high-density and AI workloads: rear-door heat exchangers, water-free at the rack, deployable against live racks.',
+   'https://opticooltechnologies.com/', 'Global', true, 10)
+on conflict (slug) do nothing;
 
 -- ---------------------------------------------------------------
 -- Your admin login. Change the email to the one you will sign in

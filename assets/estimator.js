@@ -15,6 +15,7 @@
     gb300: { name: 'NVIDIA GB300 NVL72', per: 72, kw: 135,  blackwell: true,  rack: true,  note: '~120–140 kW per rack; 135 kW used' }
   };
 
+  var last = {};
   var $ = function (id) { return document.getElementById(id); };
   var el = {
     gpu: $('est-gpu'), n: $('est-n'), pue: $('est-pue'), pueV: $('est-pue-v'),
@@ -80,7 +81,9 @@
     el.warn.textContent = warn.join(' ');
 
     var facMw = facKw / 1000;
+    last.title = p.name + ' × ' + fmt(gpus, 0) + ' · ' + fmt(facMw, 2) + ' MW';
     var inScope = p.blackwell && (gpus >= 512 || facMw >= 1);
+    last.inScope = inScope;
     if (inScope) {
       el.fit.innerHTML = '<strong>Within desk scope</strong>Current-generation Blackwell at ' + fmt(gpus, 0) + ' GPUs and ~' + fmt(facMw, 2) + ' MW of facility load. Send us this requirement and we will put real capacity, allocation and terms against it.';
     } else if (!p.blackwell) {
@@ -89,7 +92,7 @@
       el.fit.innerHTML = '<strong>Below the reserved-cluster floor</strong>GPUaaS and reserved clusters start at 512 GPUs or 1 MW. Below that we would add cost without adding much — though hardware allocation runs wider, and we will say plainly which route fits.';
     }
 
-    var spec = p.name + ' × ' + fmt(gpus, 0) + ' GPUs\nIT load: ~' + fmt(itKw, 0) + ' kW\nFacility load (PUE ' + pue.toFixed(2) + '): ~' + fmt(facKw, 0) + ' kW\nCompute racks: ' + racks + ' at ~' + fmt(rackKw, 1) + ' kW each\nCooling: ' + cooling(rackKw) + '\n\nTarget live date:\nPreferred region:\nBuy / lease / reserved:\n';
+    var spec = last.spec = p.name + ' × ' + fmt(gpus, 0) + ' GPUs\nIT load: ~' + fmt(itKw, 0) + ' kW\nFacility load (PUE ' + pue.toFixed(2) + '): ~' + fmt(facKw, 0) + ' kW\nCompute racks: ' + racks + ' at ~' + fmt(rackKw, 1) + ' kW each\nCooling: ' + cooling(rackKw) + '\n\nTarget live date:\nPreferred region:\nBuy / lease / reserved:\n';
     el.mail.href = 'mailto:sales@thechiefnegotiators.com?subject=' + encodeURIComponent('Requirement: ' + p.name + ' × ' + fmt(gpus, 0)) + '&body=' + encodeURIComponent(spec);
 
     // shareable state
@@ -134,6 +137,43 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('[data-est-cta]');
     if (a && window.gtag) window.gtag('event', 'estimator_cta', { cta: a.getAttribute('data-est-cta'), platform: el.gpu.value });
+  });
+
+  // Optional: send the readout to the desk (Web3Forms -> sales inbox).
+  // Subject is tagged [HOT] when the requirement is within desk scope.
+  var send = document.getElementById('est-send');
+  if (send) send.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var st = document.getElementById('es-status');
+    var fd = new FormData(send);
+    if (fd.get('botcheck')) return;
+    var name = String(fd.get('name') || '').trim(), email = String(fd.get('email') || '').trim();
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { st.textContent = 'Add your name and a valid work email.'; return; }
+    var live = String(fd.get('live_date') || '');
+    var tier = last.inScope ? 'HOT' : (/soon|quarter/i.test(live) ? 'WARM' : 'LEAD');
+    var btn = send.querySelector('button[type=submit]');
+    btn.disabled = true; st.textContent = 'Sending…';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        access_key: '9332b20c-b2c3-48f0-a81e-36eaf767afc9',
+        subject: '[' + tier + '] Estimator · ' + (last.title || 'requirement') + ' · /gpu-power-estimator',
+        from_name: 'TCN Power Estimator',
+        name: name, email: email, replyto: email,
+        company: String(fd.get('company') || ''), live_date: live,
+        lead_priority: tier, within_desk_scope: last.inScope ? 'Yes' : 'No',
+        requirement: last.spec || '', link: location.href
+      })
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.success) throw new Error('fail');
+      st.textContent = 'Received. The desk replies within one business day.';
+      send.querySelectorAll('input,select,button').forEach(function (x) { x.disabled = true; });
+      if (window.gtag) window.gtag('event', 'generate_lead', { method: 'estimator', in_scope: !!last.inScope, page: location.pathname });
+    }).catch(function () {
+      btn.disabled = false;
+      st.textContent = 'That did not send. Use "Email this requirement" above instead.';
+    });
   });
 
   run(false);

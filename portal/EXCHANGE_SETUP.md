@@ -55,6 +55,29 @@ Each form asks for name, company, work email and phone. The browser remembers th
 
 Share lot links in outreach: `https://portal.thechiefnegotiators.com/#lot=TCN-B300-0403`. The Exchange tab in the console has a **Copy link** button for each lot.
 
+## Partners on the website
+
+The desk console has a **Partners** tab. Partners you add there appear on the public website straight away: **featured** partners in the homepage Ecosystem section, and every **live** partner on https://www.thechiefnegotiators.com/partners, grouped by layer (compute, capacity, power, cooling, network, licensing, finance).
+
+1. Run `portal/supabase-exchange.sql` again in the Supabase SQL Editor (it is safe to re-run). It adds the `partners` table and seeds OptiCool Technologies.
+2. Make sure `supabaseAnonKey` is filled in `portal/static/config.js`. The website reads the same key, so there is only one place to set it.
+3. In the console, sign in on the **Exchange** tab, then open **Partners**. Add, edit, feature, hide or delete. Only list partners who have agreed to be named.
+
+Logos are optional: paste an `https://` link to a PNG or SVG (for example one uploaded to Supabase Storage as a public file). If Supabase is unreachable, the website keeps showing its built-in OptiCool card, so the section is never empty.
+
+## Lead alerts
+
+Every website inquiry form emails the sales inbox through Web3Forms. The subject line now starts with a priority tag, so you can set an inbox rule or phone notification on it:
+
+| Subject starts with | Means |
+|---|---|
+| `[HOT]` | This week, urgent, soonest live date, frontier or hyperscale scale — or a power-estimator request inside desk scope (Blackwell, 512+ GPUs or 1 MW+) |
+| `[WARM]` | This month, this quarter or next quarter |
+| `[LEAD]` | Everything else |
+| `[SCREEN]` | The sender says they are a broker or reseller — check the end user before calling |
+
+Suggested phone alert (Outlook): **Settings → Mail → Rules → Add new rule** → condition *Subject includes* `[HOT]` → action *Mark as important* (and turn on notifications for important mail in the Outlook mobile app). Gmail: create a filter on `subject:"[HOT]"` → *Always mark it as important* and *Star it*.
+
 ## 4. Turn on the Prospect Desk engine
 
 In Netlify → **Site configuration → Environment variables**:
