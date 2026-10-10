@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://www.thechiefnegotiators.com/</loc><lastmod>2026-09-08</lastmod></url>
-<url><loc>https://www.thechiefnegotiators.com/gpu-clusters-gpuaas</loc><lastmod>2026-09-08</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/gpu-clusters-gpuaas</loc><lastmod>2026-10-10</lastmod></url>
 <url><loc>https://www.thechiefnegotiators.com/availability</loc><lastmod>2026-09-08</lastmod></url>
 <url><loc>https://www.thechiefnegotiators.com/markets</loc><lastmod>2026-09-08</lastmod></url>
 <url><loc>https://www.thechiefnegotiators.com/markets/united-states</loc><lastmod>2026-09-08</lastmod></url>
@@ -29,4 +29,10 @@
 <url><loc>https://www.thechiefnegotiators.com/insight-sovereign-ai-compute-procurement</loc><lastmod>2026-09-08</lastmod></url>
 <url><loc>https://www.thechiefnegotiators.com/privacy-policy</loc><lastmod>2026-09-08</lastmod></url>
 <url><loc>https://www.thechiefnegotiators.com/terms-of-use</loc><lastmod>2026-09-08</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/gpu-power-estimator</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/nvidia-gb300-nvl72</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/nvidia-b300-gpu-clusters</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/nvidia-b200-gpu-clusters</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/nvidia-h200-gpu-clusters</loc><lastmod>2026-10-10</lastmod></url>
+<url><loc>https://www.thechiefnegotiators.com/partners</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq></url>
 </urlset>
