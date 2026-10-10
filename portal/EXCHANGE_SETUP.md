@@ -21,7 +21,7 @@ It lives in the `portal/` folder of the site repo, so it is published wherever t
 
 ## 1. Set up Supabase (one time, about 5 minutes)
 
-Your project: `https://pqfeumdtqzopkfqreney.supabase.co`
+Your project: `https://stpkhpxhqzgruorrupaw.supabase.co`
 
 1. **Create the tables.** Supabase → **SQL Editor → New query**. Paste all of `portal/supabase-exchange.sql`, change the email near the bottom to the one you'll sign in with, and click **Run**. It's safe to run again later.
 2. **Create your login.** Supabase → **Authentication → Users → Add user → Create new user**. Use the same email, choose a password, and tick **Auto Confirm User**.

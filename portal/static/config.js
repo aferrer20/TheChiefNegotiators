@@ -62,7 +62,7 @@ window.TCN_CONFIG = {
     publicUrl: "https://www.thechiefnegotiators.com/portal/exchange",
     // Supabase -> Project Settings -> API. The anon / publishable key is meant to be public;
     // the row-level security rules in portal/supabase-exchange.sql decide who can change what.
-    supabaseUrl:     "https://pqfeumdtqzopkfqreney.supabase.co",
+    supabaseUrl:     "https://stpkhpxhqzgruorrupaw.supabase.co",
     supabaseAnonKey: "sb_publishable_v4uwhuJdh4kJQrN1tGSEWA_5rf9Nl7q",
     // Every path on the exchange ends here: a 20-minute allocation call.
     bookingLink: "https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true",
