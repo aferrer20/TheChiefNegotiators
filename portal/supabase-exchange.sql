@@ -3,7 +3,7 @@
 -- Safe to run again; it only creates what is missing and refreshes the rules.
 --
 -- Who can do what:
---   Anyone (the public exchange page)  read live / under-offer lots, open requirements and live website partners
+--   Anyone (the public exchange page)  read live / under-offer lots and open requirements
 --   Admins (signed in, email listed in exchange_admins)  read everything, add, edit, delete
 -- Nobody else can write, whatever they send.
 
@@ -107,57 +107,11 @@ create policy "admins write requirements" on public.exchange_requirements
   using (public.is_exchange_admin()) with check (public.is_exchange_admin());
 
 -- ---------------------------------------------------------------
--- Website partners: the ecosystem shown on the public website
--- (homepage Ecosystem section and /partners). Managed in the desk
--- console -> Partners tab. Anyone can read live rows; only exchange
--- admins can change them.
---
--- This is deliberately a separate table from the CRM's public.partners,
--- which holds private fields (owner_rep, data). crm_id links a website
--- entry back to its CRM record; nothing here reads or changes the CRM
--- table's structure, and the website never reads the CRM table.
+-- Clean-up: the public partner directory was removed from the site.
+-- Drops its table if an earlier version of this script created it.
+-- (The CRM's own public.partners table is not touched.)
 -- ---------------------------------------------------------------
-create table if not exists public.site_partners (
-  id          uuid primary key default gen_random_uuid(),
-  slug        text not null unique check (slug ~ '^[a-z0-9-]{1,80}$'),
-  name        text not null check (length(name) between 1 and 120),
-  layer       text not null default 'other' check (layer in ('compute', 'capacity', 'power', 'cooling', 'network', 'licensing', 'finance', 'other')),
-  blurb       text check (blurb is null or length(blurb) <= 400),
-  website     text check (website is null or website ~* '^https://'),
-  logo_url    text check (logo_url is null or logo_url ~* '^https://'),
-  region      text check (region is null or length(region) <= 80),
-  featured    boolean not null default false,
-  status      text not null default 'live' check (status in ('live', 'hidden')),
-  sort        integer not null default 100,
-  crm_id      text,
-  created_at  timestamptz not null default now(),
-  updated_at  timestamptz not null default now()
-);
-
-drop trigger if exists site_partners_touch on public.site_partners;
-create trigger site_partners_touch before update on public.site_partners
-  for each row execute function public.exchange_touch();
-
-alter table public.site_partners enable row level security;
-grant select on public.site_partners to anon;
-grant select, insert, update, delete on public.site_partners to authenticated;
-
-drop policy if exists "public reads live site partners" on public.site_partners;
-create policy "public reads live site partners" on public.site_partners
-  for select to anon, authenticated
-  using (status = 'live' or public.is_exchange_admin());
-
-drop policy if exists "admins write site partners" on public.site_partners;
-create policy "admins write site partners" on public.site_partners
-  for all to authenticated
-  using (public.is_exchange_admin()) with check (public.is_exchange_admin());
-
--- Seed the partner already named on the site (skipped if it exists).
-insert into public.site_partners (slug, name, layer, blurb, website, region, featured, sort) values
-  ('opticool', 'OptiCool Technologies', 'cooling',
-   'Two-phase refrigerant cooling for high-density and AI workloads: rear-door heat exchangers, water-free at the rack, deployable against live racks.',
-   'https://opticooltechnologies.com/', 'Global', true, 10)
-on conflict (slug) do nothing;
+drop table if exists public.site_partners;
 
 -- ---------------------------------------------------------------
 -- Your admin login. Change the email to the one you will sign in

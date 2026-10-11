@@ -55,18 +55,6 @@ Each form asks for name, company, work email and phone. The browser remembers th
 
 Share lot links in outreach: `https://portal.thechiefnegotiators.com/#lot=TCN-B300-0403`. The Exchange tab in the console has a **Copy link** button for each lot.
 
-## Partners on the website
-
-The desk console has a **Partners** tab. Partners you add there appear on the public website straight away: **featured** partners in the homepage Ecosystem section, and every **live** partner on https://www.thechiefnegotiators.com/partners, grouped by layer (compute, capacity, power, cooling, network, licensing, finance).
-
-1. Run `portal/supabase-exchange.sql` again in the Supabase SQL Editor (it is safe to re-run). It adds the `site_partners` table and seeds OptiCool Technologies. Your CRM's own `partners` table is left exactly as it is.
-2. Make sure `supabaseAnonKey` is filled in `portal/static/config.js`. The website reads the same key, so there is only one place to set it.
-3. In the console, sign in on the **Exchange** tab, then open **Partners**. Add, edit, feature, hide or delete. Only list partners who have agreed to be named.
-
-**Publishing from the CRM.** The Partners tab also lists your CRM partners (from the CRM's `partners` table) under **From your CRM**. **Publish to website** copies only the company name and region into a new website entry linked to that CRM record; you then add the public description, layer and logo. The console reads only `id, name, org, company, region, status` from the CRM table, and the website never reads it at all, so `owner_rep`, `data` and anything else private stays private. If the CRM table's read rule does not allow your admin login, the list is hidden and you can still add website partners by hand.
-
-Logos are optional: paste an `https://` link to a PNG or SVG (for example one uploaded to Supabase Storage as a public file). If Supabase is unreachable, the website keeps showing its built-in OptiCool card, so the section is never empty.
-
 ## Lead alerts
 
 Every website inquiry form emails the sales inbox through Web3Forms. The subject line now starts with a priority tag, so you can set an inbox rule or phone notification on it:
