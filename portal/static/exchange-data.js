@@ -27,8 +27,19 @@
   }
 
   var configured = !!(X.supabaseUrl && X.supabaseAnonKey);
+  // Only the desk console keeps a signed-in session. The public exchange never
+  // signs in, so it must not load or refresh the console's session: two tabs
+  // refreshing one session makes Supabase revoke it (refresh tokens rotate),
+  // which signed the desk out mid-edit. The storage key also carries the
+  // project ref, so a session from a different Supabase project is never reused.
+  var isDesk = /admin/.test(location.pathname);
+  var ref = (String(X.supabaseUrl || '').match(/https:\/\/([a-z0-9]+)\./) || [])[1] || 'x';
   var sb = configured && window.supabase && window.supabase.createClient
-    ? window.supabase.createClient(X.supabaseUrl, X.supabaseAnonKey, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'tcnx-desk-auth' } })
+    ? window.supabase.createClient(X.supabaseUrl, X.supabaseAnonKey, {
+        auth: isDesk
+          ? { persistSession: true, autoRefreshToken: true, storageKey: 'tcnx-desk-auth-' + ref }
+          : { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'tcnx-public-' + ref },
+      })
     : null;
 
   function friendly(e) {
@@ -36,10 +47,9 @@
     if (/Invalid login credentials/i.test(m)) return 'Email or password is wrong.';
     if (/Email not confirmed/i.test(m)) return 'This login is not confirmed. In Supabase, open Authentication -> Users and confirm it (or re-create it with "Auto Confirm User").';
     if (/row-level security|permission denied/i.test(m)) return 'This login is not an exchange admin. Add its email to exchange_admins in Supabase (see the setup guide).';
-    if (/check constraint .*site_partners/i.test(m)) return 'Check the partner fields: the website and logo must start with https://, and the blurb must be 400 characters or fewer.';
-    if (/duplicate key .*slug/i.test(m)) return 'Another partner already uses that short name. Change the name slightly.';
     if (/relation .* does not exist|Could not find the table/i.test(m)) return 'The exchange tables are missing. Run portal/supabase-exchange.sql in the Supabase SQL Editor.';
-    if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'Could not reach Supabase. Check your connection and the Supabase URL in config.js.';
+    if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return 'Could not reach Supabase. Check your connection and try again; nothing was lost.';
+    if (/invalid input syntax for type integer/i.test(m)) return 'GPUs, term and minimum order must be whole numbers.';
     return m;
   }
   function ok(r) { if (r.error) { var e = new Error(friendly(r.error)); e.raw = r.error; throw e; } return r.data; }
@@ -53,7 +63,6 @@
   var LOT_COLS = 'ref, kind, model, config, gpu_count, condition, region, available, price, price_unit, term_months, deposit_pct, min_commit, featured, status, notes, created_at';
   var LOT_FIELDS = ['ref', 'kind', 'model', 'config', 'gpu_count', 'condition', 'region', 'available', 'price', 'price_unit', 'term_months', 'deposit_pct', 'min_commit', 'featured', 'status', 'notes'];
   var REQ_FIELDS = ['kind', 'model', 'gpu_count', 'region', 'timeline', 'status'];
-  var PARTNER_FIELDS = ['slug', 'name', 'layer', 'blurb', 'website', 'logo_url', 'region', 'featured', 'status', 'sort', 'crm_id'];
   function pick(o, keys) { var r = {}; keys.forEach(function (k) { if (o[k] !== undefined) r[k] = o[k] === '' ? null : o[k]; }); return r; }
 
   var api = {
@@ -74,6 +83,8 @@
       session: async function () { if (!sb) return null; return (await sb.auth.getSession()).data.session; },
       signIn: async function (email, password) { need(); return ok(await sb.auth.signInWithPassword({ email: email, password: password })).session; },
       signOut: async function () { if (sb) await sb.auth.signOut(); },
+      // Renew the session once; true when it worked. Used to retry a save after an auth error.
+      refresh: async function () { if (!sb) return false; var r = await sb.auth.refreshSession(); return !r.error && !!(r.data && r.data.session); },
       isAdmin: async function () { need(); return !!ok(await sb.rpc('is_exchange_admin')); },
       list: async function () {
         need();
@@ -98,15 +109,6 @@
         return ok(await sb.from('exchange_requirements').insert(row).select().single());
       },
       deleteReq: async function (id) { need(); ok(await sb.from('exchange_requirements').delete().eq('id', id)); },
-      // Partners shown on the public website (homepage Ecosystem section, /partners).
-      // Stored in site_partners, separate from the CRM's private partners table.
-      partners: async function () { need(); return ok(await sb.from('site_partners').select('*').order('sort', { ascending: true }).order('name', { ascending: true })); },
-      savePartner: async function (p) {
-        need();
-        var row = pick(p, PARTNER_FIELDS);
-        if (p.id) return ok(await sb.from('site_partners').update(row).eq('id', p.id).select().single());
-        return ok(await sb.from('site_partners').insert(row).select().single());
-      },
       // The CRM partner list, read only and only the columns safe to show an admin
       // picking which partner to publish. Never the private data / owner_rep fields.
       crmPartners: async function () {
@@ -114,7 +116,6 @@
         var r = await sb.from('partners').select('id, name, org, company, region, status').order('name', { ascending: true });
         return r.error ? null : r.data; // null = this login cannot read the CRM table; linking is then optional
       },
-      deletePartner: async function (id) { need(); ok(await sb.from('site_partners').delete().eq('id', id)); },
     },
   };
 

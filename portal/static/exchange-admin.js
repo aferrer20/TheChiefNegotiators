@@ -56,18 +56,22 @@
   async function lock() { await X.admin.signOut(); data = null; who = ''; render(); }
 
   // Run one change against Supabase, then reload the lists.
+  function authErr(e) { return !!(e && e.raw && /JWT|expired|not authenticated|refresh token/i.test(e.raw.message || '')); }
   async function run(op, msg) {
     if (busy) return false;
     busy = true; render();
     try {
-      await op();
+      // An expired or rotated session is renewed once and the save retried,
+      // instead of dropping the desk back to the sign-in screen.
+      try { await op(); }
+      catch (e1) { if (authErr(e1) && await X.admin.refresh()) await op(); else throw e1; }
       data = await X.admin.list();
       savedAt = new Date(); editing = null;
       toast(msg || 'Saved');
       busy = false; render(); return true;
     } catch (e) {
       busy = false;
-      if (e.raw && /JWT|expired|not authenticated/i.test(e.raw.message || '')) { data = null; error = 'Your sign-in expired. Sign in again.'; }
+      if (authErr(e)) { data = null; error = 'Your sign-in expired. Sign in again; the change was not saved.'; }
       toast(e.message); render(); return false;
     }
   }
@@ -202,9 +206,11 @@
     return rows.slice(1).map(function (r) { var o = {}; head.forEach(function (h, j) { o[h] = String(r[j] == null ? '' : r[j]).trim(); }); return o; });
   }
   function col(o, names) { for (var i = 0; i < names.length; i++) { if (o[names[i]]) return o[names[i]]; } return ''; }
+  function whole(v) { return v == null ? null : Math.round(v); }
   function n(v) { v = String(v || '').replace(/[$,%\s]/g, ''); if (v === '') return null; var x = Number(v); return isFinite(x) ? x : null; }
   function lotFromRow(o) {
     var model = col(o, ['model', 'gpu']), gpus = n(col(o, ['gpus', 'gpu count', 'quantity', 'qty']));
+    if (gpus != null) gpus = Math.round(gpus);
     if (!model || !gpus) return null;
     var t = col(o, ['type', 'kind']), kind = /aas|cloud|capacity|hr|hour/i.test(t) ? 'gpuaas' : 'hardware';
     var st = col(o, ['status']).toLowerCase();
@@ -215,8 +221,8 @@
       condition: col(o, ['condition']) || null, region: col(o, ['region', 'location']) || null,
       available: col(o, ['available', 'availability', 'lead text', 'timing']) || (days != null ? (days === 0 ? 'Immediate' : days + ' days') : null),
       price: n(col(o, ['price', 'rate'])), price_unit: col(o, ['price unit', 'unit']) || (kind === 'gpuaas' ? 'per GPU-hr' : 'per GPU'),
-      term_months: n(col(o, ['term months', 'term'])), deposit_pct: n(col(o, ['deposit', 'deposit pct'])),
-      min_commit: n(col(o, ['min order', 'minimum order', 'min commit', 'minimum'])),
+      term_months: whole(n(col(o, ['term months', 'term']))), deposit_pct: n(col(o, ['deposit', 'deposit pct'])),
+      min_commit: whole(n(col(o, ['min order', 'minimum order', 'min commit', 'minimum']))),
       featured: /^(y|yes|true|1|x)$/i.test(col(o, ['featured', 'desk pick'])),
       status: /^(hidden|hide|draft|closed|sold|inactive|off|no)$/.test(st) ? 'hidden' : /offer|reserv/.test(st) ? 'reserved' : 'live',
       notes: col(o, ['notes', 'description']) || null,
@@ -240,6 +246,7 @@
     var fd = new FormData(f), o = {};
     fd.forEach(function (v, k) { o[k] = String(v).trim(); });
     ['gpu_count', 'price', 'term_months', 'deposit_pct', 'min_commit'].forEach(function (k) { if (k in o) o[k] = n(o[k]); });
+    ['gpu_count', 'term_months', 'min_commit'].forEach(function (k) { if (o[k] != null) o[k] = Math.round(o[k]); });
     if (f.querySelector('[name=featured]')) o.featured = f.querySelector('[name=featured]').checked;
     Object.keys(o).forEach(function (k) { if (o[k] === '') o[k] = null; });
     return o;

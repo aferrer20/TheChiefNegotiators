@@ -512,12 +512,6 @@ textarea.qf-i{min-height:100px;resize:vertical;font-family:var(--sans)}
 .ticker-track{flex-wrap:wrap;width:auto}
 }
 
-/* ── partner ecosystem (live from the desk console) ───── */
-.partner-top{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:28px}
-.partner-logo{max-height:28px;max-width:120px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.8;transition:filter .3s var(--ease),opacity .3s var(--ease)}
-.partner-card:hover .partner-logo{filter:none;opacity:1}
-.partner-grid+.stbl-h{margin-top:56px}
-.partners-updated{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .est-send-wrap{margin:0 18px 18px;border-top:1px solid var(--line);padding-top:14px}
 .est-send-wrap summary{cursor:pointer;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-2);list-style:none}
 .est-send-wrap summary::-webkit-details-marker{display:none}

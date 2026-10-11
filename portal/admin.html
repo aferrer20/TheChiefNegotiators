@@ -904,7 +904,6 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
   <div class="admin-tabs">
     <div class="wrap" style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="admin-tab active" data-tab="exchange">Exchange <span class="count" id="tabc-exchange">0</span></button>
-      <button class="admin-tab" data-tab="partners">Partners <span class="count" id="tabc-partners">0</span></button>
       <button class="admin-tab" data-tab="desk">Prospect Desk <span class="count" id="tabc-desk">0</span></button>
       <button class="admin-tab" data-tab="inv">Inventory <span class="count" id="tabc-inv">0</span></button>
       <button class="admin-tab" data-tab="leads">Leads <span class="count" id="tabc-leads">0</span></button>
@@ -924,16 +923,6 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
         <div class="right"><a class="btn btn-ghost btn-sm" id="xaOpenExchange" href="https://www.thechiefnegotiators.com/portal/exchange" target="_blank" rel="noopener">Open the exchange</a></div>
       </div>
       <div id="exchangeMount"></div>
-    </div>
-  </section>
-
-  <!-- PARTNERS TAB -->
-  <section class="admin-section hidden" id="tab-partners">
-    <div class="wrap" style="max-width:1480px">
-      <div class="add-bar">
-        <div><h2>Partners</h2><div class="dk-sub">The ecosystem on the public website. Featured partners appear on the homepage; every live partner appears on /partners.</div></div>
-      </div>
-      <div id="partnersMount"></div>
     </div>
   </section>
 
@@ -1346,7 +1335,6 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="static/exchange-data.js"></script>
 <script src="static/exchange-admin.js"></script>
-<script src="static/partners-admin.js"></script>
 <script src="static/prospect-desk.js"></script>
 <script>document.addEventListener("DOMContentLoaded",function(){var R=window.__resources||{};if(R.tcnLogo)document.querySelectorAll('img[src="static/logo.png"]').forEach(function(i){i.src=R.tcnLogo;});});</script>
 <script>
@@ -1360,13 +1348,12 @@ textarea.dk-in{min-height:80px;resize:vertical;line-height:1.5}
       document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
       t.classList.add('active');
       const k = t.dataset.tab;
-      ['exchange','partners','inv','desk','leads','quotes','res','wtb','setup','data'].forEach(x => document.getElementById('tab-'+x).classList.toggle('hidden', x !== k));
+      ['exchange','inv','desk','leads','quotes','res','wtb','setup','data'].forEach(x => document.getElementById('tab-'+x).classList.toggle('hidden', x !== k));
       if (k === 'setup') renderSetupStatus();
       if (k === 'quotes') renderQuotes();
       if (k === 'leads') renderLeads();
       if (k === 'desk' && window.SSPDesk) window.SSPDesk.render();
       if (k === 'exchange' && window.TCNExchangeAdmin) window.TCNExchangeAdmin.render();
-      if (k === 'partners' && window.TCNPartnersAdmin) window.TCNPartnersAdmin.render();
     });
   });
 

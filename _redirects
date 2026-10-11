@@ -1,4 +1,6 @@
 /index.html  /  301!
+/partners  /  301
+/partners.html  /  301
 
 # The Exchange portal (portal.thechiefnegotiators.com is a domain alias on this Netlify site)
 https://www.portal.thechiefnegotiators.com/*  https://portal.thechiefnegotiators.com/:splat  301!
