@@ -42,7 +42,18 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scanline overlay — technical terminal feel */
+/* Dot-grid + structural grid — schematic/blueprint texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    radial-gradient(rgba(201,164,104,0.08) 1px, transparent 1px),
+    linear-gradient(rgba(201,164,104,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,104,0.022) 1px, transparent 1px);
+  background-size: 28px 28px, 140px 140px, 140px 140px;
+}
+
+/* Scanline overlay — terminal feel */
 body::after {
   content: '';
   position: fixed; inset: 0;
@@ -50,11 +61,44 @@ body::after {
     0deg,
     transparent 0px,
     transparent 2px,
-    rgba(0,0,0,0.032) 2px,
-    rgba(0,0,0,0.032) 3px
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 3px
   );
   pointer-events: none;
   z-index: 6;
+}
+
+/* Edge vignette — focuses eye on center */
+#vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(13,12,9,0.55) 100%);
+}
+
+/* Top accent bar */
+#top-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-2) 18%, var(--gold) 50%, var(--gold-2) 82%, transparent 100%);
+  z-index: 10;
+}
+
+/* Live status readout — bottom right */
+#data-block {
+  position: absolute; bottom: 56px; right: 28px;
+  border-left: 1px solid var(--border);
+  padding-left: 14px;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.db-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 32px;
+  font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase;
+}
+.db-k { color: var(--text-2); }
+.db-v { color: var(--text); display: flex; align-items: center; gap: 5px; }
+.db-live-dot {
+  display: inline-block; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+  animation: sdot 3.4s ease-out infinite;
 }
 
 #c {
@@ -234,12 +278,15 @@ body::after {
   #back-link { display: none; }
   #hdr { top: 20px; left: 20px; }
   #hint { font-size: 8px; }
+  #data-block { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { #panel { transition: none; } }
 </style>
 </head>
 <body>
 
+<div id="top-bar"></div>
+<div id="vignette"></div>
 <canvas id="c"></canvas>
 
 <div id="ui">
@@ -259,6 +306,13 @@ body::after {
 
   <p id="hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</p>
   <p id="node-count"></p>
+
+  <div id="data-block">
+    <div class="db-row"><span class="db-k">Status</span><span class="db-v"><span class="db-live-dot"></span>Active</span></div>
+    <div class="db-row"><span class="db-k">Layers</span><span class="db-v">6</span></div>
+    <div class="db-row"><span class="db-k">Access</span><span class="db-v">End users only</span></div>
+    <div class="db-row"><span class="db-k">Response</span><span class="db-v">1 business day</span></div>
+  </div>
 </div>
 
 <aside id="panel" role="complementary" aria-label="Layer details">
@@ -362,25 +416,45 @@ scene.add(rimLight);
 /* ── Helpers ── */
 function hexRgb(hex) { return [(hex>>16)&0xff, (hex>>8)&0xff, hex&0xff]; }
 
-function glowTex(hex) {
-  const c = document.createElement('canvas'); c.width = c.height = 128;
+function glowTex(hex, isCenter) {
+  const s = isCenter ? 256 : 192;
+  const c = document.createElement('canvas'); c.width = c.height = s;
   const ctx = c.getContext('2d');
   const [r,g,b] = hexRgb(hex);
-  const gr = ctx.createRadialGradient(64,64,0,64,64,64);
-  gr.addColorStop(0,  `rgba(${r},${g},${b},0.55)`);
-  gr.addColorStop(0.3,`rgba(${r},${g},${b},0.18)`);
-  gr.addColorStop(1,  `rgba(${r},${g},${b},0)`);
-  ctx.fillStyle = gr; ctx.fillRect(0,0,128,128);
+  const h = s/2;
+  /* bright hard core */
+  const core = ctx.createRadialGradient(h,h,0,h,h,h*0.08);
+  core.addColorStop(0, `rgba(${r},${g},${b},0.95)`);
+  core.addColorStop(1, `rgba(${r},${g},${b},0)`);
+  ctx.fillStyle = core; ctx.fillRect(0,0,s,s);
+  /* mid halo */
+  const mid = ctx.createRadialGradient(h,h,0,h,h,h*0.38);
+  mid.addColorStop(0, `rgba(${r},${g},${b},0.45)`);
+  mid.addColorStop(1, `rgba(${r},${g},${b},0)`);
+  ctx.fillStyle = mid; ctx.fillRect(0,0,s,s);
+  /* wide diffuse */
+  const wide = ctx.createRadialGradient(h,h,0,h,h,h);
+  wide.addColorStop(0, `rgba(${r},${g},${b},0.12)`);
+  wide.addColorStop(1, `rgba(${r},${g},${b},0)`);
+  ctx.fillStyle = wide; ctx.fillRect(0,0,s,s);
   return new THREE.CanvasTexture(c);
 }
 
 function labelTex(text, hex) {
-  const c = document.createElement('canvas'); c.width = 320; c.height = 48;
+  const c = document.createElement('canvas'); c.width = 380; c.height = 56;
   const ctx = c.getContext('2d');
   const [r,g,b] = hexRgb(hex);
-  ctx.fillStyle = `rgba(${r},${g},${b},0.82)`;
-  ctx.font = '500 10px monospace';
-  ctx.fillText(text.toUpperCase(), 8, 31);
+  /* tick mark */
+  ctx.fillStyle = `rgba(${r},${g},${b},0.5)`;
+  ctx.fillRect(0, 16, 12, 1);
+  /* text */
+  ctx.fillStyle = `rgba(${r},${g},${b},0.92)`;
+  ctx.font = '500 11px monospace';
+  ctx.fillText(text.toUpperCase(), 18, 23);
+  /* underline */
+  const w = ctx.measureText(text.toUpperCase()).width + 18;
+  ctx.fillStyle = `rgba(${r},${g},${b},0.22)`;
+  ctx.fillRect(18, 30, w - 18, 1);
   return new THREE.CanvasTexture(c);
 }
 
@@ -389,6 +463,23 @@ const gh = new THREE.GridHelper(42, 28, 0x1e1a10, 0x120f08);
 gh.position.y = -5;
 gh.material.transparent = true; gh.material.opacity = 0.55;
 scene.add(gh);
+
+/* ── Orbiting rings — TCN advisory center ── */
+const ring1 = new THREE.Mesh(
+  new THREE.TorusGeometry(1.88, 0.016, 6, 90),
+  new THREE.MeshBasicMaterial({ color:0xC9A468, transparent:true, opacity:0.42, blending:THREE.AdditiveBlending, depthWrite:false })
+);
+ring1.rotation.x = Math.PI * 0.28;
+ring1.rotation.z = Math.PI * 0.08;
+scene.add(ring1);
+
+const ring2 = new THREE.Mesh(
+  new THREE.TorusGeometry(2.4, 0.009, 6, 90),
+  new THREE.MeshBasicMaterial({ color:0xA9803F, transparent:true, opacity:0.28, blending:THREE.AdditiveBlending, depthWrite:false })
+);
+ring2.rotation.x = Math.PI * 0.55;
+ring2.rotation.z = Math.PI * 0.22;
+scene.add(ring2);
 
 /* ── Distant reference points — warm, sparse (not a star field) ── */
 {
@@ -450,15 +541,16 @@ NODES.forEach((nd, i) => {
   }
 
   /* Glow sprite */
-  const gs = nd.sz * (nd.id === 'tcn' ? 5.4 : 4.0);
+  const isC = nd.id === 'tcn';
+  const gs = nd.sz * (isC ? 6.2 : 4.5);
   const gSpr = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: glowTex(nd.col), transparent: true,
+    map: glowTex(nd.col, isC), transparent: true,
     blending: THREE.AdditiveBlending, depthWrite: false
   }));
   gSpr.scale.set(gs, gs, 1);
   gSpr.position.copy(pos);
   scene.add(gSpr);
-  glowSprites.push({ spr: gSpr, mesh, isC: nd.id === 'tcn' });
+  glowSprites.push({ spr: gSpr, mesh, isC });
 
   /* Label sprite */
   const lSpr = new THREE.Sprite(new THREE.SpriteMaterial({
@@ -615,6 +707,10 @@ function animate() {
   setCam();
 
   keyLight.position.set(Math.sin(t*.22)*3, Math.cos(t*.17)*2, Math.cos(t*.24)*3);
+
+  /* Orbiting rings */
+  ring1.rotation.y = t * 0.22;
+  ring2.rotation.y = -t * 0.14;
 
   nodeMeshes.forEach(m => {
     const { origPos, floatOff, floatSpd, node } = m.userData;
