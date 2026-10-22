@@ -246,7 +246,9 @@ body::before {
 .platforms h2 { font: 400 1.55rem/1.2 var(--serif); margin-bottom: 10px; }
 .platforms .sec-sub { font: 300 .95rem/1.65 var(--sans); color: var(--mute); max-width: 500px; margin-bottom: 48px; }
 
-.gpu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(256px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.gpu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+@media(max-width:720px){.gpu-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.gpu-grid{grid-template-columns:1fr}}
 .gpu-card { background: var(--paper-2); padding: 26px 22px 22px; display: flex; flex-direction: column; gap: 10px; transition: background .14s; }
 .gpu-card:hover { background: var(--paper); }
 .gpu-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
