@@ -26,6 +26,7 @@ table{font-variant-numeric:tabular-nums}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
 .mono{font-family:var(--mono)}
 .kicker{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent)}
+.tagline{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(17px,2vw,22px);color:var(--accent);letter-spacing:-.01em;line-height:1.2;margin-bottom:10px}
 .em{color:var(--accent);font-style:italic}
 .band{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .sec{padding:88px 0 100px}
