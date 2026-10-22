@@ -16,13 +16,15 @@
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;500&family=IBM+Plex+Sans:wght@300;400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" /><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@300;500&family=IBM+Plex+Sans:wght@300;400&display=swap" /></noscript>
 <style>
 :root {
-  --bg:      #06090f;
-  --surface: rgba(6,9,15,0.9);
+  --bg:      #0d0c09;
+  --surface: rgba(13,12,9,0.96);
   --gold:    #C9A468;
   --gold-2:  #A9803F;
+  --sage:    #6b8f6e;
+  --slate:   #4a6b8a;
   --text:    #EAE5DC;
   --text-2:  #8A8278;
-  --border:  rgba(201,164,104,0.14);
+  --border:  rgba(201,164,104,0.13);
   --mono:    'IBM Plex Mono', monospace;
   --serif:   'Instrument Serif', Georgia, serif;
   --sans:    'IBM Plex Sans', system-ui, sans-serif;
@@ -40,139 +42,176 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Scanline overlay — technical terminal feel */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.032) 2px,
+    rgba(0,0,0,0.032) 3px
+  );
+  pointer-events: none;
+  z-index: 6;
+}
+
 #c {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  display: block;
-  touch-action: none;
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  cursor: grab; display: block; touch-action: none;
 }
 #c.dragging { cursor: grabbing; }
 
-#ui { position: fixed; inset: 0; pointer-events: none; }
+#ui { position: fixed; inset: 0; pointer-events: none; z-index: 2; }
 
+/* ── Header ── */
 #hdr {
   position: absolute;
-  top: 28px;
-  left: 28px;
+  top: 28px; left: 28px;
 }
+
 .kicker {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 500;
-  letter-spacing: .18em;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--gold);
+  display: flex; align-items: center; gap: 10px;
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 .kicker::before {
   content: '';
-  display: block;
-  width: 20px;
-  height: 1px;
-  background: var(--gold);
-  opacity: 0.5;
+  display: block; width: 18px; height: 1px;
+  background: var(--gold); opacity: 0.5;
 }
+
 #hdr h1 {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(24px, 3.2vw, 42px);
-  line-height: 1.12;
+  font-size: clamp(22px, 2.8vw, 38px);
+  line-height: 1.1;
   color: var(--text);
   text-wrap: balance;
-  max-width: 12ch;
+  max-width: 13ch;
 }
 
+.status-row {
+  margin-top: 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-2);
+}
+.s-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(169,128,63,.18);
+  animation: sdot 3.4s ease-out infinite;
+}
+@keyframes sdot {
+  0%,100% { box-shadow: 0 0 0 3px rgba(169,128,63,.18); }
+  50%      { box-shadow: 0 0 0 7px rgba(169,128,63,.04); }
+}
+
+/* ── Back link ── */
 #back-link {
-  position: absolute;
-  top: 28px;
-  right: 28px;
+  position: absolute; top: 28px; right: 28px;
   pointer-events: auto;
-  font-size: 9.5px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
   color: var(--text-2);
   text-decoration: none;
   border-bottom: 1px solid var(--border);
   padding-bottom: 4px;
   transition: color .2s, border-color .2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 10px;
 }
-#back-link img { height: 18px; width: auto; opacity: 0.6; filter: invert(1); }
+#back-link img { height: 16px; width: auto; opacity: 0.45; filter: invert(1) sepia(.4) saturate(.5); }
 #back-link:hover { color: var(--gold); border-color: var(--gold-2); }
 
+/* ── Bottom hints ── */
 #hint {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
+  position: absolute; bottom: 24px; left: 50%;
   transform: translateX(-50%);
-  font-size: 9.5px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  text-align: center;
-  white-space: nowrap;
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-2); text-align: center; white-space: nowrap; opacity: .45;
 }
-
 #node-count {
-  position: absolute;
-  bottom: 24px;
-  left: 28px;
-  font-size: 9px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--text-2);
-  opacity: 0.6;
+  position: absolute; bottom: 24px; left: 28px;
+  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-2); opacity: .35;
 }
 
+/* ── Corner bracket (reusable decorative) ── */
+.bracket-tl, .bracket-br {
+  position: absolute; width: 14px; height: 14px;
+  border-color: var(--gold-2); border-style: solid; opacity: .3;
+}
+.bracket-tl { top: 16px; left: 16px; border-width: 1px 0 0 1px; }
+.bracket-br { bottom: 16px; right: 16px; border-width: 0 1px 1px 0; }
+
+/* ── Detail panel ── */
 #panel {
   position: fixed;
   top: 0; right: 0; bottom: 0;
   width: min(380px, 100%);
   background: var(--surface);
-  backdrop-filter: blur(28px) saturate(1.2);
-  -webkit-backdrop-filter: blur(28px) saturate(1.2);
-  border-left: 1px solid var(--border);
-  padding: 60px 32px 48px 36px;
+  backdrop-filter: blur(36px) saturate(1.05);
+  -webkit-backdrop-filter: blur(36px) saturate(1.05);
+  border-left: 2px solid var(--gold-2);
+  padding: 58px 32px 44px 36px;
   transform: translateX(110%);
   transition: transform .44s cubic-bezier(.16,1,.3,1);
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  display: flex; flex-direction: column; gap: 20px;
   overflow-y: auto;
+  z-index: 4;
 }
 #panel.open { transform: translateX(0); pointer-events: auto; }
 
 #close {
-  position: absolute;
-  top: 18px; right: 18px;
+  position: absolute; top: 16px; right: 16px;
   background: none;
   border: 1px solid var(--border);
   color: var(--text-2);
-  font-size: 16px;
-  width: 34px; height: 34px;
+  font-family: var(--mono); font-size: 12px;
+  width: 32px; height: 32px;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: color .2s, border-color .2s;
 }
 #close:hover { color: var(--text); border-color: var(--gold); }
 
-.p-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; vertical-align: middle; }
-.p-tag { font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 500; display: flex; align-items: center; }
-.p-title { font-family: var(--serif); font-size: clamp(20px, 2.8vw, 26px); line-height: 1.22; color: var(--text); font-weight: 400; }
-.p-desc { font-family: var(--sans); font-size: 13.5px; line-height: 1.72; color: var(--text-2); font-weight: 300; }
+.p-tag {
+  font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+}
+.p-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.p-title {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.6vw, 26px);
+  line-height: 1.2; color: var(--text); font-weight: 400;
+}
 .p-divider { height: 1px; background: var(--border); }
+.p-desc {
+  font-family: var(--sans); font-size: 13.5px;
+  line-height: 1.76; color: var(--text-2); font-weight: 300;
+}
+.p-meta {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.p-meta-row {
+  display: flex; justify-content: space-between;
+  font-size: 9.5px; letter-spacing: .04em;
+}
+.p-meta-k { color: var(--text-2); }
+.p-meta-v { color: var(--text); }
 .p-cta {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+  font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
   color: var(--text); text-decoration: none;
   border-bottom: 1px solid var(--gold-2); padding-bottom: 5px;
   transition: color .2s, border-color .2s;
@@ -180,15 +219,22 @@ html, body {
 }
 .p-cta:hover { color: var(--gold); border-color: var(--gold); }
 
+/* ── Mobile ── */
 @media (max-width: 640px) {
-  #panel { top: auto; left: 0; right: 0; width: 100%; height: 54%; border-left: none; border-top: 1px solid var(--border); transform: translateY(110%); padding: 24px 20px 28px; }
+  #panel {
+    top: auto; left: 0; right: 0; width: 100%; height: 58%;
+    border-left: none; border-top: 2px solid var(--gold-2);
+    transform: translateY(110%); padding: 22px 20px 28px;
+  }
   #panel.open { transform: translateY(0); }
-  #close { top: 12px; right: 12px; }
+  .bracket-tl { top: 10px; left: 10px; }
+  .bracket-br { bottom: 10px; right: 10px; }
+  #close { top: 10px; right: 10px; width: 28px; height: 28px; font-size: 11px; }
   #hdr h1 { font-size: clamp(20px, 6vw, 28px); }
   #back-link { display: none; }
   #hdr { top: 20px; left: 20px; }
+  #hint { font-size: 8px; }
 }
-
 @media (prefers-reduced-motion: reduce) { #panel { transition: none; } }
 </style>
 </head>
@@ -198,59 +244,102 @@ html, body {
 
 <div id="ui">
   <div id="hdr">
-    <p class="kicker">TCN · AI Infrastructure</p>
-    <h1>We Negotiate,<br>You Win.</h1>
+    <p class="kicker">AI Infrastructure Stack</p>
+    <h1>Six layers.<br><em>One desk.</em></h1>
+    <div class="status-row">
+      <span class="s-dot"></span>
+      <span>Click any node</span>
+    </div>
   </div>
-  <a id="back-link" href="/" class="back-link">
-    <img src="assets/logo-chief-negotiators.png" alt="The Chief Negotiators" />
+
+  <a id="back-link" href="/">
+    <img src="assets/logo-chief-negotiators.webp" alt="The Chief Negotiators" />
     <span>thechiefnegotiators.com</span>
   </a>
-  <p id="hint">Drag to explore &nbsp;·&nbsp; Click any layer</p>
+
+  <p id="hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</p>
   <p id="node-count"></p>
 </div>
 
 <aside id="panel" role="complementary" aria-label="Layer details">
+  <span class="bracket-tl"></span>
+  <span class="bracket-br"></span>
   <button id="close" aria-label="Close panel">✕</button>
   <p class="p-tag"><span class="p-dot" id="p-dot"></span><span id="p-tag-text">Mandate</span></p>
   <h2 class="p-title" id="p-title">Layer</h2>
   <div class="p-divider"></div>
   <p class="p-desc" id="p-desc"></p>
+  <div class="p-meta" id="p-meta" style="display:none">
+    <div class="p-meta-row"><span class="p-meta-k">Access</span><span class="p-meta-v" id="pm-access"></span></div>
+    <div class="p-meta-row"><span class="p-meta-k">Structure</span><span class="p-meta-v" id="pm-struct"></span></div>
+    <div class="p-meta-row"><span class="p-meta-k">Response</span><span class="p-meta-v" id="pm-resp"></span></div>
+  </div>
   <a href="#" class="p-cta" id="p-cta">Open mandate →</a>
 </aside>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const NODES = [
-  { id:'tcn', tag:'Advisory Center', title:'The Chief Negotiators',
-    desc:'Independent buy-side advisory at the center of every AI infrastructure deal. Relationships at every layer of the stack, assembled into single transactions that would not otherwise exist. We Negotiate, You Win.',
-    col:0xC9A468, sz:1.05, px:0, py:0, pz:0, link:null, cta:'Book 30 minutes' },
-  { id:'gpu', tag:'Compute', title:'GPU Clusters & GPUaaS',
-    desc:'GB300 NVL72, B300, B200, H200 — allocation from 512 GPUs upward, including routes that never reach an open market. Reserved and on-demand GPUaaS from current-generation Blackwell, negotiated line by line.',
-    col:0x60A5FA, sz:0.66, px:4.2, py:1.5, pz:1.0, link:'/gpu-clusters-gpuaas', cta:'Open the GPU desk' },
-  { id:'dc', tag:'Capacity', title:'Data Center Capacity',
-    desc:'Retail and wholesale colocation globally, up to 150kW per rack. Sourced against real market comparables — not a rate card. From Northern Virginia and Dallas to the Nordics, Singapore and beyond.',
-    col:0x2DD4BF, sz:0.63, px:-3.8, py:1.4, pz:-1.0, link:'/data-center-capacity-sourcing', cta:'Open the mandate' },
-  { id:'pwr', tag:'Energy', title:'Power Capacity',
+  {
+    id:'tcn', tag:'Advisory Center', title:'The Chief Negotiators',
+    desc:'Independent buy-side advisory at the center of every AI infrastructure deal. Relationships at every layer of the stack — compute, capacity, power and structure — assembled into single transactions that would not otherwise exist.',
+    meta:{ access:'End users · Named advisors', struct:'Buy-side only · No inventory', resp:'One business day' },
+    col:0xC9A468, sz:1.05, px:0, py:0, pz:0,
+    link:'https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true',
+    cta:'Book 30 minutes'
+  },
+  {
+    id:'gpu', tag:'Compute', title:'GPU Clusters & GPUaaS',
+    desc:'GB300 NVL72, B300, B200, H200 and Vera Rubin — allocation from 8 nodes, including routes that never reach an open market. Reserved and on-demand GPUaaS from current-generation Blackwell, negotiated line by line.',
+    meta:{ access:'End users only', struct:'You contract direct', resp:'12–14 weeks to service' },
+    col:0xA9803F, sz:0.66, px:4.2, py:1.5, pz:1.0,
+    link:'/gpu-clusters-gpuaas', cta:'Open the GPU desk'
+  },
+  {
+    id:'dc', tag:'Capacity', title:'Data Center Capacity',
+    desc:'Retail and wholesale colocation globally, up to 150 kW per rack. Sourced against real market comparables, not a rate card. From Northern Virginia and Dallas to the Nordics, Singapore and beyond.',
+    meta:{ access:'Buyers and operators', struct:'Sourced, not owned', resp:'One business day' },
+    col:0x6b8f6e, sz:0.63, px:-3.8, py:1.4, pz:-1.0,
+    link:'/data-center-capacity-sourcing', cta:'Open the mandate'
+  },
+  {
+    id:'pwr', tag:'Energy', title:'Power Capacity',
     desc:'Interconnection position, PPAs and behind-the-meter options. Power is the binding constraint — it determines timeline, cost basis, and whether the rest of the deal exists at all.',
-    col:0xFBBF24, sz:0.60, px:2.2, py:-2.6, pz:2.5, link:'/data-center-power-procurement', cta:'Open the mandate' },
-  { id:'shell', tag:'Development', title:'Powered Shell & Build-to-Suit',
-    desc:'Site selection, powered shell terms and build-to-suit structure for buyers who need capacity that does not yet exist. We source the land, the power, and the terms that make it viable.',
-    col:0xC084FC, sz:0.58, px:-1.8, py:2.9, pz:-2.3, link:'/powered-shell-build-to-suit', cta:'Open the mandate' },
-  { id:'adv', tag:'Advisory', title:'Buy-Side Negotiation',
+    meta:{ access:'Buyers and developers', struct:'Grid · PPA · BtM', resp:'One business day' },
+    col:0x5a7a8a, sz:0.60, px:2.2, py:-2.6, pz:2.5,
+    link:'/data-center-power-procurement', cta:'Open the mandate'
+  },
+  {
+    id:'shell', tag:'Development', title:'Powered Shell & Build-to-Suit',
+    desc:'Site selection, powered shell terms and build-to-suit structure for buyers who need capacity that does not yet exist. We source the land, the power and the terms that make it viable.',
+    meta:{ access:'Buyers and offtakers', struct:'Turnkey to build-to-suit', resp:'One business day' },
+    col:0x8a7055, sz:0.58, px:-1.8, py:2.9, pz:-2.3,
+    link:'/powered-shell-build-to-suit', cta:'Open the mandate'
+  },
+  {
+    id:'adv', tag:'Advisory', title:'Buy-Side Negotiation',
     desc:'We advise from behind, lead alongside you, or run the table outright on any enterprise infrastructure contract. You decide how visible we are — the outcome is the same.',
-    col:0xF472B6, sz:0.60, px:3.4, py:-1.2, pz:-2.8, link:'/buy-side-negotiation-advisory', cta:'Open the mandate' },
-  { id:'oft', tag:'Operators', title:'Capacity Commercialization',
-    desc:'Qualified offtake, anchor tenants and term structure for data centers and neoclouds with capacity to fill. KYC on the ultimate offtaker, run before any introduction.',
-    col:0xFB923C, sz:0.58, px:-3.1, py:-2.0, pz:1.6, link:'/capacity-commercialization', cta:'Open the mandate' },
+    meta:{ access:'Buyers · Confidential', struct:'Full mandate or advisory', resp:'One business day' },
+    col:0x7d8f7e, sz:0.60, px:3.4, py:-1.2, pz:-2.8,
+    link:'/buy-side-negotiation-advisory', cta:'Open the mandate'
+  },
+  {
+    id:'oft', tag:'Operators', title:'Capacity Commercialization',
+    desc:'Qualified offtake, anchor tenants and term structure for data centers and neoclouds with capacity to fill. KYC completed on the ultimate offtaker before any introduction.',
+    meta:{ access:'Operators and developers', struct:'Sell-side engagement', resp:'One business day' },
+    col:0xb89060, sz:0.58, px:-3.1, py:-2.0, pz:1.6,
+    link:'/capacity-commercialization', cta:'Open the mandate'
+  },
 ];
 
+/* ── Renderer ── */
 const canvas = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.setClearColor(0x06090f, 1);
+renderer.setClearColor(0x0d0c09, 1);
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x06090f, 0.020);
+scene.fog = new THREE.FogExp2(0x0d0c09, 0.015);
 
 const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 400);
 
@@ -262,207 +351,307 @@ function onResize() {
 onResize();
 window.addEventListener('resize', onResize);
 
-scene.add(new THREE.AmbientLight(0x334466, 1.2));
-const keyLight = new THREE.PointLight(0xC9A468, 3.5, 25, 1);
+/* ── Lighting — warm only, no cold fill ── */
+scene.add(new THREE.AmbientLight(0x2e2418, 1.8));
+const keyLight = new THREE.PointLight(0xd4a855, 4.2, 30, 1.1);
 scene.add(keyLight);
-const fillLight = new THREE.DirectionalLight(0x4466aa, 0.6);
-fillLight.position.set(-5, 8, 4);
-scene.add(fillLight);
+const rimLight = new THREE.DirectionalLight(0x7a5f30, 0.35);
+rimLight.position.set(5, 7, -4);
+scene.add(rimLight);
 
-function hexRgb(hex) { return [(hex>>16)&0xff,(hex>>8)&0xff,hex&0xff]; }
+/* ── Helpers ── */
+function hexRgb(hex) { return [(hex>>16)&0xff, (hex>>8)&0xff, hex&0xff]; }
 
 function glowTex(hex) {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const ctx = c.getContext('2d');
   const [r,g,b] = hexRgb(hex);
   const gr = ctx.createRadialGradient(64,64,0,64,64,64);
-  gr.addColorStop(0,`rgba(${r},${g},${b},0.7)`);
-  gr.addColorStop(0.35,`rgba(${r},${g},${b},0.28)`);
-  gr.addColorStop(1,`rgba(${r},${g},${b},0)`);
+  gr.addColorStop(0,  `rgba(${r},${g},${b},0.55)`);
+  gr.addColorStop(0.3,`rgba(${r},${g},${b},0.18)`);
+  gr.addColorStop(1,  `rgba(${r},${g},${b},0)`);
   ctx.fillStyle = gr; ctx.fillRect(0,0,128,128);
   return new THREE.CanvasTexture(c);
 }
 
 function labelTex(text, hex) {
-  const c = document.createElement('canvas'); c.width = 300; c.height = 46;
+  const c = document.createElement('canvas'); c.width = 320; c.height = 48;
   const ctx = c.getContext('2d');
   const [r,g,b] = hexRgb(hex);
-  ctx.fillStyle = `rgba(${r},${g},${b},0.88)`;
-  ctx.font = '500 11px monospace';
-  ctx.fillText(text.toUpperCase(), 8, 30);
+  ctx.fillStyle = `rgba(${r},${g},${b},0.82)`;
+  ctx.font = '500 10px monospace';
+  ctx.fillText(text.toUpperCase(), 8, 31);
   return new THREE.CanvasTexture(c);
 }
 
-// Stars
-{
-  const geo = new THREE.BufferGeometry();
-  const N = 3500, pos = new Float32Array(N*3);
-  for (let i=0; i<N; i++) {
-    const th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-    const r = 100+Math.random()*100;
-    pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.sin(ph)*Math.sin(th); pos[i*3+2]=r*Math.cos(ph);
-  }
-  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-  scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0xaaaacc,size:0.22,transparent:true,opacity:0.55})));
-}
-
-// Grid
-const gh = new THREE.GridHelper(30,20,0x1a2233,0x0d1520);
-gh.position.y = -4.5; gh.material.transparent=true; gh.material.opacity=0.45;
+/* ── Floor grid — warm schematic ── */
+const gh = new THREE.GridHelper(42, 28, 0x1e1a10, 0x120f08);
+gh.position.y = -5;
+gh.material.transparent = true; gh.material.opacity = 0.55;
 scene.add(gh);
 
-const nodeMeshes=[], glowSprites=[], particleStreams=[];
+/* ── Distant reference points — warm, sparse (not a star field) ── */
+{
+  const geo = new THREE.BufferGeometry();
+  const N = 600; const pos = new Float32Array(N*3);
+  for (let i=0; i<N; i++) {
+    const th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
+    const r = 70 + Math.random()*60;
+    pos[i*3]   = r*Math.sin(ph)*Math.cos(th);
+    pos[i*3+1] = r*Math.sin(ph)*Math.sin(th);
+    pos[i*3+2] = r*Math.cos(ph);
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(geo, new THREE.PointsMaterial({
+    color: 0x4a3920, size: 0.07, transparent: true, opacity: 0.35
+  })));
+}
 
-NODES.forEach((nd,i) => {
-  const pos = new THREE.Vector3(nd.px,nd.py,nd.pz);
+/* ── Nodes ── */
+const nodeMeshes = [], glowSprites = [], particleStreams = [];
+
+NODES.forEach((nd, i) => {
+  const pos = new THREE.Vector3(nd.px, nd.py, nd.pz);
   const col = new THREE.Color(nd.col);
 
-  const mesh = new THREE.Mesh(
-    new THREE.SphereGeometry(nd.sz,48,32),
-    new THREE.MeshPhongMaterial({ color:col, emissive:col,
-      emissiveIntensity: nd.id==='tcn'?0.55:0.3,
-      shininess:70, specular:new THREE.Color(0xffffff) })
-  );
+  /* Main geometry — smooth sphere for center, icosahedron for satellites */
+  const geoMain = nd.id === 'tcn'
+    ? new THREE.SphereGeometry(nd.sz, 48, 32)
+    : new THREE.IcosahedronGeometry(nd.sz, 1);
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: col,
+    emissive: col,
+    emissiveIntensity: nd.id === 'tcn' ? 0.5 : 0.22,
+    metalness: 0.7,
+    roughness: 0.25
+  });
+
+  const mesh = new THREE.Mesh(geoMain, mat);
   mesh.position.copy(pos);
-  mesh.userData = { node:nd, origPos:pos.clone(),
-    floatOff:Math.random()*Math.PI*2, floatSpd:0.3+Math.random()*0.2 };
-  scene.add(mesh); nodeMeshes.push(mesh);
+  mesh.userData = {
+    node: nd,
+    origPos: pos.clone(),
+    floatOff: Math.random()*Math.PI*2,
+    floatSpd: 0.26 + Math.random()*0.18
+  };
+  scene.add(mesh);
+  nodeMeshes.push(mesh);
 
-  const gs = nd.sz*(nd.id==='tcn'?5.8:4.2);
+  /* Wireframe overlay — schematic/circuit look */
+  if (nd.id !== 'tcn') {
+    const wf = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(nd.sz*1.035, 1),
+      new THREE.MeshBasicMaterial({
+        color: col, wireframe: true, transparent: true, opacity: 0.09
+      })
+    );
+    mesh.add(wf);
+  }
+
+  /* Glow sprite */
+  const gs = nd.sz * (nd.id === 'tcn' ? 5.4 : 4.0);
   const gSpr = new THREE.Sprite(new THREE.SpriteMaterial({
-    map:glowTex(nd.col), transparent:true, blending:THREE.AdditiveBlending, depthWrite:false }));
-  gSpr.scale.set(gs,gs,1); gSpr.position.copy(pos);
-  scene.add(gSpr); glowSprites.push({spr:gSpr,mesh,isC:nd.id==='tcn'});
+    map: glowTex(nd.col), transparent: true,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  }));
+  gSpr.scale.set(gs, gs, 1);
+  gSpr.position.copy(pos);
+  scene.add(gSpr);
+  glowSprites.push({ spr: gSpr, mesh, isC: nd.id === 'tcn' });
 
+  /* Label sprite */
   const lSpr = new THREE.Sprite(new THREE.SpriteMaterial({
-    map:labelTex(nd.tag,nd.col), transparent:true, depthWrite:false, opacity:0.82 }));
-  lSpr.scale.set(2.3,0.5,1); lSpr.position.set(pos.x,pos.y+nd.sz+0.72,pos.z);
-  lSpr.userData={baseY:pos.y+nd.sz+0.72, mesh}; scene.add(lSpr);
+    map: labelTex(nd.tag, nd.col), transparent: true, depthWrite: false, opacity: 0.78
+  }));
+  lSpr.scale.set(2.3, 0.46, 1);
+  lSpr.position.set(pos.x, pos.y + nd.sz + 0.80, pos.z);
+  lSpr.userData = { baseY: pos.y + nd.sz + 0.80, mesh };
+  scene.add(lSpr);
 
-  if (i===0) return;
+  if (i === 0) return;
 
-  const ctrl = new THREE.Vector3(pos.x*0.5+(Math.random()-.5)*.7, pos.y*0.5+(Math.random()-.5)*.7, pos.z*0.5+(Math.random()-.5)*.7);
-  const curve = new THREE.CatmullRomCurve3([new THREE.Vector3(0,0,0),ctrl,pos.clone()]);
+  /* Connection — tight curve, warm gold tone */
+  const ctrl = new THREE.Vector3(
+    pos.x*0.38 + (Math.random()-.5)*0.4,
+    pos.y*0.38 + (Math.random()-.5)*0.4,
+    pos.z*0.38 + (Math.random()-.5)*0.4
+  );
+  const curve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(0,0,0), ctrl, pos.clone()
+  ]);
 
   scene.add(new THREE.Mesh(
-    new THREE.TubeGeometry(curve,20,0.018,4,false),
-    new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.18,blending:THREE.AdditiveBlending,depthWrite:false})
+    new THREE.TubeGeometry(curve, 22, 0.016, 4, false),
+    new THREE.MeshBasicMaterial({
+      color: 0x7a5a20,
+      transparent: true, opacity: 0.22,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    })
   ));
 
-  const NPART=10, ppGeo=new THREE.BufferGeometry(), ppPos=new Float32Array(NPART*3);
-  const phases=Array.from({length:NPART},(_,k)=>k/NPART);
-  ppGeo.setAttribute('position',new THREE.BufferAttribute(ppPos,3));
-  const pPts=new THREE.Points(ppGeo,new THREE.PointsMaterial({
-    color:col,size:0.11,transparent:true,opacity:0.88,blending:THREE.AdditiveBlending,depthWrite:false}));
+  /* Data particles */
+  const NPART = 8;
+  const ppGeo = new THREE.BufferGeometry();
+  const ppPos = new Float32Array(NPART*3);
+  const phases = Array.from({length:NPART}, (_,k) => k/NPART);
+  ppGeo.setAttribute('position', new THREE.BufferAttribute(ppPos,3));
+  const pCol = new THREE.Color(nd.col).lerp(new THREE.Color(0xC9A468), 0.45);
+  const pPts = new THREE.Points(ppGeo, new THREE.PointsMaterial({
+    color: pCol, size: 0.09, transparent: true, opacity: 0.9,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  }));
   scene.add(pPts);
-  particleStreams.push({pts:pPts,curve,phases,ppPos,spd:0.0028+Math.random()*.0018});
+  particleStreams.push({ pts:pPts, curve, phases, ppPos, spd: 0.0022+Math.random()*0.0016 });
 });
 
+/* ── Camera controls ── */
 let theta=0.5, phi=1.3, rad=13;
 let autoSpin=true, dragging=false, lastX=0, lastY=0;
 
 function setCam() {
-  camera.position.set(rad*Math.sin(phi)*Math.sin(theta), rad*Math.cos(phi), rad*Math.sin(phi)*Math.cos(theta));
+  camera.position.set(
+    rad*Math.sin(phi)*Math.sin(theta),
+    rad*Math.cos(phi),
+    rad*Math.sin(phi)*Math.cos(theta)
+  );
   camera.lookAt(0,0,0);
 }
 setCam();
 
-canvas.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;canvas.classList.add('dragging');autoSpin=false;});
-window.addEventListener('mouseup',()=>{dragging=false;canvas.classList.remove('dragging');setTimeout(()=>{autoSpin=true;},2200);});
-window.addEventListener('mousemove',e=>{
-  if(!dragging)return;
-  theta-=(e.clientX-lastX)/window.innerWidth*Math.PI*1.8;
-  phi=Math.max(.22,Math.min(Math.PI-.22,phi-(e.clientY-lastY)/window.innerHeight*Math.PI*1.2));
-  lastX=e.clientX;lastY=e.clientY;
+canvas.addEventListener('mousedown', e => {
+  dragging=true; lastX=e.clientX; lastY=e.clientY;
+  canvas.classList.add('dragging'); autoSpin=false;
 });
-canvas.addEventListener('wheel',e=>{rad=Math.max(7,Math.min(20,rad+e.deltaY*.012));e.preventDefault();},{passive:false});
+window.addEventListener('mouseup', () => {
+  dragging=false; canvas.classList.remove('dragging');
+  setTimeout(() => { autoSpin=true; }, 2400);
+});
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  theta -= (e.clientX-lastX)/window.innerWidth * Math.PI*1.8;
+  phi = Math.max(.22, Math.min(Math.PI-.22, phi-(e.clientY-lastY)/window.innerHeight*Math.PI*1.2));
+  lastX=e.clientX; lastY=e.clientY;
+});
+canvas.addEventListener('wheel', e => {
+  rad = Math.max(7, Math.min(20, rad+e.deltaY*0.012)); e.preventDefault();
+}, { passive:false });
 
 let tpX=0,tpY=0,tsX=0,tsY=0;
-canvas.addEventListener('touchstart',e=>{tpX=tsX=e.touches[0].clientX;tpY=tsY=e.touches[0].clientY;autoSpin=false;},{passive:true});
-canvas.addEventListener('touchmove',e=>{
-  if(e.touches.length===1){
-    theta-=(e.touches[0].clientX-tpX)/window.innerWidth*Math.PI*2;
-    phi=Math.max(.22,Math.min(Math.PI-.22,phi-(e.touches[0].clientY-tpY)/window.innerHeight*Math.PI*1.4));
-    tpX=e.touches[0].clientX;tpY=e.touches[0].clientY;e.preventDefault();
+canvas.addEventListener('touchstart', e => {
+  tpX=tsX=e.touches[0].clientX; tpY=tsY=e.touches[0].clientY; autoSpin=false;
+}, { passive:true });
+canvas.addEventListener('touchmove', e => {
+  if (e.touches.length===1) {
+    theta -= (e.touches[0].clientX-tpX)/window.innerWidth * Math.PI*2;
+    phi = Math.max(.22, Math.min(Math.PI-.22, phi-(e.touches[0].clientY-tpY)/window.innerHeight*Math.PI*1.4));
+    tpX=e.touches[0].clientX; tpY=e.touches[0].clientY; e.preventDefault();
   }
-},{passive:false});
-canvas.addEventListener('touchend',e=>{
-  setTimeout(()=>{autoSpin=true;},2400);
-  const dx=e.changedTouches[0].clientX-tsX,dy=e.changedTouches[0].clientY-tsY;
-  if(Math.hypot(dx,dy)<10)doHit(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
-},{passive:true});
+}, { passive:false });
+canvas.addEventListener('touchend', e => {
+  setTimeout(() => { autoSpin=true; }, 2600);
+  const dx=e.changedTouches[0].clientX-tsX, dy=e.changedTouches[0].clientY-tsY;
+  if (Math.hypot(dx,dy)<10) doHit(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+}, { passive:true });
 
-const rc=new THREE.Raycaster();
-const panel=document.getElementById('panel');
+/* ── Hit detection ── */
+const rc = new THREE.Raycaster();
+const panel = document.getElementById('panel');
 
-function doHit(cx,cy){
-  const rect=canvas.getBoundingClientRect();
-  const m=new THREE.Vector2(((cx-rect.left)/rect.width)*2-1,-((cy-rect.top)/rect.height)*2+1);
-  rc.setFromCamera(m,camera);
-  const hits=rc.intersectObjects(nodeMeshes);
-  if(hits.length>0){
-    const nd=hits[0].object.userData.node;
-    document.getElementById('p-tag-text').textContent=nd.tag;
-    document.getElementById('p-title').textContent=nd.title;
-    document.getElementById('p-desc').textContent=nd.desc;
-    const [r,g,b]=hexRgb(nd.col);
-    document.getElementById('p-dot').style.background=`rgb(${r},${g},${b})`;
-    const cta=document.getElementById('p-cta');
-    cta.href=nd.link||'https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true';
-    cta.textContent=nd.cta+' →';
+function doHit(cx, cy) {
+  const rect = canvas.getBoundingClientRect();
+  const m = new THREE.Vector2(
+    ((cx-rect.left)/rect.width)*2-1,
+    -((cy-rect.top)/rect.height)*2+1
+  );
+  rc.setFromCamera(m, camera);
+  const hits = rc.intersectObjects(nodeMeshes, false);
+  if (hits.length > 0) {
+    const nd = hits[0].object.userData.node;
+    document.getElementById('p-tag-text').textContent = nd.tag;
+    document.getElementById('p-title').textContent = nd.title;
+    document.getElementById('p-desc').textContent = nd.desc;
+    const [r,g,b] = hexRgb(nd.col);
+    document.getElementById('p-dot').style.background = `rgb(${r},${g},${b})`;
+
+    const metaEl = document.getElementById('p-meta');
+    if (nd.meta) {
+      document.getElementById('pm-access').textContent = nd.meta.access;
+      document.getElementById('pm-struct').textContent = nd.meta.struct;
+      document.getElementById('pm-resp').textContent   = nd.meta.resp;
+      metaEl.style.display = '';
+    } else {
+      metaEl.style.display = 'none';
+    }
+
+    const cta = document.getElementById('p-cta');
+    cta.href = nd.link || 'https://bookings.cloud.microsoft/bookwithme/user/d68d0b6c190649deb8628fa8f622671e%40thechiefnegotiators.com?anonymous&ismsaljsauthenabled=true';
+    cta.textContent = nd.cta + ' →';
     panel.classList.add('open');
-    autoSpin=false; setTimeout(()=>{autoSpin=true;},3000);
+    autoSpin=false; setTimeout(() => { autoSpin=true; }, 3200);
   }
 }
-canvas.addEventListener('click',e=>{if(!dragging)doHit(e.clientX,e.clientY);});
-canvas.addEventListener('mousemove',e=>{
-  if(dragging)return;
-  const rect=canvas.getBoundingClientRect();
-  const m=new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);
-  rc.setFromCamera(m,camera);
-  canvas.style.cursor=rc.intersectObjects(nodeMeshes).length>0?'pointer':'grab';
+canvas.addEventListener('click', e => { if (!dragging) doHit(e.clientX, e.clientY); });
+canvas.addEventListener('mousemove', e => {
+  if (dragging) return;
+  const rect = canvas.getBoundingClientRect();
+  const m = new THREE.Vector2(
+    ((e.clientX-rect.left)/rect.width)*2-1,
+    -((e.clientY-rect.top)/rect.height)*2+1
+  );
+  rc.setFromCamera(m, camera);
+  canvas.style.cursor = rc.intersectObjects(nodeMeshes, false).length>0 ? 'pointer' : 'grab';
 });
-document.getElementById('close').addEventListener('click',()=>panel.classList.remove('open'));
+document.getElementById('close').addEventListener('click', () => panel.classList.remove('open'));
 
-const clock=new THREE.Clock();
+/* ── Animate ── */
+const clock = new THREE.Clock();
 
-function animate(){
+function animate() {
   requestAnimationFrame(animate);
-  const t=clock.getElapsedTime();
-  if(autoSpin)theta+=0.00022;
+  const t = clock.getElapsedTime();
+
+  if (autoSpin) theta += 0.00018;
   setCam();
-  keyLight.position.set(Math.sin(t*.3)*2,Math.cos(t*.2)*1.5,Math.cos(t*.25)*2);
 
-  nodeMeshes.forEach(m=>{
-    const {origPos,floatOff,floatSpd,node}=m.userData;
-    if(node.id==='tcn'){
-      m.material.emissiveIntensity=0.45+0.15*Math.sin(t*1.4);
-      m.scale.setScalar(1+0.04*Math.sin(t*.9));
+  keyLight.position.set(Math.sin(t*.22)*3, Math.cos(t*.17)*2, Math.cos(t*.24)*3);
+
+  nodeMeshes.forEach(m => {
+    const { origPos, floatOff, floatSpd, node } = m.userData;
+    if (node.id === 'tcn') {
+      m.material.emissiveIntensity = 0.42 + 0.11*Math.sin(t*1.1);
+      m.scale.setScalar(1 + 0.028*Math.sin(t*.82));
+      m.rotation.y = t*0.07;
     } else {
-      m.position.y=origPos.y+Math.sin(t*floatSpd+floatOff)*.12;
-      m.material.emissiveIntensity=0.25+0.08*Math.sin(t*floatSpd*1.3+floatOff);
+      m.position.y = origPos.y + Math.sin(t*floatSpd + floatOff)*0.1;
+      m.material.emissiveIntensity = 0.18 + 0.07*Math.sin(t*floatSpd*1.2 + floatOff);
+      m.rotation.y = t*0.04 * (floatOff > Math.PI ? 1 : -1);
+      m.rotation.x = Math.sin(t*floatSpd*0.6 + floatOff)*0.07;
     }
   });
 
-  glowSprites.forEach(({spr,mesh,isC})=>{
+  glowSprites.forEach(({ spr, mesh, isC }) => {
     spr.position.copy(mesh.position);
-    if(isC){const p=1+0.12*Math.sin(t*1.4);spr.scale.setScalar(mesh.userData.node.sz*5.8*p);}
-  });
-
-  particleStreams.forEach(({pts,curve,phases,ppPos,spd})=>{
-    for(let i=0;i<phases.length;i++){
-      phases[i]=(phases[i]+spd)%1;
-      const pt=curve.getPoint(phases[i]);
-      ppPos[i*3]=pt.x;ppPos[i*3+1]=pt.y;ppPos[i*3+2]=pt.z;
+    if (isC) {
+      const p = 1 + 0.09*Math.sin(t*1.1);
+      spr.scale.setScalar(mesh.userData.node.sz * 5.4 * p);
     }
-    pts.geometry.attributes.position.needsUpdate=true;
   });
 
-  renderer.render(scene,camera);
+  particleStreams.forEach(({ pts, curve, phases, ppPos, spd }) => {
+    for (let i=0; i<phases.length; i++) {
+      phases[i] = (phases[i] + spd) % 1;
+      const pt = curve.getPoint(phases[i]);
+      ppPos[i*3]=pt.x; ppPos[i*3+1]=pt.y; ppPos[i*3+2]=pt.z;
+    }
+    pts.geometry.attributes.position.needsUpdate = true;
+  });
+
+  renderer.render(scene, camera);
 }
 animate();
 
-document.getElementById('node-count').textContent=`${NODES.length-1} infrastructure layers`;
+document.getElementById('node-count').textContent = `${NODES.length-1} infrastructure layers`;
 </script>
 </body>
 </html>
