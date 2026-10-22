@@ -822,8 +822,11 @@ body::before {
   window.addEventListener('resize',function(){
     cancelAnimationFrame(raf);resize();requestAnimationFrame(function(ts){last=ts;frame(ts);});
   });
-  resize();
-  requestAnimationFrame(function(ts){last=ts;frame(ts);});
+  // Defer initial sizing to after layout is complete
+  requestAnimationFrame(function(){
+    resize();
+    requestAnimationFrame(function(ts){last=ts;frame(ts);});
+  });
 
 })();
 </script>
