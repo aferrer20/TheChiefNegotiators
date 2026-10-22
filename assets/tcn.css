@@ -530,3 +530,107 @@ textarea.qf-i{min-height:100px;resize:vertical;font-family:var(--sans)}
 .est-send-wrap[open] summary::after{content:' −'}
 .est-send{margin-top:6px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* ── gate strip (qualification / restricted access) ───── */
+.gate{position:relative;background:var(--ink);color:#fff;padding:14px 0;overflow:hidden}
+.gate::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--accent-2) 18%,var(--accent-3) 50%,var(--accent-2) 82%,transparent 100%)}
+.gate-in{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.gate-badge{font-family:var(--mono);font-weight:500;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);background:var(--accent);padding:4px 10px;flex:none;white-space:nowrap}
+.gate-text{font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;color:rgba(255,255,255,.65)}
+.gate-link{margin-left:auto;font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-3);border-bottom:1px solid rgba(201,164,104,.35);padding-bottom:3px;white-space:nowrap;flex:none;transition:color .24s var(--ease),border-color .24s var(--ease)}
+.gate-link:hover{color:#fff;border-color:rgba(255,255,255,.45)}
+@media(max-width:700px){.gate-link{display:none}}
+
+/* ── status indicator (live / pending / closed) ───────── */
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.status-dot{width:5px;height:5px;border-radius:50%;flex:none}
+.status-live{color:var(--accent-2)}
+.status-live .status-dot{background:var(--accent);box-shadow:0 0 0 3px rgba(169,128,63,.22);animation:pulse 3.4s ease-out infinite}
+.status-pending{color:var(--mute)}
+.status-pending .status-dot{background:var(--mute)}
+.status-closed{color:var(--mute)}
+.status-closed .status-dot{background:#b5aea6}
+
+/* ── qualifier / restricted-access box ───────────────── */
+.qual-box{border:1px solid var(--line);border-left:2px solid var(--accent);background:var(--paper-2);padding:26px 30px;position:relative;overflow:hidden}
+.qual-box::before{content:'End Users Only';position:absolute;top:-1px;left:24px;font-family:var(--mono);font-weight:500;font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-2);background:var(--paper-2);padding:0 8px;transform:translateY(-50%)}
+.qual-box h3{font-size:18px;line-height:1.24;letter-spacing:-.012em;margin-bottom:10px}
+.qual-box p{font-size:13.5px;line-height:1.72;color:var(--ink-2);font-weight:300;margin-bottom:14px}
+.qual-box p:last-of-type{margin-bottom:0}
+.qual-box ul{list-style:none;margin:14px 0;padding:0;border-top:1px solid var(--line-3)}
+.qual-box ul li{font-size:13px;line-height:1.66;color:var(--ink-2);padding:10px 0 10px 22px;border-bottom:1px solid var(--line-3);font-weight:300;position:relative}
+.qual-box ul li::before{content:'';position:absolute;left:0;top:20px;width:10px;height:1px;background:var(--accent)}
+
+/* ── article layout (insight pages with sidebar) ─────── */
+.art-grid{display:grid;grid-template-columns:2fr .82fr;gap:72px;align-items:start}
+@media(max-width:960px){.art-grid{grid-template-columns:1fr;gap:44px}}
+.art-sidebar{position:sticky;top:104px;display:flex;flex-direction:column;gap:24px}
+@media(max-width:960px){.art-sidebar{position:static;order:-1}}
+.art-toc{border:1px solid var(--line);padding:22px 24px}
+.art-toc-h{font-family:var(--mono);font-weight:500;font-size:8.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.art-toc ol{list-style:none;counter-reset:toc;padding:0;margin:0}
+.art-toc li{counter-increment:toc;display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line-3)}
+.art-toc li:last-child{border-bottom:none}
+.art-toc li::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-weight:500;font-size:10px;color:var(--accent);flex:none;padding-top:1px;opacity:.8}
+.art-toc a{font-size:13px;line-height:1.5;color:var(--ink-2);font-weight:300;transition:color .22s var(--ease)}
+.art-toc a:hover{color:var(--accent)}
+.art-cta-box{border:1px solid var(--line-2);background:linear-gradient(168deg,#fff,var(--paper-2));padding:24px;position:relative;overflow:hidden}
+.art-cta-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent-2) 30%,var(--accent-3) 60%,transparent)}
+.art-cta-box .k{font-family:var(--mono);font-weight:500;font-size:8.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:block}
+.art-cta-box h3{font-size:17px;line-height:1.26;letter-spacing:-.012em;margin-bottom:10px}
+.art-cta-box p{font-size:13px;line-height:1.66;color:var(--ink-2);font-weight:300;margin-bottom:16px}
+
+/* ── tech data row (Bloomberg-style horizontal specs) ─── */
+.drow{display:flex;border:1px solid var(--line);background:var(--paper-2);overflow:hidden}
+.drow-cell{flex:1;padding:18px 20px;border-right:1px solid var(--line);min-width:0;transition:background .28s var(--ease)}
+.drow-cell:last-child{border-right:none}
+.drow-cell:hover{background:var(--paper)}
+.drow-k{font-family:var(--mono);font-weight:500;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.drow-v{font-family:var(--display);font-size:clamp(15px,1.55vw,20px);line-height:1.1;letter-spacing:-.012em}
+.drow-v small{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--mute);margin-left:5px}
+@media(max-width:700px){.drow{flex-direction:column}.drow-cell{border-right:none;border-bottom:1px solid var(--line)}.drow-cell:last-child{border-bottom:none}}
+
+/* ── comparison chip (vs badge) ──────────────────────── */
+.vs-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.vs-chip{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 13px;border:1px solid var(--line-2);color:var(--ink-2);transition:border-color .22s var(--ease),color .22s var(--ease),background .22s var(--ease)}
+.vs-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.vs-chip.active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-2)}
+.vs-sep{font-family:var(--mono);font-size:10px;color:var(--mute)}
+
+/* ── phero enhancement: scan-line shimmer on GPU pages ── */
+.phero.is-gpu::before{background-image:linear-gradient(rgba(14,14,13,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,14,13,.04) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 66% 80% at 94% 0%,#000,rgba(0,0,0,.5) 50%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 66% 80% at 94% 0%,#000,rgba(0,0,0,.5) 50%,transparent 80%)}
+.phero.is-gpu .plate{margin-top:0}
+
+/* ── hero kicker bar ──────────────────────────────────── */
+.kicker-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:6px}
+.kicker-row .kicker{margin-bottom:0}
+.kicker-row .sep{width:1px;height:14px;background:var(--line-2)}
+
+/* ── callout variants ─────────────────────────────────── */
+.callout.callout-warn{border-left-color:var(--accent-2);background:rgba(169,128,63,.035)}
+.callout.callout-info{border-left-color:#60a5fa;background:rgba(96,165,250,.028)}
+.callout h4{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-2);margin-bottom:8px}
+
+/* ── GPU page: generation arc ─────────────────────────── */
+.gen-arc{display:flex;align-items:stretch;gap:0;border:1px solid var(--line);overflow:hidden;margin-top:28px}
+.gen-node{flex:1;padding:16px 18px;border-right:1px solid var(--line);min-width:0;position:relative}
+.gen-node:last-child{border-right:none}
+.gen-node.is-now{background:var(--accent-soft)}
+.gen-node.is-now::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent-2),var(--accent-3))}
+.gen-n{font-family:var(--mono);font-weight:500;font-size:8.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;display:block}
+.gen-name{font-family:var(--display);font-size:15px;letter-spacing:-.012em;line-height:1.2;margin-bottom:4px}
+.gen-date{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--mute)}
+.gen-node.is-now .gen-n{color:var(--accent)}
+.gen-node.is-now .gen-name{color:var(--accent-2)}
+@media(max-width:760px){.gen-arc{flex-direction:column}.gen-node{border-right:none;border-bottom:1px solid var(--line)}.gen-node:last-child{border-bottom:none}}
+
+/* ── GPU comparison table ─────────────────────────────── */
+.gtbl{width:100%;border-collapse:collapse;margin-top:28px;font-size:13px}
+.gtbl th{font-family:var(--mono);font-weight:500;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);text-align:left;padding:0 18px 12px 0;border-bottom:1px solid var(--accent);white-space:nowrap}
+.gtbl th:first-child{min-width:150px}
+.gtbl td{padding:13px 18px 13px 0;border-bottom:1px solid var(--line-3);color:var(--ink-2);font-weight:300;line-height:1.5;vertical-align:top}
+.gtbl td:first-child{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-weight:500}
+.gtbl tr.is-now td{background:var(--accent-soft)}
+.gtbl tr.is-now td:first-child{color:var(--accent)}
+.gtbl tr:hover td{background:var(--paper-2)}
+@media(max-width:800px){.gtbl-scroll{overflow-x:auto}.gtbl{min-width:560px}}
