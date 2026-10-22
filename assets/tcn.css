@@ -88,7 +88,7 @@ table{font-variant-numeric:tabular-nums}
 .phero{position:relative;padding:44px 0 70px;border-bottom:1px solid var(--line);overflow:hidden}
 .phero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(14,14,13,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(14,14,13,.032) 1px,transparent 1px);background-size:86px 86px;mask-image:radial-gradient(ellipse 58% 66% at 88% 2%,#000,rgba(0,0,0,.45) 45%,transparent 78%);-webkit-mask-image:radial-gradient(ellipse 58% 66% at 88% 2%,#000,rgba(0,0,0,.45) 45%,transparent 78%)}
 .phero>.wrap{position:relative}
-.phero h1{font-size:clamp(31px,3.9vw,49px);line-height:1.08;letter-spacing:-.021em;max-width:22ch;margin-top:20px}
+.phero h1{font-size:clamp(33px,4.4vw,58px);line-height:1.06;letter-spacing:-.024em;max-width:21ch;margin-top:20px}
 .phero .lede{margin-top:28px;font-size:16.5px;max-width:56ch;line-height:1.72}
 .phero-ctas{margin-top:34px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
 .phero-grid{display:grid;grid-template-columns:1.55fr .82fr;gap:70px;align-items:start}
@@ -159,10 +159,12 @@ table{font-variant-numeric:tabular-nums}
 .prose .sub{font-size:14px;color:var(--mute);font-weight:300}
 
 /* ── dark band ────────────────────────────────────────── */
-.dark{position:relative;background:var(--ink);color:#fff;padding:92px 0;overflow:hidden;isolation:isolate}
+.dark{position:relative;background:var(--ink);color:#fff;padding:106px 0;overflow:hidden;isolation:isolate}
+.dark::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 60% 50%,rgba(169,128,63,.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+.dark .wrap{position:relative;z-index:1}
 .dark::before{content:'';position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.038) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.038) 1px,transparent 1px);background-size:64px 64px}
 .dark::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 62% 78% at 82% 6%,rgba(169,128,63,.19),transparent 66%),radial-gradient(ellipse 50% 60% at 4% 96%,rgba(169,128,63,.09),transparent 70%)}
-.dark h2{color:#fff;font-size:clamp(25px,3.2vw,41px);line-height:1.16;letter-spacing:-.019em;margin-top:22px;max-width:32ch}
+.dark h2{color:#fff;font-size:clamp(26px,3.6vw,48px);line-height:1.14;letter-spacing:-.022em;margin-top:22px;max-width:26ch}
 .dark p{font-size:14.5px;line-height:1.72;color:#a8a29a;max-width:54ch;font-weight:300}
 .dark-foot{margin-top:44px;padding-top:28px;border-top:1px solid rgba(255,255,255,.14);display:flex;gap:56px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
 .dark-cta{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#fff;border-bottom:1px solid var(--accent);padding-bottom:8px;white-space:nowrap;transition:color .24s var(--ease)}
