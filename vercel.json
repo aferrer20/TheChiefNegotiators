@@ -12,6 +12,26 @@
       "source": "/rate-index.html",
       "destination": "/capacity",
       "permanent": true
+    },
+    {
+      "source": "/partners",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/partners.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/security",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/security.html",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "headers": [
