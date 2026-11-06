@@ -38,10 +38,6 @@ var TCN_CLARITY_ID   = '';          // e.g. 'abcdefghij'    — Microsoft Clarit
         gtag('event', 'generate_lead', Object.assign({ method: 'booking' }, where));
       } else if (h.indexOf('mailto:') === 0) {
         gtag('event', 'contact_email_click', Object.assign({ link_url: h }, where));
-      } else if (h.indexOf('tel:') === 0) {
-        gtag('event', 'phone_click', Object.assign({ link_url: h }, where));
-      } else if (/^https?:/.test(h) && h.indexOf('thechiefnegotiators.com') < 0) {
-        gtag('event', 'outbound_click', Object.assign({ link_url: h }, where));
       }
     }, true);
 
