@@ -6,7 +6,7 @@
 
   /* ---------- scroll reveal + stat count-up ---------- */
   (function reveal() {
-    var targets = document.querySelectorAll('main .sec, main .band, main .ctab, main header.phero');
+    var targets = document.querySelectorAll('main .sec, main .band, main .ctab');
     if (!targets.length || !('IntersectionObserver' in window)) return;
     if (reduced) return; // leave everything at its natural, fully-visible state
 
